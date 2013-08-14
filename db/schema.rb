@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130814164220) do
+ActiveRecord::Schema.define(version: 20130814173619) do
+
+  create_table "careers", force: true do |t|
+    t.datetime "start_date",    null: false
+    t.datetime "end_date"
+    t.string   "title"
+    t.integer  "politician_id"
+    t.integer  "location_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "careers", ["location_id"], name: "index_careers_on_location_id", using: :btree
+  add_index "careers", ["politician_id"], name: "index_careers_on_politician_id", using: :btree
 
   create_table "links", force: true do |t|
     t.integer  "user_id"
@@ -29,6 +42,14 @@ ActiveRecord::Schema.define(version: 20130814164220) do
   end
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
+
+  create_table "politicians", force: true do |t|
+    t.string   "first_name"
+    t.string   "last_name",  null: false
+    t.string   "nickname"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "username"
