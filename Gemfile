@@ -48,3 +48,7 @@ end
 # Devise GEM used for user signin
 gem 'devise'
 
+# Pagination plugin
+#gem 'kaminari'
+gem 'will_paginate'
+

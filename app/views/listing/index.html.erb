@@ -1,0 +1,39 @@
+<h1>All Politicians</h1>
+
+<%= form_tag listing_index_path, :method => 'get', :id => "listing_search" do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  <div id="listings">
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= will_paginate @careers %>
+  </div>
+<% end %>
+
+
+<table class="tbl_listing">
+  <tr>
+    <th><%= sortable "title", "Title" %></th>
+    <th><%= sortable "politicians.first_name", "Name" %></th>
+    <th><%= sortable "locations.denorm_name", "Location" %></th>
+    <th></th>
+  </tr>
+  <% @careers.each do |c| %>
+  <tr>
+    <td> <%= c.title %> </td>
+    <td> <%= c.politician.first_name %> <%= c.politician.last_name %> </td>
+    <td> <%= c.location.denorm_name %> </td>
+    <td> <%= link_to 'Details', listing_path(c) %></td>
+  </tr>
+  <% end %>
+</table>
+
+
+  <%= will_paginate @careers %>
+
+
+
+
+
