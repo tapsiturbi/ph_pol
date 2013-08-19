@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130814173619) do
+ActiveRecord::Schema.define(version: 20130819085742) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20130814173619) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "denorm_name"
   end
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree

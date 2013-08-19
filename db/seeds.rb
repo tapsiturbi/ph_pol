@@ -28,3 +28,14 @@ sql.split(';').each do |sql_statement|
   end
   ActiveRecord::Base.connection.execute(sql_statement)
 end
+
+# add denorm name of all locations
+ActiveRecord::Base.connection.execute("update locations as l
+    inner join (
+        select c.id, COALESCE(CONCAT(c.name, ', ', p.name), c.name) as denorm_name
+        from locations c
+            left join locations p on p.id = c.parent_id
+    ) as c on c.id = l.id
+set l.denorm_name = c.denorm_name")
+
+
