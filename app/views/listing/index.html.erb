@@ -1,17 +1,39 @@
 <h1>All Politicians</h1>
 
 <%= form_tag listing_index_path, :method => 'get', :id => "listing_search" do %>
-  <p>
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", :name => nil %>
-  </p>
-  <div id="listings">
-    <%= hidden_field_tag :direction, params[:direction] %>
-    <%= hidden_field_tag :sort, params[:sort] %>
-    <%= will_paginate @careers %>
+  <%= hidden_field_tag :direction, params[:direction] %>
+  <%= hidden_field_tag :sort, params[:sort] %>
+
+  <div class="div_form">
+    <div class="title"> Search </div>
+    <div class="field_line">
+      <%= label_tag(:search, 'Keyword') %>
+      <%= text_field_tag :search, params[:search] %>
+    </div>
+    <div class="field_line">
+      <%= label(:province, :id, "Location") %>
+      <%= select("province", "id", @provinces.collect {|p| [p.name, p.id]}, { include_blank: "-- select province --", selected: @province_id } ) %>
+      <%= select("municipal", "id", @municipals ? @municipals.collect {|p| [p.name, p.id]} : {}, { include_blank: "-- select municipal --", selected: @municipal_id } ) %>
+
+      <script type="text/javascript">
+        $('#province_id').change(function() {
+          var url = '<%= CGI.unescape util_municipal_url("{id}") %>'.replace('{id}',$(this).val());
+          $.post(url, function(data) {
+            var sub = $('#municipal_id').find('option').remove().end().append('<option value="">-- select municipal --</option>');
+            $.each( data, function(i, item) {
+              sub.append('<option value="' + item.id + '">' + item.name + '</option>');
+            });
+          });
+        });
+      </script>
+    </div>
+
+    <div class="field_line">
+      <%= submit_tag "Search", :name => nil %>
+    </div>
   </div>
 <% end %>
-
+<%= will_paginate @careers %>
 
 <table class="tbl_listing">
   <tr>

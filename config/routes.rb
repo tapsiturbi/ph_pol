@@ -5,8 +5,13 @@ PhPol::Application.routes.draw do
 
   root :to => "pages#index"
 
-  resources :pages
-  resources :listing
+  #resources :pages, shallow: true
+  #resources :listing, shallow: true
+  get '/listing', to: 'listing#index', as: :listing_index
+  get '/listing/:id', to: 'listing#show', as: :listing
+
+  # utility pages
+  post 'util/municipal/:id', to: 'util#municipal', as: :util_municipal
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

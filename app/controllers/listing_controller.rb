@@ -4,9 +4,36 @@ class ListingController < ApplicationController
   # Controller that displays all Politicians
   def index
     params[:page] ||= 1
+    @municipal_id = (params[:municipal] and !params[:municipal][:id].blank?) ? params[:municipal][:id] : ""
+    @province_id = (params[:province] and !params[:province][:id].blank?) ? params[:province][:id] : ""
 
     # get Politicians based on their current career
-    @careers = Career.includes(:location, :politician).where("end_date is null").search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 25, :page => params[:page])
+    @careers = Career
+      .includes(:location, :politician)
+      .where("end_date is null")
+
+    # Keyword filter
+    if !params[:search].blank?
+      @careers = @careers.where('locations.denorm_name like :keywords or politicians.first_name like :keywords or politicians.last_name like :keywords or title like :keywords ', {keywords: "%#{params[:search]}%"})
+    end
+
+    # Province/municipal filter
+    if !@municipal_id.blank?
+      @careers = @careers.where('locations.id = :municipal_id or locations.parent_id = :municipal_id', {municipal_id: @municipal_id})
+    elsif !@province_id.blank?
+      @careers = @careers.where('locations.id = :province_id or locations.parent_id = :province_id', {province_id: @province_id})
+    end
+
+    # Sorting
+    @careers = @careers.order(sort_column + " " + sort_direction).paginate(:per_page => 25, :page => params[:page])
+
+    # Retrieve info for dropdown
+    @provinces = Location.where("parent_id is null").order("name asc")
+    if !@province_id.blank?
+      @municipals = Location.where("parent_id = ?", @province_id).order("name asc")
+    else
+      @municipals = nil
+    end
 
   end
 
