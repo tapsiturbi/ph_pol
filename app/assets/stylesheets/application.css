@@ -12,7 +12,12 @@
  *= require_tree .
  */
 
+.flash_notice { background-color: #449955; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; }
+
 .div_form { width: 500px; border: 1px solid gray; }
 .div_form .title { background-color: #afafaf; color: #efefef; font-weight: bold; padding: 2px 5px; }
 .div_form .field_line { margin: 5px; }
 .div_form .field_line label {float: left; display: block; width: 100px;}
+.div_form .formErrors { padding: 10px; color: red; }
+.div_form .formErrors h5 { margin: 0; font-size: 1em; border-bottom: 1px solid #dfdfdf; }
+.div_form .formErrors ul { margin: 0; }

@@ -52,3 +52,10 @@ gem 'devise'
 #gem 'kaminari'
 gem 'will_paginate'
 
+
+# Comments GEM
+gem 'acts_as_commentable'
+# original git repo: https://github.com/elight/acts_as_commentable_with_threading.git
+# will use https://github.com/D1plo1d/acts_as_commentable_with_threading since this
+# is the one that is compatible with Rails 4.0
+gem 'acts_as_commentable_with_threading', :git => "https://github.com/D1plo1d/acts_as_commentable_with_threading", :branch => "patch-1"

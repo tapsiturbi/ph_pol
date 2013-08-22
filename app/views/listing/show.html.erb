@@ -1,0 +1,39 @@
+<% title @politician.first_name + " " + @politician.last_name %>
+
+<h1> <%= @politician.first_name %> <%= @politician.last_name%> </h1>
+
+<div class="career_detail">
+<% @politician.careers.each do |c| %>
+
+  <div class="title"> <%= c.title %> </div>
+  <div class="location"> <%= c.location.denorm_name %> </div>
+
+  <div id="all_comments" class="comments">
+    <%= render partial: "comments", locals: { career: c } %>
+  </div>
+
+  <div class="div_form">
+    <div class="title"> Post Comment </div>
+
+    <%= form_for @comment, remote: true, url: listing_comment_create_path(@politician.id) do |f| %>
+      <%= hidden_field_tag :career_id, c.id %>
+
+      <div id="comment_errors"></div>
+
+      <div class="field_line">
+        <%= f.text_area :body, cols: 50, rows: 5 %>
+      </div>
+
+      <div class="field_line">
+        <%= f.submit %>
+      </div>
+    <% end %>
+  </div>
+
+<% end %>
+
+
+
+
+
+

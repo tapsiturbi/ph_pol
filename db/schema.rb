@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130819085742) do
+ActiveRecord::Schema.define(version: 20130822095804) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -25,6 +25,25 @@ ActiveRecord::Schema.define(version: 20130819085742) do
 
   add_index "careers", ["location_id"], name: "index_careers_on_location_id", using: :btree
   add_index "careers", ["politician_id"], name: "index_careers_on_politician_id", using: :btree
+
+  create_table "comments", force: true do |t|
+    t.string   "title",            limit: 50, default: ""
+    t.text     "body"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "user_id"
+    t.string   "role",                        default: "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "subject"
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+  end
+
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "links", force: true do |t|
     t.integer  "user_id"

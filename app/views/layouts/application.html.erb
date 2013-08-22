@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PhPol</title>
+  <title><%= content_for(:title) %></title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+<div id="flash">
+  <% if notice %>
+  <div class="flash_notice"><%= notice %></div>
+  <% end %>
+  <% if alert %>
+  <div class="flash_alert"><%= alert %></div>
+  <% end %>
+</div>
 
 <%# user is logged in, show log out link %>
   <% if current_user.present? %>

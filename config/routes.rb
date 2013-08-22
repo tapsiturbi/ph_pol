@@ -9,6 +9,9 @@ PhPol::Application.routes.draw do
   #resources :listing, shallow: true
   get '/listing', to: 'listing#index', as: :listing_index
   get '/listing/:id', to: 'listing#show', as: :listing
+  post '/listing/:id/comment', to: 'listing#create_comment', as: :listing_comment_create
+
+  #resources :comments, shallow: true
 
   # utility pages
   post 'util/municipal/:id', to: 'util#municipal', as: :util_municipal

@@ -37,6 +37,30 @@ class ListingController < ApplicationController
 
   end
 
+  # Displays one politician and all comments tied to him/her
+  def show
+    @politician = Politician.includes(:careers).find(params[:id])
+
+    @comment = Comment.new
+  end
+
+  # Create comment - called via AJAX from listing#show
+  def create_comment
+    @career = Career.find(params[:career_id])
+    @politician = @career.politician
+
+    @comment = Comment.build_from(@career, current_user.id, params[:comment][:body])
+    if @comment.save
+#       if params[:comment_id]
+#         parent_comment = Comment.find(params[:comment_id])
+#         @comment.move_to_child_of(parent_comment)
+#       end
+
+      flash[:notice] = "Comment successfully created."
+    end
+  end
+
+
   private
   def sort_column
     %w[locations.denorm_name politicians.first_name politicians.last_name title].include?(params[:sort]) ? params[:sort] : "title"
