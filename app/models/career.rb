@@ -11,4 +11,8 @@ class Career < ActiveRecord::Base
       scoped
     end
   end
+
+  def comment_thread
+    Comment.where(commentable_id: self.id).hash_tree
+  end
 end

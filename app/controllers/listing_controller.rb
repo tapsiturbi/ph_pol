@@ -40,7 +40,7 @@ class ListingController < ApplicationController
   # Displays one politician and all comments tied to him/her
   def show
     @politician = Politician.includes(:careers).find(params[:id])
-
+    #@hash = Comment.where(commentable_id: career.id).hash_tree
     @comment = Comment.new
   end
 
@@ -49,15 +49,19 @@ class ListingController < ApplicationController
     @career = Career.find(params[:career_id])
     @politician = @career.politician
 
-    @comment = Comment.build_from(@career, current_user.id, params[:comment][:body])
-    if @comment.save
-#       if params[:comment_id]
-#         parent_comment = Comment.find(params[:comment_id])
-#         @comment.move_to_child_of(parent_comment)
-#       end
+    #@comment = Comment.build_from(@career, current_user.id, params[:comment][:body])
+    @comment = Comment.new(comment: params[:comment][:comment], user_id: current_user.id)
+    if @comment.save && @career.add_comment(@comment)
+      if params[:parent_comment_id]
+        parent_comment = Comment.find(params[:parent_comment_id])
+        #@comment.move_to_child_of(parent_comment)
+        parent_comment.add_child @comment
+      end
 
       flash[:notice] = "Comment successfully created."
     end
+
+    #@hash = Comment.where(commentable_id: @career.id).hash_tree
   end
 
 

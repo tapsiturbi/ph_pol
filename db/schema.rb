@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130822095804) do
+ActiveRecord::Schema.define(version: 20130826151306) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -26,19 +26,25 @@ ActiveRecord::Schema.define(version: 20130822095804) do
   add_index "careers", ["location_id"], name: "index_careers_on_location_id", using: :btree
   add_index "careers", ["politician_id"], name: "index_careers_on_politician_id", using: :btree
 
+  create_table "comment_hierarchies", id: false, force: true do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "comment_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "comment_anc_desc_udx", unique: true, using: :btree
+  add_index "comment_hierarchies", ["descendant_id"], name: "comment_desc_idx", using: :btree
+
   create_table "comments", force: true do |t|
     t.string   "title",            limit: 50, default: ""
-    t.text     "body"
+    t.text     "comment"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "user_id"
     t.string   "role",                        default: "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject"
     t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree

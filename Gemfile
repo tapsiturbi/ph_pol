@@ -58,4 +58,9 @@ gem 'acts_as_commentable'
 # original git repo: https://github.com/elight/acts_as_commentable_with_threading.git
 # will use https://github.com/D1plo1d/acts_as_commentable_with_threading since this
 # is the one that is compatible with Rails 4.0
-gem 'acts_as_commentable_with_threading', :git => "https://github.com/D1plo1d/acts_as_commentable_with_threading", :branch => "patch-1"
+#gem 'acts_as_commentable_with_threading', :git => "https://github.com/D1plo1d/acts_as_commentable_with_threading", :branch => "patch-1"
+#gem 'ancestry'
+#gem 'nested_set'
+#gem 'awesome_nested_set', git: "https://github.com/collectiveidea/awesome_nested_set.git", branch: "master"
+
+gem 'closure_tree'

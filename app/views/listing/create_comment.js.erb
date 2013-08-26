@@ -8,10 +8,11 @@
   $("#comment_errors").hide(300);
   <%# Update the html of the div flash_notice with the new one %>
   $("#flash").html("<div class='flash_notice'><%= escape_javascript(flash[:notice])%></div>").show(300).delay(5000).fadeOut('slow');
-  <%# Clear the entire form %>
-  $("#comment_body").val("");
 
   <%# Replace the html of the div post_lists with the updated new one %>
-  $("#all_comments").html("<%= escape_javascript( render(partial: "comments", locals: { career: @career }) ) %>");
+  $("#all_comments").html("<%= escape_javascript( render(partial: "comments", locals: { career: @career, hash: @career.comment_thread }) ) %>");
+
+  <%# Clear the entire form %>
+  $("textarea.comment_body").each(function(idx, elem) { $(elem).val(''); });
 
 <% end %>

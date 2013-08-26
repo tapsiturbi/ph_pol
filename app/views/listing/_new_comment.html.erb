@@ -1,0 +1,19 @@
+<div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="div_form" style="<%= 'display: none;' if !visible %>">
+  <div class="title"> Post Comment </div>
+  <%= form_for comment, remote: true, url: listing_comment_create_path(@politician.id), html: { id: "new_comment_#{ cmt ? cmt.id : '' }" } do |f| %>
+    <%= hidden_field_tag :career_id, c.id %>
+    <% if cmt %>
+      <%= hidden_field_tag :parent_comment_id, cmt.id %>
+    <% end %>
+
+    <div id="comment_errors"></div>
+
+    <div class="field_line">
+      <%= f.text_area :comment, cols: 50, rows: 5, id: "txt_comment#{ cmt ? "_" + cmt.id.to_s : '' }", class: "comment_body" %>
+    </div>
+
+    <div class="field_line">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>
