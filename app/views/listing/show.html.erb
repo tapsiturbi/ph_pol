@@ -3,7 +3,7 @@
 <h1> <%= @politician.first_name %> <%= @politician.last_name%> </h1>
 
 <div class="career_detail">
-<% @politician.careers.each do |c| %>
+<% @careers.each do |c| %>
 
   <div class="title"> <%= c.title %> </div>
   <div class="location"> <%= c.location.denorm_name %> </div>
@@ -12,7 +12,7 @@
     <%= render partial: "comments", locals: { career: c, hash: c.comment_thread } %>
   </div>
 
-  <% if current_user.present? %>
+  <% if user_signed_in? %>
     <%= render partial: "new_comment", locals: { comment: @comment, politician: @politician, c: c, cmt: nil, visible: true } %>
   <% end %>
 

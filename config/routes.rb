@@ -10,6 +10,7 @@ PhPol::Application.routes.draw do
   get '/listing', to: 'listing#index', as: :listing_index
   get '/listing/:id', to: 'listing#show', as: :listing
   post '/listing/:id/comment', to: 'listing#create_comment', as: :listing_comment_create
+  get '/listing/:id/vote/:vote', to: 'listing#create_vote', as: :listing_vote_create
 
   #resources :comments, shallow: true
 

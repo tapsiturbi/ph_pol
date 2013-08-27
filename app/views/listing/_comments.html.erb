@@ -1,32 +1,33 @@
-<%# Comment.where(commentable_id: career.id).hash_tree %>
-
 <% hash.each do |cmt,child| %>
   <ul id="cmt_<%= cmt.id %>">
     <li>
-    <div class="user">
-      <% if cmt.user.username %>
-        <%= cmt.user.username %>
-      <% else %>
-        Anonymous
-      <% end %>
-      <span class="date">
-        <%= cmt.created_at %>
-      </span>
-    </div>
-    <div class="comment"> <%= cmt.comment %> </div>
-    <% if current_user.present? %>
-      <div class="actions">
-        <%= link_to "Reply", "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').focus(); return false;" %>
+      <%= render partial: "votes", locals: { cmt: cmt } %>
+
+      <div class="user">
+        <% if cmt.user.username %>
+          <%= cmt.user.username %>
+        <% else %>
+          Anonymous
+        <% end %>
+        <span class="date">
+          <%= cmt.created_at %>
+        </span>
       </div>
-      <%= render partial: "new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
-    <% end %>
+
+      <div class="comment"> <%= cmt.comment %> </div>
+
+      <% if user_signed_in? %>
+        <div class="actions">
+          <%= link_to "Reply", "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').focus(); return false;" %>
+        </div>
+        <%= render partial: "new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
+      <% end %>
 
 
-    <% if child %>
-      <%= render partial: "comments", locals: { career: career, hash: child } %>
-    <% end %>
+      <% if child %>
+        <%= render partial: "comments", locals: { career: career, hash: child } %>
+      <% end %>
 
     </li>
   </ul>
-
 <% end %>

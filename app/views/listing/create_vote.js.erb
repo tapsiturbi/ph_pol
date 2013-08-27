@@ -1,0 +1,3 @@
+
+<%# Update Votes widget %>
+$("#vote_<%= @comment.id %>").html("<%= escape_javascript( render(partial: "votes", locals: { cmt: @comment }) ) %>");

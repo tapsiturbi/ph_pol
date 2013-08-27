@@ -10,5 +10,10 @@ class User < ActiveRecord::Base
 #   validates :last_name, presence: true
 
   #has_many :links, dependent: :destroy
-  
+
+  # -- acts_as_votable ------------
+  acts_as_voter
+
+  # -- Recommendable ------------
+  #recommends :comments, :users
 end

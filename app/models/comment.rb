@@ -14,28 +14,10 @@ class Comment < ActiveRecord::Base
   # NOTE: Comments belong to a user
   belongs_to :user
 
-  # -- awesome_nested_set ---------
-#   acts_as_nested_set
-# 
-#   def new
-#     Comment.create(comment_params)
-#   end
-# 
-#   def create
-#     Comment.create(comment_params)
-#   end
-# 
-# 
-#   def self.find_root_of_career(career_id)
-#     Comment.find_comments_for_commentable(Career, career_id)
-#   end
-# 
-# 
-#   private
-#     def comment_params
-#       params.require(:comment).permit(:comment, :parent_id, :title)
-#     end
-
   # -- closure tree -----------
-  acts_as_tree name_column: "comment"
+  acts_as_tree name_column: "comment", order: "cached_votes_score desc"
+
+  # -- acts_as_votable ------------
+  acts_as_votable
+
 end

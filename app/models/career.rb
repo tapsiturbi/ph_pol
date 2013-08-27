@@ -13,6 +13,6 @@ class Career < ActiveRecord::Base
   end
 
   def comment_thread
-    Comment.where(commentable_id: self.id).hash_tree
+    Comment.includes(:user).where(commentable_id: self.id).hash_tree
   end
 end
