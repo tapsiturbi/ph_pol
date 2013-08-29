@@ -4,11 +4,7 @@
       <%= render partial: "votes", locals: { cmt: cmt } %>
 
       <div class="user">
-        <% if cmt.user.username %>
-          <%= cmt.user.username %>
-        <% else %>
-          Anonymous
-        <% end %>
+        <%= cmt.username_display %>
         <span class="date">
           <%= cmt.created_at %>
         </span>

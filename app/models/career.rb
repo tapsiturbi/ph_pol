@@ -6,8 +6,30 @@ class Career < ActiveRecord::Base
 
   has_many :comment
 
-  def self.current_with_loc_and_pol
-    where(careers: {end_date: nil}).joins(:location, :politician)
+
+  #-- Scopes ----------------------------
+
+  def self.controversial
+    with_loc_and_pol
+      .joins(:comments)
+      .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
+      .select("count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
+      .having("num_comments > 0")
+      .order("num_comments desc")
+  end
+
+  def self.with_comments
+    joins("LEFT JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
+      .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
+      .select("sum(comments.cached_votes_score) as num_votes, count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
+  end
+
+  def self.current
+    where(careers: {end_date: nil})
+  end
+
+  def self.with_loc_and_pol
+    joins(:location, :politician)
   end
 
   def self.search(keywords)
@@ -36,5 +58,9 @@ class Career < ActiveRecord::Base
 
   def comment_thread
     Comment.includes(:user).where(commentable_id: self.id).hash_tree
+  end
+
+  def politician_display
+    return "#{self.politician.first_name} #{self.politician.last_name}"
   end
 end

@@ -16,7 +16,8 @@ class ListingController < ApplicationController
     # -- we split these into two variables, one for pagination, one for looping thru
     #    all the records. This is necessary because all pagination gems gets confused
     #    if the query has groups/LEFT JOINs
-    @careers = Career.current_with_loc_and_pol
+    @careers = Career.current
+      .with_loc_and_pol
       .search(params[:search])
       .in_municipal(@municipal_id)
       .in_province(@province_id)
@@ -24,9 +25,7 @@ class ListingController < ApplicationController
 
     @careers_with_comments = @careers
       .order(sort_column + " " + sort_direction)
-      .joins("LEFT JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
-      .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
-      .select("sum(comments.cached_votes_score) as num_votes, count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
+      .with_comments
 
   end
 

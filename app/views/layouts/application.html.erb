@@ -16,7 +16,10 @@
   <% end %>
 </div>
 
+<%#------- Menu bar ----------------------------%>
+<ul id="nav_menu">
 <%# user is logged in, show log out link %>
+  <li>
   <% if current_user.present? %>
     Signed in as <b><%= current_user.email %></b>
     <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %>
@@ -25,6 +28,15 @@
     <%= link_to 'Sign In', new_user_session_path %> |
     <%= link_to 'Register Now!', new_user_registration_path %>
   <% end %>
+  </li>
+
+  <li>
+    <%= link_to "Home", root_path %>
+  </li>
+  <li>
+    <%= link_to "Browse", listing_index_path %>
+  </li>
+</ul>
 
 <%= yield %>
 

@@ -22,4 +22,21 @@ class Comment < ActiveRecord::Base
   # -- acts_as_votable ------------
   acts_as_votable
 
+
+  # -- Scopes ---------
+  def self.top_voted
+    includes(:career, {career: :politician})
+      .where("cached_votes_score > 0")
+      .order("cached_votes_score desc")
+  end
+
+  def username_display
+    if self.user && !self.user.username.blank?
+      return self.user.username
+    else
+      return "Anonymous"
+    end
+  end
+
+
 end

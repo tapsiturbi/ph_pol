@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   has_many :children, class_name: "Location", foreign_key: "parent_id"
   belongs_to :parent, class_name: "Location", foreign_key: "parent_id"
 
-  default_scope order('name asc')
+  default_scope { order('name asc') }
 
   def self.provinces
     where("parent_id is null")
