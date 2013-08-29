@@ -1,0 +1,51 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+* { font-family: 'Ropa Sans', "Lato", helvetica, tahoma; }
+
+body { background: #000 url("<%= asset_path 'luneta.jpg' %>") no-repeat scroll top center; background-size: cover; margin: 0; color: #efefef; }
+
+<%# #topbar { border: 1px solid #1d1d1d; margin: 0px auto; top: 0px; width: 960px; position: relative; height: 50px; background-color:#999; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#343434',endColorstr='#1d1d1d'); background:-webkit-gradient(linear,left top,left bottom,from(#343434),to(#1d1d1d)); background:-moz-linear-gradient(top,#343434,#1d1d1d);-moz-box-shadow:0 0 3px rgba(0,0,0,0.6); -webkit-box-shadow:0 0 3px rgba(0,0,0,0.6); box-shadow:0 0 3px rgba(0,0,0,0.6); border-radius: 0 0 5px 5px; text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3); color: #FFF; font-size: 14px; } %>
+
+#topbar { background-color: rgba(0, 0, 0, 0.7); text-shadow: 0 0 1px rgba(255, 255, 255, 0.9); margin: 0px auto; top: 0px; width: 960px; position: relative; height: 70px; color: #FFF; font-size: 14px;}
+
+#topbar a { color: #FFF; }
+#topbar .logo { float: left; width: 300px; margin: 18px 15px; font-size: 24px; font-weight: bold; }
+#nav_menu { margin: 10px 0; float: right; width: 450px; }
+#nav_menu li { display: block; float: right; width: 100px; text-align: center; background-repeat: no-repeat; border-left: 1px dotted #555; height: 50px; }
+#nav_menu li a { opacity: 0.6; text-decoration: none; }
+#nav_menu li a:hover { opacity: 1; }
+
+.flash_notice { background-color: #449955; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; }
+
+.div_form { width: 500px; border: 1px solid gray; }
+.div_form .title { background-color: #afafaf; color: #efefef; font-weight: bold; padding: 2px 5px; }
+.div_form .field_line { margin: 5px; }
+.div_form .field_line label {float: left; display: block; width: 100px;}
+.div_form .formErrors { padding: 10px; color: red; }
+.div_form .formErrors h5 { margin: 0; font-size: 1em; border-bottom: 1px solid #dfdfdf; }
+.div_form .formErrors ul { margin: 0; }
+
+.pretty_box { width: 400px; float: left; background-color: #1abc9c; color: #FFF; margin: 0 0 30px 30px; border-radius: 5px; opacity: 0.9; }
+.pretty_box a { text-decoration: none; color: #FFF; }
+.pretty_box .title { color: #FFF; padding: 15px 0 0 15px; font-size: 24px; border-radius: 5px 5px 0 0; }
+.pretty_box .body { font-size: 12px; margin-bottom: 15px; /*border-top: 1px solid #16A085;*/ }
+.pretty_box .body .one_line { padding: 15px; display:block; }
+.pretty_box .body .one_line:hover { background: #16A085 url("<%= asset_path 'icon_right.png' %>") no-repeat scroll center right; }
+
+.controversial { background-color: #e67e22; }
+.controversial .body .one_line:hover {background-color: #d35400; }
+/*.controversial .body { border-top: 1px solid #d35400; }*/
+
+

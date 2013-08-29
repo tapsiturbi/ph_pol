@@ -1,38 +1,44 @@
 <%# Home page %>
 
-<%= title "Politikahan" %>
+<%= title "Home" %>
 
 
-<div class="top_comments">
+<div class="pretty_box top_comments">
   <div class="title">Top Comments</div>
-  <% @top_comments.each do |cmt| %>
-  <div class="one_comment">
-    <div class="politician">
-      <%= cmt.commentable.politician_display %> (<%= cmt.commentable.title %>)
-    </div>
+  <div class="body">
+    <% @top_comments.each do |cmt| %>
+    <a class="one_line" href="<%= listing_path(cmt.commentable.politician.id) %>">
+      <div class="politician">
+        <%= cmt.commentable.politician_display.titleize %> (<%= cmt.commentable.title.titleize %> - <%= cmt.commentable.location.denorm_name.titleize %>)
+      </div>
 
-    <div class="user">
-      <%= cmt.username_display %>
-      <span class="date"> <%= cmt.created_at %> </span>
-    </div>
-    <div class="comment"> <%= cmt.comment %> </div>
-    <div class="votes"> <%= pluralize cmt.cached_votes_score, "vote" %> </div>
-    <div class="details"> <%= link_to "details", listing_path(cmt.commentable.politician.id) %> </div>
+      <div class="user">
+        <%= cmt.username_display %>
+        <span class="date"> <%= cmt.created_at %> </span>
+      </div>
+      <div class="comment"> <%= cmt.comment %> </div>
+      <div class="votes"> <%= pluralize cmt.cached_votes_score, "vote" %> </div>
 
+    </a>
+    <% end %>
   </div>
-  <% end %>
 </div>
 
 
-<div class="controversial">
+<div class="pretty_box controversial">
   <div class="title">Controversial</div>
-  <% @controversial.each do |c| %>
-  <div class="politician">
-    <%= c.politician_display %> (<%= c.title %>)
+  <div class="body">
+    <% @controversial.each do |c| %>
+    <a class="one_line" href="<%= listing_path(c.politician.id) %>">
+      <div class="politician">
+        <%= c.politician_display.titleize %> (<%= c.title.titleize %>)
+      </div>
+      <div class="num_comments">
+        <%= pluralize c.num_comments, "comment" %>
+      </div>
+    </a>
+    <% end %>
   </div>
-  <div class="num_comments">
-    <%= pluralize c.num_comments, "comment" %>
-  </div>
-  <div class="details"> <%= link_to "details", listing_path(c.politician.id) %> </div>
-  <% end %>
 </div>
+
+<div style="clear: both;"></div>

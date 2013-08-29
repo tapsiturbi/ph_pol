@@ -7,6 +7,46 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%#-- Logo and Menu bar ----------------------------%>
+<div id="topbar">
+  <div class="logo">Politikahan</div>
+  <ul id="nav_menu">
+  <%# user is logged in, show log out link %>
+    <% if current_user.present? %>
+      Signed in as <b><%= current_user.email %></b>
+      <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %>
+    <%# user is not logged in, show signup and login links %>
+    <% else %>
+      <li>
+        <a href="<%= new_user_session_path %>">
+          <%= image_tag("icon_check.png", title: "Sign In") %> <br/>
+          Sign In
+        </a>
+      </li>
+      <li>
+        <a href="<%= new_user_registration_path %>">
+          <%= image_tag("icon_user.png", title: "Register") %> <br/>
+          Register
+        </a>
+      </li>
+    <% end %>
+    <li>
+      <a href="<%= root_path %>">
+        <%= image_tag("icon_home.png", title: "Home") %> <br/>
+        Home
+      </a>
+    </li>
+    <li>
+      <a href="<%= listing_index_path %>">
+        <%= image_tag("icon_search.png", title: "Browse") %> <br/>
+        Browse
+      </a>
+    </li>
+  </ul>
+
+  <div style="clear: both;"></div>
+</div>
+
 <div id="flash">
   <% if notice %>
   <div class="flash_notice"><%= notice %></div>
@@ -15,28 +55,6 @@
   <div class="flash_alert"><%= alert %></div>
   <% end %>
 </div>
-
-<%#------- Menu bar ----------------------------%>
-<ul id="nav_menu">
-<%# user is logged in, show log out link %>
-  <li>
-  <% if current_user.present? %>
-    Signed in as <b><%= current_user.email %></b>
-    <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %>
-  <%# user is not logged in, show signup and login links %>
-  <% else %>
-    <%= link_to 'Sign In', new_user_session_path %> |
-    <%= link_to 'Register Now!', new_user_registration_path %>
-  <% end %>
-  </li>
-
-  <li>
-    <%= link_to "Home", root_path %>
-  </li>
-  <li>
-    <%= link_to "Browse", listing_index_path %>
-  </li>
-</ul>
 
 <%= yield %>
 
