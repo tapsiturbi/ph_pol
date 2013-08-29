@@ -49,8 +49,8 @@ end
 gem 'devise'
 
 # Pagination plugin
-#gem 'kaminari'
-gem 'will_paginate'
+gem 'kaminari'
+#gem 'will_paginate'
 
 
 # Comments GEM

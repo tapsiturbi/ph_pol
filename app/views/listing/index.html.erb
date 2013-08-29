@@ -1,4 +1,5 @@
-<h1>All Politicians</h1>
+
+<%= title "All Politicians" %>
 
 <%= form_tag listing_index_path, :method => 'get', :id => "listing_search" do %>
   <%= hidden_field_tag :direction, params[:direction] %>
@@ -33,27 +34,27 @@
     </div>
   </div>
 <% end %>
-<%= will_paginate @careers %>
 
+<%= paginate @careers %>
 <table class="tbl_listing">
   <tr>
-    <th><%= sortable "title", "Title" %></th>
+    <th><%= sortable "num_comments", "# Comments" %></th>
+    <th><%= sortable "careers.title", "Title" %></th>
     <th><%= sortable "politicians.first_name", "Name" %></th>
     <th><%= sortable "locations.denorm_name", "Location" %></th>
     <th></th>
   </tr>
-  <% @careers.each do |c| %>
+  <% @careers_with_comments.each do |c| %>
   <tr>
+    <td> <%= c.num_comments %> </td>
     <td> <%= c.title %> </td>
-    <td> <%= c.politician.first_name %> <%= c.politician.last_name %> </td>
-    <td> <%= c.location.denorm_name %> </td>
-    <td> <%= link_to 'Details', listing_path(c) %></td>
+    <td> <%= c.politician_first_name %> <%= c.politician_last_name %> </td>
+    <td> <%= c.location_denorm_name %> </td>
+    <td> <%= link_to 'Details', listing_path(c.politician_id) %></td>
   </tr>
   <% end %>
 </table>
-
-
-  <%= will_paginate @careers %>
+<%= paginate @careers %>
 
 
 

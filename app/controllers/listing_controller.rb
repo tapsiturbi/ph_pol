@@ -7,33 +7,26 @@ class ListingController < ApplicationController
     @municipal_id = (params[:municipal] and !params[:municipal][:id].blank?) ? params[:municipal][:id] : ""
     @province_id = (params[:province] and !params[:province][:id].blank?) ? params[:province][:id] : ""
 
-    # get Politicians based on their current career
-    @careers = Career
-      .includes(:location, :politician)
-      .where("end_date is null")
-
-    # Keyword filter
-    if !params[:search].blank?
-      @careers = @careers.where('locations.denorm_name like :keywords or politicians.first_name like :keywords or politicians.last_name like :keywords or title like :keywords ', {keywords: "%#{params[:search]}%"})
-    end
-
-    # Province/municipal filter
-    if !@municipal_id.blank?
-      @careers = @careers.where('locations.id = :municipal_id or locations.parent_id = :municipal_id', {municipal_id: @municipal_id})
-    elsif !@province_id.blank?
-      @careers = @careers.where('locations.id = :province_id or locations.parent_id = :province_id', {province_id: @province_id})
-    end
-
-    # Sorting
-    @careers = @careers.order(sort_column + " " + sort_direction).paginate(:per_page => 25, :page => params[:page])
-
     # Retrieve info for dropdown
-    @provinces = Location.where("parent_id is null").order("name asc")
-    if !@province_id.blank?
-      @municipals = Location.where("parent_id = ?", @province_id).order("name asc")
-    else
-      @municipals = nil
-    end
+    @provinces = Location.provinces
+    @municipals = Location.municipality(@province_id)
+
+
+    # get Politicians based on their current career
+    # -- we split these into two variables, one for pagination, one for looping thru
+    #    all the records. This is necessary because all pagination gems gets confused
+    #    if the query has groups/LEFT JOINs
+    @careers = Career.current_with_loc_and_pol
+      .search(params[:search])
+      .in_municipal(@municipal_id)
+      .in_province(@province_id)
+      .page(params[:page])
+
+    @careers_with_comments = @careers
+      .order(sort_column + " " + sort_direction)
+      .joins("LEFT JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
+      .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
+      .select("sum(comments.cached_votes_score) as num_votes, count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
 
   end
 
@@ -93,10 +86,10 @@ class ListingController < ApplicationController
 
   private
   def sort_column
-    %w[locations.denorm_name politicians.first_name politicians.last_name title].include?(params[:sort]) ? params[:sort] : "title"
+    %w[locations.denorm_name politicians.first_name politicians.last_name careers.title num_comments].include?(params[:sort]) ? params[:sort] : "num_comments"
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
 end

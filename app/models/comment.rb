@@ -1,5 +1,7 @@
 class Comment < ActiveRecord::Base
 
+  belongs_to :career
+
   # -- acts_as_commentable ---------
   include ActsAsCommentable::Comment
 

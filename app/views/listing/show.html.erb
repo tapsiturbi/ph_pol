@@ -1,6 +1,4 @@
-<% title @politician.first_name + " " + @politician.last_name %>
-
-<h1> <%= @politician.first_name %> <%= @politician.last_name%> </h1>
+<%= title @politician.first_name + " " + @politician.last_name %>
 
 <div class="career_detail">
 <% @careers.each do |c| %>
