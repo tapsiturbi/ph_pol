@@ -13,8 +13,16 @@
   <ul id="nav_menu">
   <%# user is logged in, show log out link %>
     <% if current_user.present? %>
-      Signed in as <b><%= current_user.email %></b>
-      <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %>
+      <li>
+
+        <%= link_to destroy_user_session_path, method: :delete do %>
+          <%= image_tag "icon_user.png", title: "Signed in as #{current_user.email}" %>
+          <br/>
+          Sign Out
+        <% end %>
+
+      </li>
+
     <%# user is not logged in, show signup and login links %>
     <% else %>
       <li>
@@ -49,7 +57,7 @@
 
 <div id="flash">
   <% if notice %>
-  <div class="flash_notice"><%= notice %></div>
+    <script type="text/javascript"> showFlash("<%= escape_javascript(notice)%>"); </script>
   <% end %>
   <% if alert %>
   <div class="flash_alert"><%= alert %></div>

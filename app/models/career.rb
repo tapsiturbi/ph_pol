@@ -23,6 +23,9 @@ class Career < ActiveRecord::Base
       .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
       .select("sum(comments.cached_votes_score) as num_votes, count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
   end
+  def self.with_comments_no_group
+    joins("INNER JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
+  end
 
   def self.current
     where(careers: {end_date: nil})

@@ -27,25 +27,40 @@ body { background: #000 url("<%= asset_path 'luneta.jpg' %>") no-repeat scroll t
 #nav_menu li a { opacity: 0.6; text-decoration: none; }
 #nav_menu li a:hover { opacity: 1; }
 
-.flash_notice { background-color: #449955; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; }
-
-.div_form { width: 500px; border: 1px solid gray; }
-.div_form .title { background-color: #afafaf; color: #efefef; font-weight: bold; padding: 2px 5px; }
-.div_form .field_line { margin: 5px; }
-.div_form .field_line label {float: left; display: block; width: 100px;}
-.div_form .formErrors { padding: 10px; color: red; }
-.div_form .formErrors h5 { margin: 0; font-size: 1em; border-bottom: 1px solid #dfdfdf; }
-.div_form .formErrors ul { margin: 0; }
+.flash_notice { background-color: #449955; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; z-index: 1000; }
 
 .pretty_box { width: 400px; float: left; background-color: #1abc9c; color: #FFF; margin: 0 0 30px 30px; border-radius: 5px; opacity: 0.9; }
 .pretty_box a { text-decoration: none; color: #FFF; }
 .pretty_box .title { color: #FFF; padding: 15px 0 0 15px; font-size: 24px; border-radius: 5px 5px 0 0; }
 .pretty_box .body { font-size: 12px; margin-bottom: 15px; /*border-top: 1px solid #16A085;*/ }
 .pretty_box .body .one_line { padding: 15px; display:block; }
-.pretty_box .body .one_line:hover { background: #16A085 url("<%= asset_path 'icon_right.png' %>") no-repeat scroll center right; }
+.pretty_box .body a.one_line:hover { background: #16A085 url("<%= asset_path 'icon_right.png' %>") no-repeat scroll center right; }
 
 .controversial { background-color: #e67e22; }
-.controversial .body .one_line:hover {background-color: #d35400; }
-/*.controversial .body { border-top: 1px solid #d35400; }*/
+.controversial .body a.one_line:hover {background-color: #d35400; }
+
+.career_detail { background-color: #2980b9; float: none; margin: 0 auto; width: 900px; }
+.career_detail .title > img { float: right; margin-right: 15px; opacity: 0.9; width: 26px; }
 
 
+.career_detail .comments { background-color: #3498DB; padding: 15px; }
+.comments .title { padding: 15px 0; }
+.comments ul { margin: 15px 0; padding: 0 0 15px 0; border-top: 1px solid gray; opacity: 0.95; background-color: #FFF; color: #888; }
+.comments ul li { display: block; padding: 10px 15px 0; }
+.comments .user .date { font-size: 0.9em; color: #999; background-color: #efefef; padding: 0px 5px; }
+.comments .comment { margin:15px; color: #34495e; }
+.comments .actions a { background-color: #BDC3C7; padding: 0px 15px; text-align: center; border-radius: 3px; }
+
+.votes img { margin-top: 3px; }
+.votes > span { font-size: 35px; }
+.votes > * { display: block; float: left; text-align: center; width: 35px; }
+
+
+.div_form { width: 500px; border-radius: 5px; background-color: #ecf0f1; margin: 15px 0;}
+.div_form .title { background-color: #bdc3c7; color: #efefef; font-weight: bold; padding: 2px 5px; font-size: 16px; }
+.div_form .field_line { margin: 5px; }
+.div_form .field_line label {float: left; display: block; width: 100px;}
+.div_form .formErrors { padding: 10px; color: red; }
+.div_form .formErrors h5 { margin: 0; font-size: 1em; border-bottom: 1px solid #dfdfdf; }
+.div_form .formErrors ul { margin: 0; }
+.career_detail .div_form { width: 100%; }

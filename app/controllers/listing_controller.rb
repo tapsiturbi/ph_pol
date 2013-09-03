@@ -36,6 +36,10 @@ class ListingController < ApplicationController
     @careers = Career.includes(:location, :politician).where(politician_id: @politician.id)
 
     @comment = Comment.new
+    #@user_votes = current_user.get_voted(Comment).where(comment_id: Career.joins(:comment).where(politician_id: @politician.id).select("comments.comment_id"))
+    #@user_votes = current_user.get_voted(Comment).where(comments: {id: Career.with_comments_no_group.where(politician_id: @politician.id).select("comments.id")}).select("comments.id, votes.vote_flag").collect {|c| [c.id, c.vote_flag]}
+    @user_votes = current_user.get_votes_of_pol(@politician.id)
+
   end
 
   # -- CUD Controllers -------------------------------------
@@ -79,8 +83,9 @@ class ListingController < ApplicationController
           @comment.disliked_by current_user
         end
       end
-
     end
+
+    @user_votes = current_user.get_votes_of_pol(@comment.commentable.politician.id)
   end
 
   private

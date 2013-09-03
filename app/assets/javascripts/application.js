@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+function showFlash(msg) {
+  $("#flash").html("<div class='flash_notice'>" + msg + "</div>").show(300).delay(5000).fadeOut('slow');
+}

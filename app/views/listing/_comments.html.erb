@@ -1,7 +1,9 @@
 <% hash.each do |cmt,child| %>
   <ul id="cmt_<%= cmt.id %>">
     <li>
-      <%= render partial: "votes", locals: { cmt: cmt } %>
+      <div id="vote_<%= cmt.id %>">
+        <%= render partial: "votes", locals: { cmt: cmt } %>
+      </div>
 
       <div class="user">
         <%= cmt.username_display %>
@@ -14,7 +16,10 @@
 
       <% if user_signed_in? %>
         <div class="actions">
-          <%= link_to "Reply", "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').focus(); return false;" %>
+          <%= link_to "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').focus(); return false;", class: "reply" do %>
+            <%= image_tag "icon_reply.png", width: "12" %>
+            Reply
+          <% end %>
         </div>
         <%= render partial: "new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
       <% end %>
