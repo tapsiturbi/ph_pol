@@ -22,3 +22,6 @@ doc/
 
 log/*
 
+# Uploaded image files
+public/uploads/*
+

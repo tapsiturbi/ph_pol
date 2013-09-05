@@ -11,15 +11,34 @@
 <div id="topbar">
   <div class="logo">Politikahan</div>
   <ul id="nav_menu">
+
   <%# user is logged in, show log out link %>
     <% if current_user.present? %>
       <li>
 
-        <%= link_to destroy_user_session_path, method: :delete do %>
-          <%= image_tag "icon_user.png", title: "Signed in as #{current_user.email}" %>
+        <a href="#">
+          <%= image_tag "icon_user.png" %>
           <br/>
-          Sign Out
-        <% end %>
+          Profile
+        </a>
+
+        <ul class="sub cmd_list" style="width: 220px; top: 15px; left: -80px;">
+          <li>
+            <div class="profile">
+              <div class="avatar"><%= image_tag( current_user.avatar? ? current_user.avatar : "empty_avatar.png", title: "Profile Pic", alt: current_user.email, width: "64px") %></div>
+              <%= current_user.first_name %> <br/>
+              <%= current_user.email %> <br/>
+              <%= link_to "edit profile", users_profile_edit_path %>
+              <div style="clear: left;"></div>
+            </div>
+          </li>
+          <li>
+            <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+          </li>
+          <li>
+            <%= link_to "Cancel my account", registration_path(:user), :confirm => "Are you sure?", :method => :delete %>
+          </li>
+        </ul>
 
       </li>
 
@@ -30,6 +49,30 @@
           <%= image_tag("icon_check.png", title: "Sign In") %> <br/>
           Sign In
         </a>
+
+          <ul class="sub" style="width: 220px; top: 15px; left: -80px;">
+            <li>
+              <div class="mini_div_form">
+                <%= form_for("user", :url => user_session_path) do |f| %>
+                  <%= f.label :email, "Email" %>
+                  <%= f.text_field :email %>
+
+                  <%= f.label :password, "Password" %>
+                  <%= f.password_field :password %>
+
+                  <br/>
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me, style: "display: inline;" %>
+
+                  <br/>
+                  <%= f.submit 'Sign in' %>
+                  <%= link_to "Forgot your password?", new_password_path('user') %>
+                <% end %>
+              </div>
+              
+              <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+            </li>
+          </ul>
       </li>
       <li>
         <a href="<%= new_user_registration_path %>">
@@ -54,6 +97,25 @@
 
   <div style="clear: both;"></div>
 </div>
+
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    var tmr = false;
+    $("#nav_menu li").mouseenter(function(){
+      $(".sub", this).show();
+      $("a:first", this).addClass("highlight");
+      clearTimeout(tmr);
+    }).mouseleave(function() {
+      $("a:first", this).removeClass("highlight");
+
+      var that = this;
+      tmr = setTimeout(function(){
+        $(".sub", that).hide();
+      },500);
+    });
+  });
+</script>
 
 <div id="flash">
   <% if notice %>

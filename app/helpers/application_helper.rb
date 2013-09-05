@@ -7,7 +7,7 @@ module ApplicationHelper
     link_to title, {:sort => column, :direction => direction}, {:class => css_class}
   end
 
-  def title(page_title, options={})
+  def title(page_title, options={class: "page_title"})
     content_for(:title, page_title.to_s)
     return content_tag(:h1, page_title.to_s, options)
   end

@@ -47,6 +47,8 @@ end
 
 # Devise GEM used for user signin
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # Pagination plugin
 gem 'kaminari'
@@ -63,3 +65,6 @@ gem 'closure_tree'
 gem 'acts_as_votable', '~> 0.7.1'
 
 
+# avatar / image upload ( NOTE: you need to have imagemagick installed on your PC)
+gem 'carrierwave'
+gem 'mini_magick'

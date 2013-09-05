@@ -1,5 +1,6 @@
 PhPol::Application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -13,7 +14,8 @@ PhPol::Application.routes.draw do
   post '/listing/:id/comment', to: 'listing#create_comment', as: :listing_comment_create
   get '/listing/:id/vote/:vote', to: 'listing#create_vote', as: :listing_vote_create
 
-  #resources :comments, shallow: true
+  get '/users/profile/edit', to: 'users/profile#edit'
+  patch '/users/profile/save', to: 'users/profile#save'
 
   # utility pages
   post 'util/municipal/:id', to: 'util#municipal', as: :util_municipal

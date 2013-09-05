@@ -1,6 +1,6 @@
 <div class="votes">
   <%= link_to listing_vote_create_path(cmt, 1), remote: true, class: "upvote", alt: "Upvote", title: "Upvote" do %>
-    <% if @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 %>
+    <% if @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 %>
       <%= image_tag "icon_check_gray_transparent.png" %>
     <% else %>
       <%= image_tag "icon_check_gray.png" %>
@@ -9,7 +9,7 @@
   <% end %>
   <span> <%= cmt.cached_votes_score %> </span>
   <%= link_to listing_vote_create_path(cmt, 0), remote: true, class: "downvote", alt: "Downvote", title: "Downvote" do %>
-    <% if @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 %>
+    <% if @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 %>
       <%= image_tag "icon_error_gray_transparent.png" %>
     <% else %>
       <%= image_tag "icon_error_gray.png" %>

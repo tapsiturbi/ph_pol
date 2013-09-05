@@ -16,6 +16,8 @@
 
 body { background: #000 url("<%= asset_path 'luneta.jpg' %>") no-repeat scroll top center; background-size: cover; margin: 0; color: #efefef; }
 
+h1.page_title {margin: 15px; }
+
 <%# #topbar { border: 1px solid #1d1d1d; margin: 0px auto; top: 0px; width: 960px; position: relative; height: 50px; background-color:#999; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#343434',endColorstr='#1d1d1d'); background:-webkit-gradient(linear,left top,left bottom,from(#343434),to(#1d1d1d)); background:-moz-linear-gradient(top,#343434,#1d1d1d);-moz-box-shadow:0 0 3px rgba(0,0,0,0.6); -webkit-box-shadow:0 0 3px rgba(0,0,0,0.6); box-shadow:0 0 3px rgba(0,0,0,0.6); border-radius: 0 0 5px 5px; text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3); color: #FFF; font-size: 14px; } %>
 
 #topbar { background-color: rgba(0, 0, 0, 0.7); text-shadow: 0 0 1px rgba(255, 255, 255, 0.9); margin: 0px auto; top: 0px; width: 960px; position: relative; height: 70px; color: #FFF; font-size: 14px;}
@@ -23,9 +25,23 @@ body { background: #000 url("<%= asset_path 'luneta.jpg' %>") no-repeat scroll t
 #topbar a { color: #FFF; }
 #topbar .logo { float: left; width: 300px; margin: 18px 15px; font-size: 24px; font-weight: bold; }
 #nav_menu { margin: 10px 0; float: right; width: 450px; }
-#nav_menu li { display: block; float: right; width: 100px; text-align: center; background-repeat: no-repeat; border-left: 1px dotted #555; height: 50px; }
+#nav_menu > li { display: block; float: right; width: 100px; text-align: center; background-repeat: no-repeat; border-left: 1px dotted #555; height: 50px; }
 #nav_menu li a { opacity: 0.6; text-decoration: none; }
-#nav_menu li a:hover { opacity: 1; }
+#nav_menu li a:hover, #nav_menu li a.highlight { opacity: 1; }
+#nav_menu > li .sub {display: none;  background-color: #000000; opacity: 0.7; padding: 15px; text-align: left; position: relative; }
+#nav_menu > li .sub li { list-style: none; display: block;}
+#nav_menu > li .sub li form { width: 250px; }
+
+#nav_menu > li .sub:after { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+#nav_menu > li .sub:after { border-color: rgba(0, 0, 0, 0); border-bottom-color: #000000; border-width: 5px; left: 50%; margin-left: -5px; }
+
+#nav_menu > li .cmd_list { padding: 15px 0; }
+#nav_menu > li .cmd_list li { display: block; }
+#nav_menu > li .cmd_list li > a { display: block; padding: 5px; }
+#nav_menu > li .cmd_list li > a:hover { border-left: 5px solid white; }
+
+#nav_menu > li .profile { border-bottom: 1px solid #afafaf; margin: 0 0 5px 0; padding: 0 0 15px; }
+.avatar { float: left; margin: 0 5px 0 0; }
 
 .flash_notice { background-color: #449955; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; z-index: 1000; }
 
@@ -56,7 +72,7 @@ body { background: #000 url("<%= asset_path 'luneta.jpg' %>") no-repeat scroll t
 .votes > * { display: block; float: left; text-align: center; width: 35px; }
 
 
-.div_form { width: 500px; border-radius: 5px; background-color: #ecf0f1; margin: 15px 0;}
+.div_form { width: 500px; border-radius: 5px; background-color: #ecf0f1; margin: 15px 0; color: #444; }
 .div_form .title { background-color: #bdc3c7; color: #efefef; font-weight: bold; padding: 2px 5px; font-size: 16px; }
 .div_form .field_line { margin: 5px; }
 .div_form .field_line label {float: left; display: block; width: 100px;}
@@ -64,3 +80,5 @@ body { background: #000 url("<%= asset_path 'luneta.jpg' %>") no-repeat scroll t
 .div_form .formErrors h5 { margin: 0; font-size: 1em; border-bottom: 1px solid #dfdfdf; }
 .div_form .formErrors ul { margin: 0; }
 .career_detail .div_form { width: 100%; }
+
+.mini_div_form label { display: block; }

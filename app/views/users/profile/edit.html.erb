@@ -1,0 +1,50 @@
+
+<%= title "Edit Profile" %>
+
+<%= form_for @user, url: users_profile_save_path, html: {multipart: true} do |f| %>
+
+  <% if @user.errors.any? %>
+  <div id="errorExplanation">
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="div_form" style="width: 350px; margin: 15px; ">
+    <div class="title"> Profile Photo </div>
+    <div style="padding: 5px; ">
+      <div class="avatar">
+        <%= image_tag( current_user.avatar? ? current_user.avatar : "empty_avatar.png", title: "Profile Pic", width: "64px") %>
+      </div>
+      <%= f.hidden_field :avatar_cache %>
+      <%= f.file_field :avatar %>
+
+      <div style="clear: left;"></div>
+    </div>
+
+    <div class="title"> User Information </div>
+
+    <div class="field_line">
+      <%= f.label :email, "Email" %>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field_line">
+      <%= f.label :first_name, "First Name" %>
+      <%= f.text_field :first_name %>
+    </div>
+    <div class="field_line">
+      <%= f.label :last_name, "Last Name" %>
+      <%= f.text_field :last_name %>
+    </div>
+
+    <div class="field_line">
+      <%= f.submit "Save" %>
+    </div>
+  </div>
+
+
+<% end %>
+
