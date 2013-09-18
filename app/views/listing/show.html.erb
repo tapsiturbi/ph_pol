@@ -4,10 +4,39 @@
   <div class="title"> Career <%= image_tag "icon_briefcase.png" %>  </div>
   <div class="body">
 <% @careers.each do |c| %>
-  <div class="one_line">
-    <div class="career_title"> <%= c.title.titleize %> </div>
-    <div class="location"> <%= c.location.denorm_name.titleize %> </div>
-  </div>
+    <div class="one_line">
+      <div class="career_title"> <%= c.title.titleize %> </div>
+      <div class="location"> <%= c.location.denorm_name.titleize %> </div>
+
+      <div class="photos">
+        <div class="title">Photos</div>
+
+        <%= render partial: "photos", locals: { c: c } %>
+
+        <% if user_signed_in? %>
+          <div id="new_image" class="div_form" style="width: 400px;">
+            <div class="title">Add Photo</div>
+            <div id="new_image_errors"></div>
+            <%= form_for @new_image, url: listing_image_create_path(career_id: c.id), html: {multipart: true} do |f| %>
+              <%= f.hidden_field :file_cache %>
+
+              <div class="field_line">
+                <%= f.label(:file, 'Upload from file') %>
+                <%= f.file_field :file %>
+              </div>
+              <div class="field_line">
+                <%= f.label(:remote_file_url, 'Or from URL') %>
+                <%= f.text_field :remote_file_url %>
+              </div>
+              <div class="field_line">
+                <%= f.submit "Submit" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      
+    </div>
 
     <div class="comments">
       <div class="title"> Comments </div>

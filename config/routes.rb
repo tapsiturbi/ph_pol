@@ -13,7 +13,8 @@ PhPol::Application.routes.draw do
   get '/listing/:id', to: 'listing#show', as: :listing
   post '/listing/:id/comment', to: 'listing#create_comment', as: :listing_comment_create
   get '/listing/:id/vote/:vote', to: 'listing#create_vote', as: :listing_vote_create
-
+  post '/listing/:id/:career_id/image', to: 'listing#create_image', as: :listing_image_create
+  
   get '/users/profile/edit', to: 'users/profile#edit'
   patch '/users/profile/save', to: 'users/profile#save'
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130904161218) do
+ActiveRecord::Schema.define(version: 20130917073453) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -76,6 +76,15 @@ ActiveRecord::Schema.define(version: 20130904161218) do
   end
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
+
+  create_table "pol_images", force: true do |t|
+    t.string   "file"
+    t.integer  "career_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pol_images", ["career_id"], name: "index_pol_images_on_career_id", using: :btree
 
   create_table "politicians", force: true do |t|
     t.string   "first_name"

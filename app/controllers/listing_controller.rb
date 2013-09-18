@@ -33,12 +33,16 @@ class ListingController < ApplicationController
   def show
     @politician = Politician.find(params[:id])
 
-    @careers = Career.includes(:location, :politician).where(politician_id: @politician.id)
+    @careers = Career.with_loc_and_pol.where(politician_id: @politician.id)
 
     @comment = Comment.new
-    #@user_votes = current_user.get_voted(Comment).where(comment_id: Career.joins(:comment).where(politician_id: @politician.id).select("comments.comment_id"))
-    #@user_votes = current_user.get_voted(Comment).where(comments: {id: Career.with_comments_no_group.where(politician_id: @politician.id).select("comments.id")}).select("comments.id, votes.vote_flag").collect {|c| [c.id, c.vote_flag]}
-    @user_votes = current_user.get_votes_of_pol(@politician.id)
+    @new_image = PolImage.new
+
+    if current_user.present?
+      @user_votes = current_user.get_votes_of_pol(@politician.id)
+    else
+      @user_votes = []
+    end
 
   end
 
@@ -86,6 +90,30 @@ class ListingController < ApplicationController
     end
 
     @user_votes = current_user.get_votes_of_pol(@comment.commentable.politician.id)
+  end
+
+  # Upload image
+  def create_image
+
+    if current_user.present?
+      @career = Career.find(params[:career_id])
+
+      @image = PolImage.new
+      @image.career = @career
+      if params[:pol_image][:remote_file_url]
+        @image.remote_file_url = params[:pol_image][:remote_file_url]
+      else
+        @image.file = params[:pol_image][:file]
+      end
+      
+      if @image.save
+        flash[:notice] = "Photo uploaded successfully"
+      else
+        flash[:alert] = "Error: #{@image.errors.full_messages.join(",")}"
+      end
+    end
+
+    redirect_to listing_path(params[:id])
   end
 
   private

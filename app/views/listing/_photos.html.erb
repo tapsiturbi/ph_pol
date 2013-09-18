@@ -1,0 +1,5 @@
+<div id="photos_<%= c.id %>" class="photo_list">
+  <% c.pol_image.each do |img| %>
+    <%= image_tag img.file_url(:medium), id: img.id %>
+  <% end %>
+</div>

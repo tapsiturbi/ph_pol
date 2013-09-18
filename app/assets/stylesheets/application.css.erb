@@ -28,7 +28,7 @@ h1.page_title {margin: 15px; }
 #nav_menu > li { display: block; float: right; width: 100px; text-align: center; background-repeat: no-repeat; border-left: 1px dotted #555; height: 50px; }
 #nav_menu li a { opacity: 0.6; text-decoration: none; }
 #nav_menu li a:hover, #nav_menu li a.highlight { opacity: 1; }
-#nav_menu > li .sub {display: none;  background-color: #000000; opacity: 0.7; padding: 15px; text-align: left; position: relative; }
+#nav_menu > li .sub {display: none;  background-color: #000000; opacity: 0.7; padding: 15px; text-align: left; position: relative; z-index: 100; }
 #nav_menu > li .sub li { list-style: none; display: block;}
 #nav_menu > li .sub li form { width: 250px; }
 
@@ -44,6 +44,7 @@ h1.page_title {margin: 15px; }
 .avatar { float: left; margin: 0 5px 0 0; }
 
 .flash_notice { background-color: #449955; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; z-index: 1000; }
+.flash_alert { background-color: #FF4455; color: #EFEFEF; padding: 3px 5px; font-weight: bold; position: fixed; top: 0; left: 0; text-align: center; width: 100%; z-index: 1000; }
 
 .pretty_box { width: 400px; float: left; background-color: #1abc9c; color: #FFF; margin: 0 0 30px 30px; border-radius: 5px; opacity: 0.9; }
 .pretty_box a { text-decoration: none; color: #FFF; }

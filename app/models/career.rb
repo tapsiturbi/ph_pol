@@ -4,8 +4,8 @@ class Career < ActiveRecord::Base
   belongs_to :politician
   belongs_to :location
 
-  has_many :comment
-
+  has_many :comment, :dependent => :destroy
+  has_many :pol_image, :dependent => :destroy
 
   #-- Scopes ----------------------------
 
@@ -33,6 +33,10 @@ class Career < ActiveRecord::Base
 
   def self.with_loc_and_pol
     joins(:location, :politician)
+  end
+
+  def self.with_images
+    includes(:pol_image)
   end
 
   def self.search(keywords)
