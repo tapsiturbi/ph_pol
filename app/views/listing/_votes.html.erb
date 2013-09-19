@@ -1,19 +1,13 @@
-<div class="votes">
-  <%= link_to listing_vote_create_path(cmt, 1), remote: true, class: "upvote", alt: "Upvote", title: "Upvote" do %>
-    <% if @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 %>
-      <%= image_tag "icon_check_gray_transparent.png" %>
-    <% else %>
-      <%= image_tag "icon_check_gray.png" %>
-    <% end %>
+<div id="vote_<%= cmt.id %>" class="votes">
 
+  <%= link_to listing_vote_create_path(cmt, 1), remote: true, class: "upvote #{ "upchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 }", title: "Upvote" do %>
+    <div></div>
   <% end %>
+
   <span> <%= cmt.cached_votes_score %> </span>
-  <%= link_to listing_vote_create_path(cmt, 0), remote: true, class: "downvote", alt: "Downvote", title: "Downvote" do %>
-    <% if @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 %>
-      <%= image_tag "icon_error_gray_transparent.png" %>
-    <% else %>
-      <%= image_tag "icon_error_gray.png" %>
-    <% end %>
+
+  <%= link_to listing_vote_create_path(cmt, 0), remote: true, class: "downvote #{ "downchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 }", title: "Downvote" do %>
+    <div></div>
   <% end %>
 </div>
-<div style="clear: both; "></div>
+

@@ -68,10 +68,16 @@ h1.page_title {margin: 15px; }
 .comments .comment { margin:15px; color: #34495e; }
 .comments .actions a { background-color: #BDC3C7; padding: 0px 15px; text-align: center; border-radius: 3px; }
 
-.votes img { margin-top: 3px; }
-.votes > span { font-size: 35px; }
-.votes > * { display: block; float: left; text-align: center; width: 35px; }
+.votes { width: 20px; float: left; margin-right: 10px; }
+.votes > span { font-size: 18px; }
+.votes > * { display: block; text-align: center; }
+.votes .upvote > div, .votes .downvote > div { width: 18px; height: 18px; background-image: url("<%= asset_path 'sprites-arrows.png' %>"); background-attachment: scroll; margin: 0 auto; }
+.votes .upvote > div { background-position: -44px 0; }
+.votes .downvote > div { background-position: -2px 0; }
+.votes .upchecked > div { background-position: -65px 0;  }
+.votes .downchecked > div { background-position: -23px 0;  }
 
+/* -2, -23 , -44, -65*/
 
 .div_form { width: 500px; border-radius: 5px; background-color: #ecf0f1; margin: 15px 0; color: #444; }
 .div_form .title { background-color: #bdc3c7; color: #efefef; font-weight: bold; padding: 2px 5px; font-size: 16px; }

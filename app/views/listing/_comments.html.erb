@@ -1,9 +1,7 @@
 <% hash.each do |cmt,child| %>
   <ul id="cmt_<%= cmt.id %>">
     <li>
-      <div id="vote_<%= cmt.id %>">
-        <%= render partial: "votes", locals: { cmt: cmt } %>
-      </div>
+      <%= render partial: "votes", locals: { cmt: cmt } %>
 
       <div class="user">
         <%= cmt.username_display %>
@@ -24,6 +22,7 @@
         <%= render partial: "new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
       <% end %>
 
+      <div style="clear: left;"></div>
 
       <% if child %>
         <%= render partial: "comments", locals: { career: career, hash: child } %>
