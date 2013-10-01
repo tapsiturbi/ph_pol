@@ -32,8 +32,8 @@ test:
 production:
   adapter: mysql2
   encoding: utf8
-  database: ph_pol_production
+  database: heroku_5d46d08f5c403c6
   pool: 5
-  username: root
-  password:
+  username: b1c3bbf8db5f67
+  password: 20516a82
   host: localhost
