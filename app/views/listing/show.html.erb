@@ -1,15 +1,15 @@
 <%= title (@politician.first_name + " " + @politician.last_name).titleize %>
 
 <div class="career_detail pretty_box">
-  <div class="title"> Career <%= image_tag "icon_briefcase.png" %>  </div>
+
   <div class="body">
 <% @careers.each do |c| %>
     <div class="one_line">
-      <div class="career_title"> <%= c.title.titleize %> </div>
+      <div class="subtitle"> <%= c.title.titleize %> </div>
       <div class="location"> <%= c.location.denorm_name.titleize %> </div>
 
       <div class="photos">
-        <div class="title">Photos</div>
+        <div class="subtitle">Photos</div>
 
         <%= render partial: "photos", locals: { c: c } %>
 
@@ -39,7 +39,7 @@
     </div>
 
     <div class="comments">
-      <div class="title"> Comments </div>
+      <div class="subtitle"> Comments </div>
       <div id="cmt_<%= c.id %>">
         <%= render partial: "comments", locals: { career: c, hash: c.comment_thread } %>
       </div>

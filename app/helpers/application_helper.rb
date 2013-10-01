@@ -9,7 +9,8 @@ module ApplicationHelper
 
   def title(page_title, options={class: "page_title"})
     content_for(:title, page_title.to_s)
-    return content_tag(:h1, page_title.to_s, options)
+    #return content_tag(:h1, page_title.to_s, options)
+    return ""
   end
 
   # copied from http://www.emersonlackey.com/article/rails3-error-messages-for-replacement

@@ -16,9 +16,11 @@
         <%= cmt.username_display %>
         <span class="date"> <%= cmt.created_at %> </span>
       </div>
-      <div class="comment"> <%= cmt.comment %> </div>
-      <div class="votes"> <%= pluralize cmt.cached_votes_score, "vote" %> </div>
-
+      <div class="comment">
+        <div class="votes"> <%= cmt.cached_votes_score %> </div>
+        <%= cmt.comment %>
+      </div>
+      <div style="clear: left;"></div>
     </a>
     <% end %>
   </div>
