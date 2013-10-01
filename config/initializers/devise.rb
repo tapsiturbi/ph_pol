@@ -5,8 +5,12 @@ Devise.setup do |config|
   # For Omniauth
   require "omniauth-facebook"
   # FB dev
-  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development? 
-  config.omniauth :facebook, "590932047612874", "ed7195ee33e7670a5d2f37fd65066229"
+  if Rails.env.production?
+    config.omniauth :facebook, "530271243721210", "869b603a38de42b0d5005babab145257"
+  else
+    OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development? 
+    config.omniauth :facebook, "590932047612874", "ed7195ee33e7670a5d2f37fd65066229"
+  end
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
