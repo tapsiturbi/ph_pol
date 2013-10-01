@@ -68,3 +68,8 @@ gem 'acts_as_votable', '~> 0.7.1'
 # avatar / image upload ( NOTE: you need to have imagemagick installed on your PC)
 gem 'carrierwave'
 gem 'mini_magick'
+
+# for Heroku
+gem 'rails_12factor', group: :production
+#ruby '2.0.0'
+
