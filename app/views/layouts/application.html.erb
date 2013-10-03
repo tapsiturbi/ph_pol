@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= content_for(:title) %></title>
+  <title><%= Rails.application.config.site_name + " - " + content_for(:title) %></title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+
+  <link rel="shortcut icon" href="<%= asset_path "favicon.ico" %>" >
 </head>
 <body>
 <%#-- Logo and Menu bar ----------------------------%>
 <div id="topbar">
   <div id="inner_topbar">
     <div class="logo">
-      <%= link_to "Politikahan", "/" %>
+      <%= link_to Rails.application.config.site_name, "/" %>
     </div>
     <ul id="nav_menu">
 

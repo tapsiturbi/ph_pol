@@ -73,3 +73,5 @@ gem 'mini_magick'
 gem 'rails_12factor', group: :production
 #ruby '2.0.0'
 
+# sanitizer to prevent malicious js code on comments
+gem 'sanitize'

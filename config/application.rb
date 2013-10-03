@@ -24,5 +24,11 @@ module PhPol
 
     # For Devise
     config.assets.initialize_on_precompile = false
+
+    config.action_view.sanitized_allowed_tags =  %w(table tr td th)
+
+    # Site-wide variables
+    config.site_name = "Politikahan"
+
   end
 end

@@ -10,11 +10,11 @@
         </span>
       </div>
 
-      <div class="comment"> <%= cmt.comment %> </div>
+      <div class="comment"> <%= cmt.comment.html_safe %> </div>
 
       <% if user_signed_in? %>
         <div class="actions">
-          <%= link_to "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').focus(); return false;", class: "reply" do %>
+          <%= link_to "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').addClass('ckeditor'); CKEDITOR.replace('txt_comment_#{cmt.id}', { extraPlugins: 'divarea', on: { 'instanceReady': function(evt) { CKEDITOR.instances.txt_comment_#{cmt.id}.focus(); }} }); return false;", class: "reply" do %>
             <%= image_tag "icon_reply.png", width: "12" %>
             Reply
           <% end %>
