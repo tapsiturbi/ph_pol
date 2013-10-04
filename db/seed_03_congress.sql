@@ -425,7 +425,7 @@ insert into politicians(first_name, last_name, nickname) values ('AILEEN CORRO',
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'CEBU')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('MARIA CARMEN SOLAMILLO', 'ZAMORA', 'MARICAR ZAMORA');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'COMPOSTELA VALLEY')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('ROMMEL CA&Ntilde;OS', 'AMATONG', 'BOBONG');
+insert into politicians(first_name, last_name, nickname) values ('ROMMEL CAnOS', 'AMATONG', 'BOBONG');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'COMPOSTELA VALLEY')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('JESUS NONATO', 'SACDALAN', 'SUSING');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'COTABATO (NORTH COT.)')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -455,11 +455,11 @@ insert into politicians(first_name, last_name, nickname) values ('ARLENE JAVELLA
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'DINAGAT ISLANDS')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('BEN PAGARAN', 'EVARDONE', 'BEN');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'EASTERN SAMAR')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('JOAQUIN CARLOS RAHMAN ARA&Ntilde;O', 'NAVA', 'TOTO RAHMAN');
+insert into politicians(first_name, last_name, nickname) values ('JOAQUIN CARLOS RAHMAN ARAnO', 'NAVA', 'TOTO RAHMAN');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'GUIMARAS')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('TEODORO JR. BRAWNER', 'BAGUILAT', 'TEDDY');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'IFUGAO')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('RODOLFO CASTRO', 'FARI&Ntilde;AS', 'RUDY');
+insert into politicians(first_name, last_name, nickname) values ('RODOLFO CASTRO', 'FARInAS', 'RUDY');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'ILOCOS NORTE')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('IMELDA ROMUALDEZ', 'MARCOS', 'IMELDA');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'ILOCOS NORTE')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -477,7 +477,7 @@ insert into politicians(first_name, last_name, nickname) values ('HERNAN JR. GON
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '4th District' and parent_id = (select id from locations where parent_id is null and name = 'ILOILO')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('NIEL JR. CAUSING', 'TUPAS', 'JUNJUN');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '5th District' and parent_id = (select id from locations where parent_id is null and name = 'ILOILO')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('JERRY PEREZ', 'TRE&Ntilde;AS', 'JERRY');
+insert into politicians(first_name, last_name, nickname) values ('JERRY PEREZ', 'TREnAS', 'JERRY');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'ILOILO')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('RODOLFO III TAGUINOD', 'ALBANO', 'RODITO');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'ISABELA')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -495,7 +495,7 @@ insert into politicians(first_name, last_name, nickname) values ('EUFRANIO CHAN'
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'LA UNION')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('DANILO RAMON SUBIAGA', 'FERNANDEZ', 'DAN FERNANDEZ');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'LAGUNA')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('JOAQUIN JR. MONTA&Ntilde;ANO', 'CHIPECO', 'JUN');
+insert into politicians(first_name, last_name, nickname) values ('JOAQUIN JR. MONTAnANO', 'CHIPECO', 'JUN');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'LAGUNA')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('MARISOL ARAGONES', 'SAMPELO', 'SOL ARAGONES');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '3rd District' and parent_id = (select id from locations where parent_id is null and name = 'LAGUNA')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -613,7 +613,7 @@ insert into politicians(first_name, last_name, nickname) values ('MAGTANGGOL I T
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'NCR - THIRD DISTRICT')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('JULIO IV ARENAS', 'LEDESMA', 'JULES');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS OCCIDENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('LEO RAFAEL MARA&Ntilde;ON', 'CUEVA', 'BEBO');
+insert into politicians(first_name, last_name, nickname) values ('LEO RAFAEL MARAnON', 'CUEVA', 'BEBO');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS OCCIDENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('ALFREDO ABELARDO BANTUG', 'BENITEZ', 'ALBEE');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '3rd District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS OCCIDENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -625,7 +625,7 @@ insert into politicians(first_name, last_name, nickname) values ('MERCEDES KHO',
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '6th District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS OCCIDENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('EVELIO RAMOS', 'LEONARDIA', 'BING');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS OCCIDENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('MANUEL MARI&Ntilde;O', 'IWAY', 'MANNY');
+insert into politicians(first_name, last_name, nickname) values ('MANUEL MARInO', 'IWAY', 'MANNY');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS ORIENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('GEORGE PLANTO', 'ARNAIZ', 'GEORGE');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'NEGROS ORIENTAL')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -707,7 +707,7 @@ insert into politicians(first_name, last_name, nickname) values ('JOSE JAY SAMSO
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = 'Lone District' and parent_id = (select id from locations where parent_id is null and name = 'SIQUIJOR')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('EVELINA GUEVARA', 'ESCUDERO', 'NANAY');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'SORSOGON')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('DEOGRACIAS JR. BA&Ntilde;ARES', 'RAMOS', 'DING');
+insert into politicians(first_name, last_name, nickname) values ('DEOGRACIAS JR. BAnARES', 'RAMOS', 'DING');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'SORSOGON')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('PEDRO JR. BUSGANO', 'ACHARON', 'JUN ACHARON');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'SOUTH COTABATO')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
@@ -755,7 +755,7 @@ insert into politicians(first_name, last_name, nickname) values ('AURORA ENERIO'
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'ZAMBOANGA DEL SUR')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('CELSO LORENZO', 'LOBREGAT', 'CELSO');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'ZAMBOANGA DEL SUR')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
-insert into politicians(first_name, last_name, nickname) values ('LILIA MACROHON', 'NU&Ntilde;O', 'LIL');
+insert into politicians(first_name, last_name, nickname) values ('LILIA MACROHON', 'NUnO', 'LIL');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '2nd District' and parent_id = (select id from locations where parent_id is null and name = 'ZAMBOANGA DEL SUR')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
 insert into politicians(first_name, last_name, nickname) values ('BELMA ARELLANO', 'CABILAO', 'BEL');
 insert into careers(politician_id, location_id, title, start_date) select (select max(id) from politicians), (select id from locations where name = '1st District' and parent_id = (select id from locations where parent_id is null and name = 'ZAMBOANGA SIBUGAY')), 'CONGRESSMAN', str_to_date('05/13/2013', '%m/%d/%Y');
