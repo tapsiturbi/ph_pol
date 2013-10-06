@@ -4,15 +4,16 @@
 
   <div class="body">
 <% @careers.each do |c| %>
+
     <div class="one_line">
       <div class="subtitle"> <%= c.title.titleize %> </div>
       <div class="location"> <%= c.location.denorm_name.titleize %> </div>
     </div>
 
     <div class="comments">
-      <div class="subtitle"> Comments </div>
-      <div id="cmt_<%= c.id %>">
-        <%= render partial: "comments", locals: { career: c, hash: c.comment_thread } %>
+      <div class="subtitle"> Posts </div>
+      <div id="all_cmt_<%= c.id %>">
+        <%= render partial: "comments", locals: { career: c, hash: c.posts } %>
       </div>
 
       <% if user_signed_in? %>

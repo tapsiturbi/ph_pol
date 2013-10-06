@@ -18,3 +18,20 @@ $(document).ready(function() {
     CKEDITOR.replace(this.id, { extraPlugins: 'divarea' })
   });
 });
+
+function cmt_show_and_ckedify(comment_id, focus) {
+  $('#new_cmt_' + comment_id).show().find('textarea').addClass('ckeditor');
+  if (focus) {
+    CKEDITOR.replace('txt_comment_' + comment_id, {
+      extraPlugins: 'divarea',
+      on: {
+        'instanceReady': function(evt) {
+          CKEDITOR.instances['txt_comment_' + comment_id].focus();
+        }
+      }
+    });
+  } else {
+    CKEDITOR.replace('txt_comment_' + comment_id, { extraPlugins: 'divarea' });
+  }
+}
+

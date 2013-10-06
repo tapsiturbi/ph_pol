@@ -67,6 +67,13 @@ class Career < ActiveRecord::Base
     Comment.includes(:user).where(commentable_id: self.id).hash_tree
   end
 
+  def posts(limit_depth = 3)
+    Comment
+      .includes(:user)
+      .where({commentable_id: self.id, commentable_type: "Career"})
+      .hash_tree(limit_depth: limit_depth)
+  end
+
   def politician_display
     return "#{self.politician.first_name} #{self.politician.last_name}"
   end

@@ -1,7 +1,15 @@
-<% hash.each do |cmt,child| %>
+<%# Default local values %>
+<% max_depth = local_assigns.fetch(:max_depth, 2) %>
+<% max_len = local_assigns.fetch(:max_len, 10) %>
+<% target_comment = local_assigns.fetch(:target_comment, nil) %>
+
+<%# hash_until(hash, max_len, target_comment) %>
+
+<%# (max_len > 0 ? Hash[Array(hash)[0..max_len-1]] : hash).each_pair do |cmt,child| %>
+<% hash_until(hash, max_len, target_comment).each_pair do |cmt, child| %>
   <ul id="cmt_<%= cmt.id %>">
     <li>
-      <%= render partial: "votes", locals: { cmt: cmt } %>
+      <%= render partial: "listing/votes", locals: { cmt: cmt } %>
 
       <div class="user">
         <%= cmt.username_display %>
@@ -9,25 +17,32 @@
           <%= cmt.created_at %>
         </span>
       </div>
+      <% if user_signed_in? %>
+        <div class="actions">
+          <%= link_to "reply", "#", onclick: "cmt_show_and_ckedify(#{cmt.id}, 1); return false;", class: "reply" %>
+        </div>
+      <% end %>
 
       <div class="comment"> <%= cmt.comment.html_safe %> </div>
 
       <% if user_signed_in? %>
-        <div class="actions">
-          <%= link_to "#", onclick: "$('#new_cmt_#{cmt.id}').show().find('textarea').addClass('ckeditor'); CKEDITOR.replace('txt_comment_#{cmt.id}', { extraPlugins: 'divarea', on: { 'instanceReady': function(evt) { CKEDITOR.instances.txt_comment_#{cmt.id}.focus(); }} }); return false;", class: "reply" do %>
-            <%= image_tag "icon_reply.png", width: "12" %>
-            Reply
-          <% end %>
-        </div>
-        <%= render partial: "new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
+        <%= render partial: "listing/new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
       <% end %>
 
       <div style="clear: left;"></div>
-
-      <% if child %>
-        <%= render partial: "comments", locals: { career: career, hash: child } %>
+      <% if !child.blank? %>
+        <% if max_depth-1 > 0 || max_depth < 0 %>
+          <%= render partial: "listing/comments", locals: { career: career, hash: child, max_depth: max_depth - 1, max_len: max_len } %>
+        <% else %>
+          <%= link_to "load more replies (#{pluralize(child.length, 'reply', 'replies')})", comment_path(cmt.id), remote: true %>
+        <% end %>
       <% end %>
 
     </li>
   </ul>
+<% end %>
+
+<% if !max_len.nil? && Hash[Array(hash)[0..max_len-1]].length < hash.length %>
+  <%= link_to "load more comments (#{pluralize(hash.length - Hash[Array(hash)[0..max_len-1]].length, "comment")})", comment_path(id: 0, career_id: career.id), remote: true %>
+
 <% end %>

@@ -31,8 +31,8 @@ class Comment < ActiveRecord::Base
   end
 
   def username_display
-    if self.user && !self.user.username.blank?
-      return self.user.username
+    if !self.user.nil? && (!self.user.username.blank? || !self.user.first_name.blank?)
+      return self.user.username || self.user.first_name
     else
       return "Anonymous"
     end

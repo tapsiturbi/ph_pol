@@ -35,5 +35,20 @@ module ApplicationHelper
       html << "\t</div>\n"
     end
     html
-  end  
+  end
+
+  # Returns the hash filtered either by length or until it hits the target key
+  def hash_until(hash, max_len=nil, target=nil)
+    #(max_len > 0 ? Hash[Array(hash)[0..max_len-1]] : hash)
+
+    if !target.nil? && hash.has_key?(target)
+      return Hash[ Array(hash).take_while { |pair| pair[0] != target } ].merge( Hash[target, hash[target]] )
+
+    elsif !max_len.nil?
+      return Hash[Array(hash)[0..max_len-1]]
+
+    else
+      return hash
+    end
+  end
 end

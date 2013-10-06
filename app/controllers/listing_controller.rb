@@ -47,33 +47,6 @@ class ListingController < ApplicationController
   end
 
   # -- CUD Controllers -------------------------------------
-  # Create comment - called via AJAX from listing#show
-  def create_comment
-    @career = Career.find(params[:career_id])
-    @politician = @career.politician
-
-    # clean up dangerous html elements
-    comment_html = Sanitize.clean(params[:comment][:comment], Sanitize::Config::RELAXED)
-
-    @comment = Comment.new(comment: comment_html, user_id: current_user.id)
-
-    has_parent = false
-    if params.has_key?(:parent_comment_id)
-      parent_comment = Comment.find(params[:parent_comment_id])
-      has_parent = true
-    end
-
-    Comment.transaction do
-      @comment.save
-      @career.add_comment(@comment)
-
-      if has_parent
-        parent_comment.add_child @comment
-      end
-
-      flash[:notice] = "Comment successfully created."
-    end
-  end
 
   # Create vote for a comment
   def create_vote

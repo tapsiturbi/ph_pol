@@ -1,0 +1,30 @@
+<%# Called when an ajax request is made %>
+
+<% if @comment.errors.any? %>
+  $("#flash").hide(300);
+  $("#new_cmt_<%= @comment.id %> comment_errors").html("<%= escape_javascript(errors_for(@comment).html_safe) %>").show(300);
+<% else %>
+  <%# Hide the div post_errors %>
+  $("#new_cmt_<%= @comment.id %> .comment_errors").hide(300);
+  <%# Update the html of the div flash_notice with the new one %>
+  showFlash("<%= escape_javascript(flash[:notice])%>");
+
+  <%# Replace the html of the div post_lists with the updated new one %>
+  <% if @parent_comment.nil? %>
+    $("#all_cmt_<%= @career.id %>").replaceWith("<%= escape_javascript( render(partial: "listing/comments", locals: { career: @career, hash: @career.posts(nil), target_comment: @comment }) ) %>");
+  <% else %>
+    $("#cmt_<%= @parent_comment.id %>").replaceWith("<%= escape_javascript( render(partial: "listing/comments", locals: { career: @career, hash: @parent_comment.hash_tree(limit_depth: 2) }) ) %>");
+  <% end %>
+
+  <%# Clear the entire form %>
+  <% if @parent_comment.nil? %>
+    var instance = CKEDITOR.instances.txt_comment;
+  <% else %>
+    var instance = CKEDITOR.instances.txt_comment_<%= @parent_comment.id%>;
+  <% end %>
+  instance.updateElement();
+  instance.setData('');
+
+  $('html, body').animate({ scrollTop: $('#cmt_<%= @comment.id %>').offset().top }, 'slow');
+
+<% end %>
