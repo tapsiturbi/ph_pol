@@ -51,4 +51,12 @@ module ApplicationHelper
       return hash
     end
   end
+
+  def is_score_too_low(comment)
+    if comment.cached_votes_score <= -3
+      return true
+    end
+
+    return false
+  end
 end

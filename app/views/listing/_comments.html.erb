@@ -2,11 +2,22 @@
 <% max_depth = local_assigns.fetch(:max_depth, 2) %>
 <% max_len = local_assigns.fetch(:max_len, 10) %>
 <% target_comment = local_assigns.fetch(:target_comment, nil) %>
+<% hide_lowscores = local_assigns.fetch(:hide_lowscores, true) %>
 
-<%# hash_until(hash, max_len, target_comment) %>
+<% ranged_hash = hash_until(hash, max_len, target_comment) %>
 
-<%# (max_len > 0 ? Hash[Array(hash)[0..max_len-1]] : hash).each_pair do |cmt,child| %>
-<% hash_until(hash, max_len, target_comment).each_pair do |cmt, child| %>
+<% ranged_hash.each_pair do |cmt, child| %>
+
+  <% if hide_lowscores && is_score_too_low(cmt) %>
+    <ul id="cmt_<%= cmt.id %>" class="lowscore">
+      <li>
+        <span class="user"> (<%= cmt.username_display %>) </span>
+        hidden due to too many downvotes
+        <%= link_to "show", comment_path(cmt.id, hide_lowscores: 0), remote: true %>
+      </li>
+    </ul>
+  <% else %>
+
   <ul id="cmt_<%= cmt.id %>">
     <li>
       <%= render partial: "listing/votes", locals: { cmt: cmt } %>
@@ -40,9 +51,11 @@
 
     </li>
   </ul>
+  <% end %>
+
 <% end %>
 
-<% if !max_len.nil? && Hash[Array(hash)[0..max_len-1]].length < hash.length %>
-  <%= link_to "load more comments (#{pluralize(hash.length - Hash[Array(hash)[0..max_len-1]].length, "comment")})", comment_path(id: 0, career_id: career.id), remote: true %>
+<% if !max_len.nil? && ranged_hash.length < hash.length %>
+  <%= link_to "load more comments (#{pluralize(hash.length - ranged_hash.length, "comment")})", comment_path(id: 0, career_id: career.id), remote: true %>
 
 <% end %>

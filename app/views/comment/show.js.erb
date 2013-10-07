@@ -1,3 +1,4 @@
 
-$('#<%= @target_comment.nil? ? "all_cmt_#{ @career.id }" : "cmt_#{ @target_comment.id }" %>').replaceWith("<%= escape_javascript( render(partial: "listing/comments", locals: { career: @career, hash: @comments, max_depth: 2, max_len: nil }) ) %>");
+// hide_lowscores= <%= @hide_lowscores %>
+$('#<%= @target_comment.nil? ? "all_cmt_#{ @career.id }" : "cmt_#{ @target_comment.id }" %>').replaceWith("<%= escape_javascript( render(partial: "listing/comments", locals: { career: @career, hash: @comments, max_depth: 2, max_len: nil, hide_lowscores: @hide_lowscores }) ) %>");
 

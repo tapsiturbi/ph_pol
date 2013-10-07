@@ -18,6 +18,12 @@ class CommentController < ApplicationController
       @career = Career.find(@target_comment.commentable_id)
       @comments = @target_comment.hash_tree
     end
+
+    if current_user.present?
+      @user_votes = current_user.get_votes_of_pol(@career.politician.id)
+    end
+
+    @hide_lowscores = params.has_key?(:hide_lowscores) && params[:hide_lowscores] == "0" ? false : true;
   end
 
   # Create comment - called via AJAX from listing#show
