@@ -1,5 +1,5 @@
 # For openshift
-source 'http://mirror1.prod.rhcloud.com/mirror/ruby/'
+#source 'http://mirror1.prod.rhcloud.com/mirror/ruby/'
 
 source 'https://rubygems.org'
 
@@ -49,6 +49,7 @@ end
 
 
 # Devise GEM used for user signin
+gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
