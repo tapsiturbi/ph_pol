@@ -30,6 +30,8 @@ class Comment < ActiveRecord::Base
       .order("cached_votes_score desc")
   end
 
+
+  # -- Methods ----------
   def username_display
     if !self.user.nil? && (!self.user.username.blank? || !self.user.first_name.blank?)
       return self.user.username || self.user.first_name
@@ -37,6 +39,5 @@ class Comment < ActiveRecord::Base
       return "Anonymous"
     end
   end
-
 
 end

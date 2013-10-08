@@ -23,7 +23,7 @@
       <%= render partial: "listing/votes", locals: { cmt: cmt } %>
 
       <div class="user">
-        <%= cmt.username_display %>
+        <%= cmt.username_display %> (<%= cmt.user.cached_score if !cmt.user.nil? %>)
         <span class="date">
           <%= cmt.created_at %>
         </span>

@@ -41,7 +41,7 @@
               <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
             </li>
             <li>
-              <%= link_to "Cancel my account", registration_path(:user), :confirm => "Are you sure?", :method => :delete %>
+              <%= link_to "Cancel my account", registration_path(:user), data: { confirm:  "Are you sure?" }, method: :delete %>
             </li>
           </ul>
 

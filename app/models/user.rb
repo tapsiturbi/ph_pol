@@ -47,4 +47,9 @@ class User < ActiveRecord::Base
     user
   end
 
+  def update_cache
+    self.cached_score = Comment.where(user_id: self.id).sum(:cached_votes_score)
+    self.save
+  end
+
 end

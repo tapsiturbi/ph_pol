@@ -74,6 +74,9 @@ class ListingController < ApplicationController
       end
     end
 
+    if !@comment.user.nil?
+      @comment.user.update_cache
+    end
     @user_votes = current_user.get_votes_of_pol(@comment.commentable.politician.id)
   end
 
