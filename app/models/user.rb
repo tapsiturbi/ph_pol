@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 #   validates :last_name, presence: true
 
   #has_many :links, dependent: :destroy
+  has_many :comments
 
   # -- acts_as_votable ------------
   acts_as_voter
@@ -24,10 +25,6 @@ class User < ActiveRecord::Base
   #recommends :comments, :users
 
   #-- Scopes -----------------
-  def get_votes_of_pol(politician_id)
-    return self.get_voted(Comment).where(comments: {id: Career.with_comments_no_group.where(politician_id: politician_id).select("comments.id")}).select("comments.id, votes.vote_flag").collect {|c| [c.id, c.vote_flag]}
-  end
-
   # lookup if FB user exists in database, and creates one if not
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -47,9 +44,24 @@ class User < ActiveRecord::Base
     user
   end
 
+  def self.with_most_comments
+    joins(:comments)
+      .select('users.*, count(comments.id) as num_comments')
+      .group("users.#{User.column_names.join(', users.')}")
+  end
+
+  #-- Methods -----------------
+  def get_votes_of_pol(politician_id)
+    return self.get_voted(Comment).where(comments: {id: Career.with_comments_no_group.where(politician_id: politician_id).select("comments.id")}).select("comments.id, votes.vote_flag").collect {|c| [c.id, c.vote_flag]}
+  end
+
   def update_cache
     self.cached_score = Comment.where(user_id: self.id).sum(:cached_votes_score)
     self.save
   end
 
+  def created_at_pretty
+    self.created_at.strftime("%b %d %Y")
+  end
+  
 end

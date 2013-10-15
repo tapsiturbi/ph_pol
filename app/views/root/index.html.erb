@@ -14,11 +14,11 @@
 
       <div class="user">
         <%= cmt.username_display %>
-        <span class="date"> <%= cmt.created_at %> </span>
+        <span class="date"> <%= cmt.created_at_pretty %> </span>
       </div>
       <div class="comment">
         <div class="votes"> <%= cmt.cached_votes_score %> </div>
-        <%= cmt.comment %>
+        <%= cmt.comment.html_safe %>
       </div>
       <div style="clear: left;"></div>
     </a>
@@ -26,6 +26,22 @@
   </div>
 </div>
 
+
+<div class="pretty_box">
+  <div class="title">Most Active Users</div>
+  <div class="body">
+    <% @active_users.each do |u| %>
+    <a class="one_line" href="<%= users_profile_path(u.id) %>">
+      <div class="avatar"><%= image_tag( u.avatar? ? u.avatar : "empty_avatar.png", title: "Profile Pic", alt: u.first_name, width: "24px") %></div>
+      <%= u.first_name %> (<%= u.cached_score %>)
+
+      <div class="num_comments">
+        <%= pluralize u.num_comments, "comment" %>
+      </div>
+    </a>
+    <% end %>
+  </div>
+</div>
 
 <div class="pretty_box controversial">
   <div class="title">Controversial</div>

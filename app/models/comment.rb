@@ -30,7 +30,6 @@ class Comment < ActiveRecord::Base
       .order("cached_votes_score desc")
   end
 
-
   # -- Methods ----------
   def username_display
     if !self.user.nil? && (!self.user.username.blank? || !self.user.first_name.blank?)
@@ -40,4 +39,13 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  def career
+    Rails.cache.fetch("cmt_career_#{self.commentable_id}") do
+      Career.find(self.commentable_id)
+    end
+  end
+
+  def created_at_pretty
+    self.created_at.strftime("%b %d %Y %l:%M%p")
+  end
 end

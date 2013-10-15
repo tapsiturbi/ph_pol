@@ -1,13 +1,20 @@
 <div id="vote_<%= cmt.id %>" class="votes">
-
-  <%= link_to listing_vote_create_path(cmt, 1), remote: true, class: "upvote #{ "upchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 }", title: "Upvote" do %>
-    <div></div>
+  <% if user_signed_in? && cmt.user == current_user %>
+    <div class="upvote"><div></div></div>
+  <% else %>
+    <%= link_to listing_vote_create_path(cmt, 1), remote: true, class: "upvote #{ "upchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 }", title: "Upvote" do %>
+      <div></div>
+    <% end %>
   <% end %>
 
   <span> <%= cmt.cached_votes_score %> </span>
 
-  <%= link_to listing_vote_create_path(cmt, 0), remote: true, class: "downvote #{ "downchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 }", title: "Downvote" do %>
-    <div></div>
+  <% if user_signed_in? && cmt.user == current_user %>
+    <div class="downvote"><div></div></div>
+  <% else %>
+    <%= link_to listing_vote_create_path(cmt, 0), remote: true, class: "downvote #{ "downchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 }", title: "Downvote" do %>
+      <div></div>
+    <% end %>
   <% end %>
 </div>
 

@@ -3,7 +3,17 @@ class Users::ProfileController < ApplicationController
     @user = current_user
   end
 
-  def save
+  def show
+    @user = User.find(params[:id])
+
+    #@comments = Career.with_loc_and_pol.with_comments_and_user
+    #@comments = Comment.joins(:user).where("users.id = ?", params[:id])
+
+    @careers = Career.with_comments_from_user(params[:id])
+  end
+
+
+  def update
     @user = current_user
     #puts params[:user].permit(:avatar, :email, :first_name, :last_name)
 

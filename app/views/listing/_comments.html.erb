@@ -23,9 +23,9 @@
       <%= render partial: "listing/votes", locals: { cmt: cmt } %>
 
       <div class="user">
-        <%= cmt.username_display %> (<%= cmt.user.cached_score if !cmt.user.nil? %>)
+        <%= cmt.user.nil? ? cmt.username_display : link_to(cmt.username_display, users_profile_path(cmt.user.id)) %> (<%= cmt.user.cached_score if !cmt.user.nil? %>)
         <span class="date">
-          <%= cmt.created_at %>
+          <%= cmt.created_at_pretty %>
         </span>
       </div>
       <% if user_signed_in? %>

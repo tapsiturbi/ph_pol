@@ -11,4 +11,5 @@ class Location < ActiveRecord::Base
   def self.municipality(province_id)
     return province_id.blank? ? nil : self.where("parent_id = ?", province_id)
   end
+
 end

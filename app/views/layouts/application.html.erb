@@ -33,7 +33,7 @@
                 <div class="avatar"><%= image_tag( current_user.avatar? ? current_user.avatar : "empty_avatar.png", title: "Profile Pic", alt: current_user.email, width: "64px") %></div>
                 <%= current_user.first_name %> <br/>
                 <%= current_user.email %> <br/>
-                <%= link_to "edit profile", users_profile_edit_path %>
+                <%= link_to "edit profile", edit_users_profile_path(current_user) %>
                 <div style="clear: left;"></div>
               </div>
             </li>

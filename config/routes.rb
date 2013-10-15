@@ -19,8 +19,11 @@ PhPol::Application.routes.draw do
 
   resources :comment, only: [:show, :create, :destroy]
 
-  get '/users/profile/edit', to: 'users/profile#edit'
-  patch '/users/profile/save', to: 'users/profile#save'
+  #get '/users/profile/edit', to: 'users/profile#edit'
+  #patch '/users/profile/save', to: 'users/profile#save'
+  namespace :users do
+    resources :profile, only: [:edit, :update, :show]
+  end
 
   # utility pages
   post 'util/municipal/:id', to: 'util#municipal', as: :util_municipal

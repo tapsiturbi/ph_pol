@@ -1,0 +1,59 @@
+
+<%= title "User Profile" %>
+
+
+  <div class="body">
+
+    <div class="one_line">
+      <div class="avatar">
+        <%= image_tag( @user.avatar? ? @user.avatar : "empty_avatar.png", title: "Profile Pic", width: "64px") %>
+      </div>
+
+      <div class="subtitle"> <%= @user.first_name %> <%= @user.last_name %> </div>
+      <div class="date"> Member since <%= @user.created_at_pretty %> </div>
+
+      <div class="score">
+        vote score: <span class="<%= @user.cached_score > 0 ? "pos" : "neg" %>"><%= @user.cached_score %></span>
+      </div>
+      <div style="clear: left;"></div>
+    </div>
+
+    <div class="comments">
+    <% @careers.each do |career| %>
+      <div class="subtitle"> Posts for <%= link_to "#{career.politician_display} (#{career.location_display})", listing_path(career.politician_id) %> </div>
+
+      <% career.comments_by_user(@user.id).each do |cmt| %>
+        <ul id="cmt_<%= cmt.id %>">
+        <li>
+          <%= render partial: "listing/votes", locals: { cmt: cmt } %>
+
+          <div class="user">
+            <span class="date">
+              <%= cmt.created_at_pretty %>
+            </span>
+          </div>
+
+          <% if user_signed_in? && @user != current_user %>
+            <div class="actions">
+              <%= link_to "reply", "#", onclick: "cmt_show_and_ckedify(#{cmt.id}, 1); return false;", class: "reply" %>
+            </div>
+          <% end %>
+
+          <div class="comment"> <%= cmt.comment.html_safe %> </div>
+
+          <% if user_signed_in? %>
+            <%= render partial: "listing/new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
+          <% end %>
+
+          <div style="clear: left;"></div>
+
+        </li>
+      </ul>
+
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+
+
+<div style="clear: both;"></div>

@@ -27,6 +27,12 @@ class Career < ActiveRecord::Base
     joins("INNER JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
   end
 
+  def self.with_comments_from_user(user_id)
+    joins("INNER JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
+    .where("comments.user_id = ?", user_id)
+    .group("careers.id, careers.start_date, careers.end_date, careers.title, careers.politician_id, careers.location_id, careers.created_at, careers.updated_at")
+  end
+
   def self.current
     where(careers: {end_date: nil})
   end
@@ -63,6 +69,14 @@ class Career < ActiveRecord::Base
     end
   end
 
+  #-- Methods ----------------------------
+
+  def comments_by_user(user_id)
+    Rails.cache.fetch("car_cmt_user_#{self.id}_#{user_id}") do
+      comments.where("user_id = ?", user_id)
+    end
+  end
+
   def comment_thread
     Comment.includes(:user).where(commentable_id: self.id).hash_tree
   end
@@ -75,6 +89,14 @@ class Career < ActiveRecord::Base
   end
 
   def politician_display
-    return "#{self.politician.first_name} #{self.politician.last_name}"
+    Rails.cache.fetch("car_pol_disp_#{self.id}") do
+      "#{self.politician.first_name} #{self.politician.last_name}"
+    end
+  end
+
+  def location_display
+    Rails.cache.fetch("car_loc_disp_#{self.id}") do
+      self.location.denorm_name
+    end
   end
 end

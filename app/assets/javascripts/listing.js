@@ -13,11 +13,11 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
   }
 });
 
-$(document).ready(function() {
+function auto_ckedify() {
   $('textarea.ckeditor').each(function() {
     CKEDITOR.replace(this.id, { extraPlugins: 'divarea' })
   });
-});
+}
 
 function cmt_show_and_ckedify(comment_id, focus) {
   $('#new_cmt_' + comment_id).show().find('textarea').addClass('ckeditor');
@@ -35,3 +35,5 @@ function cmt_show_and_ckedify(comment_id, focus) {
   }
 }
 
+$(document).ready(auto_ckedify);
+$(document).on('page:load', auto_ckedify);
