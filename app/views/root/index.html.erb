@@ -2,7 +2,18 @@
 
 <%= title "Home" %>
 
+<% content_for :topbody do %>
+<div style="width: 960px; margin: 0 auto; height: 450px; background: #000 url('<%= image_path('luneta.jpg')%>') no-repeat 0px -250px;">
+  <%# image_tag('luneta.jpg', {style: "width: 960px; position: absolute; z-index: -1; "}) %>
+  <div style="margin: 0; padding: 100px 0 0 150px; color: #FFF; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); text-transform: uppercase; font-family: passion_oneregular; font-size: 40px; ">
+    <%= Rails.application.config.site_name %>
+  </div>
 
+  <%= link_to("Find out about politicians in your location >", listing_index_path,{ style: "padding-left: 150px; color: #aaa;"}) %>
+</div>
+<% end %>
+
+<% if !@top_comments.blank? %>
 <div class="pretty_box top_comments">
   <div class="title">Top Comments</div>
   <div class="body">
@@ -25,8 +36,9 @@
     <% end %>
   </div>
 </div>
+<% end %>
 
-
+<% if !@active_users.blank? %>
 <div class="pretty_box">
   <div class="title">Most Active Users</div>
   <div class="body">
@@ -42,7 +54,9 @@
     <% end %>
   </div>
 </div>
+<% end %>
 
+<% if !@controversial.blank? %>
 <div class="pretty_box controversial">
   <div class="title">Controversial</div>
   <div class="body">
@@ -58,5 +72,6 @@
     <% end %>
   </div>
 </div>
+<% end %>
 
 <div style="clear: both;"></div>
