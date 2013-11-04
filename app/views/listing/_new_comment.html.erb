@@ -1,8 +1,21 @@
 <div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="div_form" style="<%= 'display: none;' if !visible %>">
   <div class="title"> Post Comment </div>
 
-  <%= form_for comment, remote: true, url: comment_index_path, html: { id: "new_comment_#{ cmt ? cmt.id : '' }" } do |f| %>
+  <%= form_for [comment,PolImage.new], url: comment_index_path, html: { id: "new_comment_#{ cmt ? cmt.id : '' }", multipart: true } do |f| %>
     <div class="comment_errors"></div>
+
+    <div class="mini_div_form">
+      <div class="subtitle">Add Photo</div>
+      <%= f.hidden_field :file_cache %>
+      <div class="field_line">
+        <%= f.label(:file, 'Upload from file') %>
+        <%= f.file_field :file %>
+      </div>
+      <div class="field_line">
+        <%= f.label(:remote_file_url, 'Or from URL') %>
+        <%= f.text_field :remote_file_url %>
+      </div>
+    </div>
 
 
     <%= hidden_field_tag :career_id, c.id %>

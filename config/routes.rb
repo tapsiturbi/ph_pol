@@ -15,7 +15,7 @@ PhPol::Application.routes.draw do
   get '/listing', to: 'listing#index', as: :listing_index
   get '/listing/:id', to: 'listing#show', as: :listing
   get '/listing/:id/vote/:vote', to: 'listing#create_vote', as: :listing_vote_create
-  #post '/listing/:id/:career_id/image', to: 'listing#create_image', as: :listing_image_create
+  post '/listing/:id/:career_id/image', to: 'listing#create_image', as: :listing_image_create
 
   resources :comment, only: [:show, :create, :destroy]
 

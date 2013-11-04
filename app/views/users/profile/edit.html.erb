@@ -17,7 +17,7 @@
     <div class="title"> Profile Photo </div>
     <div style="padding: 5px; ">
       <div class="avatar">
-        <%= image_tag( current_user.avatar? ? current_user.avatar : "empty_avatar.png", title: "Profile Pic", width: "64px") %>
+        <%= current_user.avatar? ? cl_image_tag(current_user.avatar, title: "Profile Pic", alt: current_user.email, width: "64px") : image_tag("empty_avatar.png", title: "Profile Pic") %>
       </div>
       <%= f.hidden_field :avatar_cache %>
       <%= f.file_field :avatar %>

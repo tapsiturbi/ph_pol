@@ -88,9 +88,11 @@ class ListingController < ApplicationController
 
       @image = PolImage.new
       @image.career = @career
-      if params[:pol_image][:remote_file_url]
+      if params[:pol_image].has_key?(:remote_file_url) && !params[:pol_image][:remote_file_url].blank?
+        puts "saving with remote_file_url"
         @image.remote_file_url = params[:pol_image][:remote_file_url]
       else
+        puts "saving with file"
         @image.file = params[:pol_image][:file]
       end
       

@@ -30,7 +30,7 @@
           <ul class="sub cmd_list" style="width: 220px; top: 15px; left: -80px;">
             <li>
               <div class="profile">
-                <div class="avatar"><%= image_tag( current_user.avatar? ? current_user.avatar : "empty_avatar.png", title: "Profile Pic", alt: current_user.email, width: "64px") %></div>
+                <div class="avatar"><%= current_user.avatar? ? cl_image_tag(current_user.avatar, title: "Profile Pic", alt: current_user.email, width: "64px") : image_tag("empty_avatar.png", title: "Profile Pic") %></div>
                 <%= current_user.first_name %> <br/>
                 <%= current_user.email %> <br/>
                 <%= link_to "edit profile", edit_users_profile_path(current_user) %>

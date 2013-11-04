@@ -34,6 +34,9 @@
         </div>
       <% end %>
 
+      <% if !cmt.pol_image.nil? %>
+        <div class="photos"><%= cl_image_tag cmt.pol_image.file_url(:medium) %></div>
+      <% end %>
       <div class="comment"> <%= cmt.comment.html_safe %> </div>
 
       <% if user_signed_in? %>

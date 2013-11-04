@@ -6,14 +6,14 @@
 
     <div class="one_line">
       <div class="avatar">
-        <%= image_tag( @user.avatar? ? @user.avatar : "empty_avatar.png", title: "Profile Pic", width: "64px") %>
+        <%= @user.avatar? ? cl_image_tag( @user.avatar, title: "Profile Pic", width: "64px") : image_tag("empty_avatar.png", width: "64px") %>
       </div>
 
       <div class="subtitle"> <%= @user.first_name %> <%= @user.last_name %> </div>
       <div class="date"> Member since <%= @user.created_at_pretty %> </div>
 
       <div class="score">
-        vote score: <span class="<%= @user.cached_score > 0 ? "pos" : "neg" %>"><%= @user.cached_score %></span>
+        vote score: <span class="<%= (@user.cached_score.nil? || @user.cached_score > 0) ? "pos" : "neg" %>"><%= @user.cached_score.nil? ? 0 : @user.cached_score %></span>
       </div>
       <div style="clear: left;"></div>
     </div>

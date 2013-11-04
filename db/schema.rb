@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131007160134) do
+ActiveRecord::Schema.define(version: 20131104060804) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20131007160134) do
     t.integer  "career_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "comment_id"
   end
 
   add_index "pol_images", ["career_id"], name: "index_pol_images_on_career_id", using: :btree

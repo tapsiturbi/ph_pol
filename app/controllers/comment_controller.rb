@@ -28,11 +28,13 @@ class CommentController < ApplicationController
 
   # Create comment - called via AJAX from listing#show
   def create
+    puts "-- START ------------------"
+    puts params
     @career = Career.find(params[:career_id])
     @politician = @career.politician
 
     # clean up dangerous html elements
-    comment_html = Sanitize.clean(params[:comment][:comment], Sanitize::Config::RELAXED)
+    comment_html = Sanitize.clean(params[:pol_image][:comment], Sanitize::Config::RELAXED)
 
     @comment = Comment.new(comment: comment_html, user_id: current_user.id)
 
@@ -41,7 +43,24 @@ class CommentController < ApplicationController
       @parent_comment = Comment.find(params[:parent_comment_id])
     end
 
+    # image
+    @new_image = nil
+    #@image = PolImage.new
+    if params[:pol_image].has_key?(:remote_file_url) && !params[:pol_image][:remote_file_url].blank?
+      @new_image = PolImage.new
+      @new_image.remote_file_url = params[:pol_image][:remote_file_url]
+    elsif params[:pol_image].has_key?(:file) && !params[:pol_image][:file].blank?
+      @new_image = PolImage.new
+      @new_image.file = params[:pol_image][:file]
+    end
+
     Comment.transaction do
+
+      if !@new_image.nil?
+        @new_image.save
+        @comment.pol_image = @new_image
+      end
+
       @comment.save
       @career.add_comment(@comment)
 
@@ -51,6 +70,8 @@ class CommentController < ApplicationController
 
       flash[:notice] = "Comment successfully created."
     end
+
+    redirect_to listing_path(@politician.id)
   end
 
 end

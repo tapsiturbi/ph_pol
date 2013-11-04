@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: tapsiturbi
+  api_key: '527216654489313'
+  api_secret: 1_YhMlWil9uM9eI93lR2T99Ha_s
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: tapsiturbi
+  api_key: '527216654489313'
+  api_secret: 1_YhMlWil9uM9eI93lR2T99Ha_s
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: tapsiturbi
+  api_key: '527216654489313'
+  api_secret: 1_YhMlWil9uM9eI93lR2T99Ha_s
+  enhance_image_tag: true
+  static_image_support: false
