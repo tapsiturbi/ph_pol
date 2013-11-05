@@ -30,5 +30,7 @@ module PhPol
     # Site-wide variables
     config.site_name = "Politikahan"
 
+    # include all js and css files in prod compilation
+    config.assets.precompile += %w( *.js *.css )
   end
 end
