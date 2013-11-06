@@ -82,4 +82,4 @@ gem 'rails_12factor', group: :production
 gem 'sanitize'
 
 # CKEditor gem
-gem 'ckeditor', :git => "git@github.com:galetahub/ckeditor.git"
+gem 'ckeditor', :git => "git://github.com/galetahub/ckeditor.git"
