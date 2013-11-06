@@ -29,24 +29,24 @@ test:
   password: levy
   host: localhost
 
-heroku_production:
-  adapter: mysql2
-  encoding: utf8
-  database: heroku_5d46d08f5c403c6
-  pool: 5
-  username: b31e60d449da97
-  password: 51767198
-  host: localhost
-
-# openshift
 production:
   adapter: mysql2
   encoding: utf8
-  database: <%=ENV['OPENSHIFT_APP_NAME']%>
+  database: heroku_a4862763b7bf694
   pool: 5
-  host: <%=ENV['OPENSHIFT_MYSQL_DB_HOST']%>
-  port: <%=ENV['OPENSHIFT_MYSQL_DB_PORT']%>
-  username: <%=ENV['OPENSHIFT_MYSQL_DB_USERNAME']%>
-  password: <%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%>
-  socket: <%=ENV['OPENSHIFT_MYSQL_DB_SOCKET']%>
+  username: bc951ec90534ba
+  password: 204722f1
+  host: localhost
+
+# openshift
+# production:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: <%=ENV['OPENSHIFT_APP_NAME']%>
+#   pool: 5
+#   host: <%=ENV['OPENSHIFT_MYSQL_DB_HOST']%>
+#   port: <%=ENV['OPENSHIFT_MYSQL_DB_PORT']%>
+#   username: <%=ENV['OPENSHIFT_MYSQL_DB_USERNAME']%>
+#   password: <%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%>
+#   socket: <%=ENV['OPENSHIFT_MYSQL_DB_SOCKET']%>
 
