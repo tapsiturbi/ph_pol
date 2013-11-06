@@ -80,3 +80,6 @@ gem 'rails_12factor', group: :production
 
 # sanitizer to prevent malicious js code on comments
 gem 'sanitize'
+
+# CKEditor gem
+gem 'ckeditor', :git => "git@github.com:galetahub/ckeditor.git"

@@ -25,10 +25,12 @@
 
     <div class="field_line">
       <%= f.text_area :comment, cols: 80, rows: 8, id: "txt_comment#{ cmt ? "_" + cmt.id.to_s : '' }", class: "comment_body #{'ckeditor' if visible}" %>
+
+      <%# f.cktext_area :comment, class: "comment_body", id: "txt_comment#{ cmt ? "_" + cmt.id.to_s : '' }" %>
     </div>
 
     <div class="field_line">
-      <%= f.submit %>
+      <%= f.submit "Post" %>
     </div>
   <% end %>
 </div>

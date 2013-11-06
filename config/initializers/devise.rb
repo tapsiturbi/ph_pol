@@ -12,6 +12,8 @@ Devise.setup do |config|
     config.omniauth :facebook, "590932047612874", "ed7195ee33e7670a5d2f37fd65066229"
   end
 
+  config.secret_key = '194cd72fa65640ea27748ef1a7f74d69617ba9ab6ffd7af3a180f3fcc6b8ef01860fc4a6ddd5ae6f8b10082c46ff38be4a6e9efea34ad4b06de2155ca389a993'
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
