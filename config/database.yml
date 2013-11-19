@@ -29,14 +29,14 @@ test:
   password: levy
   host: localhost
 
-production:
-  adapter: mysql2
-  encoding: utf8
-  database: heroku_a4862763b7bf694
-  pool: 5
-  username: bc951ec90534ba
-  password: 204722f1
-  host: localhost
+# production:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: heroku_a4862763b7bf694
+#   pool: 5
+#   username: bc951ec90534ba
+#   password: 204722f1
+#   host: localhost
 
 # openshift
 # production:
@@ -50,3 +50,11 @@ production:
 #   password: <%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%>
 #   socket: <%=ENV['OPENSHIFT_MYSQL_DB_SOCKET']%>
 
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: poolitika_db
+  pool: 5
+  username: tapsiturbi
+  password: PASSWORD
+  host: mysql.poolitika.com
