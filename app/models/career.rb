@@ -14,8 +14,8 @@ class Career < ActiveRecord::Base
       .joins(:comments)
       .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
       .select("count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
-      .having("count(comments.id) > 0")
-      .order("count(comments.id) desc")
+      .having("num_comments > 0")
+      .order("num_comments desc")
   end
 
   def self.with_comments
@@ -47,7 +47,7 @@ class Career < ActiveRecord::Base
 
   def self.search(keywords)
     if keywords && !keywords.blank?
-      where('locations.denorm_name ilike :keywords or politicians.first_name ilike :keywords or politicians.last_name ilike :keywords or careers.title ilike :keywords ', {keywords: "%#{keywords}%"})
+      where('locations.denorm_name like :keywords or politicians.first_name like :keywords or politicians.last_name like :keywords or careers.title like :keywords ', {keywords: "%#{keywords}%"})
     else
       all
     end

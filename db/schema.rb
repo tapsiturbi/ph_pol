@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(version: 20131104060804) do
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "links", force: true do |t|
+    t.integer  "user_id"
+    t.string   "url"
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "locations", force: true do |t|
     t.integer  "parent_id"
     t.datetime "created_at"

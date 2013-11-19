@@ -26,7 +26,7 @@ insert into politicians(first_name, last_name, nickname) values ('antonio', 'tri
 insert into politicians(first_name, last_name, nickname) values ('cynthia', 'villar', null);
 
 insert into careers(start_date, title, politician_id, location_id)
-  select to_date('05/13/2013', 'MM/DD/YYYY'), 'senator', id,
+  select str_to_date('05/13/2013', '%m/%d/%Y'), 'senator', id,
     (select id from locations where name = 'nationwide')
   from politicians
   where id >= (
