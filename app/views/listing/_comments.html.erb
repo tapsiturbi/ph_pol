@@ -31,6 +31,8 @@
       <% if user_signed_in? %>
         <div class="actions">
           <%= link_to "reply", "#", onclick: "cmt_show_and_ckedify(#{cmt.id}, 1); return false;", class: "reply" %>
+
+          <div class="fb-share-button" data-href="<%= listing_path(career.politician.id, cmt_id: cmt.id) %>" data-type="button"></div>
         </div>
       <% end %>
 

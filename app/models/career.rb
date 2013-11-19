@@ -81,11 +81,18 @@ class Career < ActiveRecord::Base
     Comment.includes(:user).where(commentable_id: self.id).hash_tree
   end
 
-  def posts(limit_depth = 3)
-    Comment
-      .includes(:user)
-      .where({commentable_id: self.id, commentable_type: "Career"})
-      .hash_tree(limit_depth: limit_depth)
+  def posts(limit_depth = 3, target_cmt_id = nil)
+    if target_cmt_id.blank?
+      return Comment
+              .includes(:user)
+              .where({commentable_id: self.id, commentable_type: "Career"})
+              .hash_tree(limit_depth: limit_depth)
+    else
+      return Comment
+              .includes(:user)
+              .where({commentable_id: self.id, commentable_type: "Career", id: target_cmt_id })
+              .hash_tree(limit_depth: limit_depth)
+    end
   end
 
   def politician_display

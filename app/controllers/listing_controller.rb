@@ -32,6 +32,7 @@ class ListingController < ApplicationController
   # Displays one politician and all comments tied to him/her
   def show
     @politician = Politician.find(params[:id])
+    @target_cmt_id = params[:cmt_id]
 
     @careers = Career.with_loc_and_pol.where(politician_id: @politician.id)
 

@@ -7,9 +7,12 @@ Devise.setup do |config|
   # FB dev
   if Rails.env.production?
     config.omniauth :facebook, "530271243721210", "869b603a38de42b0d5005babab145257"
+    Rails.application.config.facebook_app_id = "530271243721210"
   else
     OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development? 
     config.omniauth :facebook, "590932047612874", "ed7195ee33e7670a5d2f37fd65066229"
+
+    Rails.application.config.facebook_app_id = "590932047612874"
   end
 
   config.secret_key = '194cd72fa65640ea27748ef1a7f74d69617ba9ab6ffd7af3a180f3fcc6b8ef01860fc4a6ddd5ae6f8b10082c46ff38be4a6e9efea34ad4b06de2155ca389a993'

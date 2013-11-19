@@ -10,40 +10,18 @@
       <div class="location"> <%= c.location.denorm_name.titleize %> </div>
     </div>
 
-<% if false %>
-    <div class="photos">
-      <div class="subtitle">Photos</div>
-
-      <%= render partial: "photos", locals: { c: c } %>
-
-      <% if user_signed_in? %>
-        <div id="new_image" class="div_form" style="width: 400px;">
-          <div class="title">Add Photo</div>
-          <div id="new_image_errors"></div>
-          <%= form_for @new_image, url: listing_image_create_path(career_id: c.id), html: {multipart: true} do |f| %>
-            <%= f.hidden_field :file_cache %>
-
-            <div class="field_line">
-              <%= f.label(:file, 'Upload from file') %>
-              <%= f.file_field :file %>
-            </div>
-            <div class="field_line">
-              <%= f.label(:remote_file_url, 'Or from URL') %>
-              <%= f.text_field :remote_file_url %>
-            </div>
-            <div class="field_line">
-              <%= f.submit "Submit" %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-<% end %>
-
     <div class="comments">
       <div class="subtitle"> Posts </div>
       <div id="all_cmt_<%= c.id %>">
-        <%= render partial: "comments", locals: { career: c, hash: c.posts } %>
+
+        <% if !@target_cmt_id.blank? %>
+          <div class="notif_header">
+            Showing single post
+            <%= link_to "show other posts", listing_path(@politician.id) %>
+          </div>
+        <% end %>
+
+        <%= render partial: "comments", locals: { career: c, hash: c.posts(3, @target_cmt_id) } %>
       </div>
 
       <% if user_signed_in? %>
