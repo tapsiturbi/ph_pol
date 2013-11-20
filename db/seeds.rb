@@ -40,12 +40,13 @@ end
 
 
 # add denorm name of all locations
-ActiveRecord::Base.connection.execute("update locations as l
-    inner join (
-        select c.id, COALESCE(CONCAT(c.name, ', ', p.name), c.name) as denorm_name
+ActiveRecord::Base.connection.execute("update locations
+set denorm_name = c.denorm_name
+from (
+select c.id, case when c.parent_id is null then c.name else CONCAT(c.name, ', ', p.name) end as denorm_name
         from locations c
             left join locations p on p.id = c.parent_id
-    ) as c on c.id = l.id
-set l.denorm_name = c.denorm_name")
+) c
+where c.id = locations.id")
 
 

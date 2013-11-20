@@ -123,7 +123,7 @@ insert into politicians(last_name) values ('ALLUMAD');
 insert into politicians(last_name) values ('AG');
 
 insert into careers(start_date, title, politician_id, location_id)
-  select str_to_date('05/13/2013', '%m/%d/%Y'), 'party-list', id,
+  select to_date('05/13/2013', 'MM/DD/YYYY'), 'party-list', id,
     (select id from locations where name = 'nationwide')
   from politicians
   where id >= (
