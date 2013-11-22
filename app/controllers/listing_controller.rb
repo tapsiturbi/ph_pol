@@ -8,15 +8,16 @@ class ListingController < ApplicationController
     @province_id = (params[:province] and !params[:province][:id].blank?) ? params[:province][:id] : ""
 
     # Retrieve info for dropdown
-    @provinces = Location.provinces
+    @nationwide = Location.get_nationwide
+    @provinces = Location.provinces.where('id != ?', @nationwide.id).collect {|p| [p.name.capitalize, p.id]}.insert(0, [@nationwide.name.capitalize, @nationwide.id])
     @municipals = Location.municipality(@province_id)
-
 
     # get Politicians based on their current career
     # -- we split these into two variables, one for pagination, one for looping thru
     #    all the records. This is necessary because all pagination gems gets confused
     #    if the query has groups/LEFT JOINs
     @careers = Career.current
+      .select_title_heirarchy
       .with_loc_and_pol
       .search(params[:search])
       .in_municipal(@municipal_id)
@@ -109,10 +110,10 @@ class ListingController < ApplicationController
 
   private
   def sort_column
-    %w[locations.denorm_name politicians.first_name politicians.last_name careers.title num_comments].include?(params[:sort]) ? params[:sort] : "num_comments"
+    %w[locations.denorm_name politicians.first_name politicians.last_name title_heirarchy num_comments].include?(params[:sort]) ? params[:sort] : "title_heirarchy"
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

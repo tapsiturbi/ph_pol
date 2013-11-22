@@ -34,3 +34,16 @@ insert into careers(start_date, title, politician_id, location_id)
     from politicians
     where first_name = 'franklin' and last_name = 'drilon'
   );
+
+
+insert into politicians(first_name, last_name, nickname) values ('BENIGNO SIMEON', 'AQUINO III', 'NOYNOY');
+insert into careers(start_date, title, politician_id, location_id)
+  select to_date('05/13/2010', 'MM/DD/YYYY'), 'PRESIDENT', id, (select id from locations where name = 'nationwide')
+  from politicians
+  where nickname = 'NOYNOY' and last_name = 'AQUINO III';
+
+insert into politicians(first_name, last_name, nickname) values ('JEJOMAR', 'BINAY', null);
+insert into careers(start_date, title, politician_id, location_id)
+  select to_date('05/13/2010', 'MM/DD/YYYY'), 'VICE-PRESIDENT', id, (select id from locations where name = 'nationwide')
+  from politicians
+  where last_name = 'BINAY' and first_name = 'JEJOMAR';

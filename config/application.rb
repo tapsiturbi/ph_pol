@@ -28,7 +28,7 @@ module PhPol
     config.action_view.sanitized_allowed_tags =  %w(table tr td th)
 
     # Site-wide variables
-    config.site_name = "Politikahan"
+    config.site_name = "Poolitikahan.com"
 
   end
 end

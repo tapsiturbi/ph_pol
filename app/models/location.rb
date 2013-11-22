@@ -12,4 +12,8 @@ class Location < ActiveRecord::Base
     return province_id.blank? ? nil : self.where("parent_id = ?", province_id)
   end
 
+  def self.get_nationwide
+    where("lower(name) = 'nationwide'").first
+  end
+
 end

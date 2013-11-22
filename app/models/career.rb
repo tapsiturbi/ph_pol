@@ -21,7 +21,7 @@ class Career < ActiveRecord::Base
   def self.with_comments
     joins("LEFT JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
       .group("careers.id, careers.title, locations.id, locations.denorm_name, politicians.id, politicians.first_name, politicians.last_name")
-      .select("sum(comments.cached_votes_score) as num_votes, count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name")
+      .select("sum(comments.cached_votes_score) as num_votes, count(comments.id) as num_comments, careers.id, careers.title, locations.id, locations.denorm_name as location_denorm_name, politicians.id as politician_id, politicians.first_name as politician_first_name, politicians.last_name as politician_last_name, politicians.nickname as politician_nickname")
   end
   def self.with_comments_no_group
     joins("INNER JOIN comments ON comments.commentable_id = careers.id AND comments.commentable_type = 'Career'")
@@ -67,6 +67,20 @@ class Career < ActiveRecord::Base
     else
       all
     end
+  end
+
+  # adds sql select that allows us to sort by heirarcy (pres, vice pres, senator, etc)
+  def self.select_title_heirarchy
+    select("case when upper(careers.title) = 'PRESIDENT' then 1
+          when upper(careers.title) = 'VICE-PRESIDENT' then 2
+          when upper(careers.title) = 'SENATOR' then 3
+          when upper(careers.title) in ('CONGRESSMAN', 'ASSEMBLYMAN') then 4
+          when upper(careers.title) in ('GOVERNOR', 'PROVINCIAL GOVERNOR') then 5
+          when upper(careers.title) in ('VICE-GOVERNOR', 'PROVINCIAL VICE-GOVERNOR') then 6
+          when upper(careers.title) in ('MAYOR', 'CITY MAYOR') then 7
+          when upper(careers.title) in ('VICE-MAYOR', 'CITY VICE-MAYOR') then 8
+          else 9
+          end as title_heirarchy")
   end
 
   #-- Methods ----------------------------

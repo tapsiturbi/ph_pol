@@ -38,6 +38,23 @@ sql.split(';').each do |sql_statement|
   ActiveRecord::Base.connection.execute(sql_statement)
 end
 
+sql = File.open("db/seed_04_senators.sql").read
+sql.split(';').each do |sql_statement|
+  sql_statement.strip!
+  if sql_statement.empty?
+    next
+  end
+  ActiveRecord::Base.connection.execute(sql_statement)
+end
+
+sql = File.open("db/seed_05_partylist.sql").read
+sql.split(';').each do |sql_statement|
+  sql_statement.strip!
+  if sql_statement.empty?
+    next
+  end
+  ActiveRecord::Base.connection.execute(sql_statement)
+end
 
 # add denorm name of all locations
 ActiveRecord::Base.connection.execute("update locations
