@@ -25,7 +25,7 @@ class ListingController < ApplicationController
       .page(params[:page])
 
     @careers_with_comments = @careers
-      .order(sort_column + " " + sort_direction)
+      .order(sort_column + " " + sort_direction + ", politicians.id")
       .with_comments
 
   end
