@@ -74,7 +74,7 @@ class Career < ActiveRecord::Base
     select("case when upper(careers.title) = 'PRESIDENT' then 1
           when upper(careers.title) = 'VICE-PRESIDENT' then 2
           when upper(careers.title) = 'SENATOR' then 3
-          when upper(careers.title) in ('CONGRESSMAN', 'ASSEMBLYMAN') then 4
+          when upper(careers.title) in ('CONGRESSMAN', 'ASSEMBLYMAN', 'PARTY-LIST') then 4
           when upper(careers.title) in ('GOVERNOR', 'PROVINCIAL GOVERNOR') then 5
           when upper(careers.title) in ('VICE-GOVERNOR', 'PROVINCIAL VICE-GOVERNOR') then 6
           when upper(careers.title) in ('MAYOR', 'CITY MAYOR') then 7

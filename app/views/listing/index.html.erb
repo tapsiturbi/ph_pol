@@ -48,7 +48,7 @@
   <tr>
     <td align='center'> <%= c.num_comments %> </td>
     <td align='center'> <%= c.title %> </td>
-    <td> <%= c.politician_first_name.capitalize %> <%= c.politician_nickname.blank? ? "" : "'#{c.politician_nickname.upcase}'" %> <%= c.politician_last_name.capitalize %> </td>
+    <td> <%= c.politician_first_name.blank? ? "" : c.politician_first_name.capitalize %> <%= c.politician_nickname.blank? ? "" : "'#{c.politician_nickname.upcase}'" %> <%= c.politician_last_name.capitalize %> </td>
     <td align='center'> <%= c.location_denorm_name %> </td>
     <td> <%= link_to 'Details', listing_path(c.politician_id) %></td>
   </tr>
