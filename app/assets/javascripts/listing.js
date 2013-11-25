@@ -12,13 +12,13 @@ var CKEDITOR_TOOLBAR = [
 ];
 
 function auto_ckedify() {
-  $('textarea.ckeditor').each(function() {
+  $('textarea.ph_ckeditor').each(function() {
     CKEDITOR.replace(this.id, { toolbar: CKEDITOR_TOOLBAR });
   });
 }
 
 function cmt_show_and_ckedify(comment_id, focus) {
-  $('#new_cmt_' + comment_id).show().find('textarea').addClass('ckeditor');
+  $('#new_cmt_' + comment_id).show().find('textarea').addClass('ph_ckeditor');
   if (focus) {
     CKEDITOR.replace('txt_comment_' + comment_id, {
       toolbar: CKEDITOR_TOOLBAR,
