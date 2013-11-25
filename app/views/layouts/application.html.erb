@@ -81,19 +81,18 @@
 
                     <br/>
                     <%= f.submit 'Sign in' %>
-                    <%= link_to "Forgot your password?", new_password_path('user') %>
+                    <%= link_to "Forgot your password?", new_password_path('user'), "data-no-turbolink" => true %>
                   <% end %>
                 </div>
 
-                <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+                <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), "data-no-turbolink" => true %>
               </li>
             </ul>
         </li>
         <li>
-          <a href="<%= new_user_registration_path %>">
-            <%= image_tag("icon_user.png", title: "Register") %> <br/>
-            Register
-          </a>
+          <%= link_to new_user_registration_path, "data-no-turbolink" => true do %>
+            <%= image_tag("icon_user.png", title: "Register") %> <br/>Register
+          <% end %>
         </li>
       <% end %>
       <li>

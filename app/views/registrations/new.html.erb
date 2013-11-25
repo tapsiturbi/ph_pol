@@ -5,17 +5,17 @@
   <%= devise_error_messages! %>
 
   <div class="title"> Account Information </div>
-  <div class="field_line">
+  <div class="field_line required">
     <%= f.label :email, "Email" %>
     <%= f.email_field :email, autofocus: true %>
   </div>
 
-  <div class="field_line">
+  <div class="field_line required">
     <%= f.label :password %>
     <%= f.password_field :password %>
   </div>
 
-  <div class="field_line">
+  <div class="field_line required">
     <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation %>
   </div>
