@@ -1,0 +1,35 @@
+<%
+  # Required variables:
+  # count - total number of rows
+  # page_size - page size
+  # page_number - current page
+
+  # Set variables
+  last_page = (Float(count.nil? ? 0 : count) / page_size).ceil
+%>
+
+<% if last_page > 1 %>
+<nav class="pagination">
+  <% if page_number > 1 %>
+    <span class="prev">
+      <a href="?page=<%= page_number - 1%>" rel="prev">Prev</a>
+    </span>
+  <% end %>
+
+<% (1..last_page).each do |i| %>
+  <% if page_number == i %>
+    <span class="page current"> <%= i %> </span>
+  <% else %>
+    <span class="page"> <a href="?page=<%= i %>"><%= i %></a> </span>
+  <% end %>
+<% end %>
+
+  <% if page_number < last_page %>
+    <span class="next">
+      <a href="?page=<%= page_number + 1%>" rel="next">Next</a>
+    </span>
+  <% end %>
+
+
+</nav>
+<% end %>

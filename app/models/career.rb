@@ -95,18 +95,34 @@ class Career < ActiveRecord::Base
     Comment.includes(:user).where(commentable_id: self.id).hash_tree
   end
 
-  def posts(limit_depth = 3, target_cmt_id = nil)
-    if target_cmt_id.blank?
-      return Comment
-              .includes(:user)
+  # Returns an hash/object containing the following:
+  #     :count = total number of rows
+  #     :hash = hash_tree of all posts that are within the page_number/page_size range
+  #     :page_number = page_number from parameter
+  #     :page_size = page_size from parameter
+  def posts(target_cmt_id = nil, page_number = 1, page_size = 3, limit_depth = 3)
+    puts "limit_depth = #{limit_depth}, page_number=#{page_number}, page_size=#{page_size}"
+    query = Comment
+              .includes(:user, :external_link, :pol_image)
               .where({commentable_id: self.id, commentable_type: "Career"})
-              .hash_tree(limit_depth: limit_depth)
-    else
-      return Comment
-              .includes(:user)
-              .where({commentable_id: self.id, commentable_type: "Career", id: target_cmt_id })
-              .hash_tree(limit_depth: limit_depth)
+
+    if !target_cmt_id.blank?
+      query = query.where({id: target_cmt_id })
     end
+
+    hash = query.hash_tree(limit_depth: limit_depth)
+    count = hash.length
+
+    # Pagination
+    # * not very efficient - only does the filter after the hash has been saved
+    # in RAM
+    if !page_number.nil? && !page_size.nil?
+      start_idx = (page_number-1) * page_size
+      end_idx = (page_number * page_size) - 1
+      hash = Hash[Array(hash)[start_idx..end_idx]]
+    end
+
+    return { count: count, hash: hash, page_number: page_number, page_size: page_size }
   end
 
   def politician_display

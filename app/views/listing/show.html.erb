@@ -21,7 +21,7 @@
           </div>
         <% end %>
 
-        <%= render partial: "comments", locals: { career: c, hash: c.posts(3, @target_cmt_id) } %>
+        <%= render partial: "comments", locals: { career: c, posts: c.posts(target_cmt_id = @target_cmt_id, page_number = @page) } %>
       </div>
 
       <% if user_signed_in? %>

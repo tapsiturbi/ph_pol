@@ -32,6 +32,7 @@ class ListingController < ApplicationController
 
   # Displays one politician and all comments tied to him/her
   def show
+    @page = (params.has_key?(:page) ? params[:page].to_i : 1)
     @politician = Politician.find(params[:id])
     @target_cmt_id = params[:cmt_id]
 

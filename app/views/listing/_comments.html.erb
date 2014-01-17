@@ -1,12 +1,14 @@
 <%# Default local values %>
 <% max_depth = local_assigns.fetch(:max_depth, 2) %>
-<% max_len = local_assigns.fetch(:max_len, 10) %>
 <% target_comment = local_assigns.fetch(:target_comment, nil) %>
 <% hide_lowscores = local_assigns.fetch(:hide_lowscores, true) %>
+<% show_paginate = local_assigns.fetch(:show_paginate, true) %>
 
-<% ranged_hash = hash_until(hash, max_len, target_comment) %>
+<% if show_paginate %>
+  <%= render partial: "listing/paginate", locals: { count: posts[:count], page_size: posts[:page_size], page_number: posts[:page_number] } %>
+<% end %>
 
-<% ranged_hash.each_pair do |cmt, child| %>
+<% posts[:hash].each_pair do |cmt, child| %>
 
   <% if hide_lowscores && is_score_too_low(cmt) %>
     <ul id="cmt_<%= cmt.id %>" class="lowscore">
@@ -59,7 +61,7 @@
       <div style="clear: left;"></div>
       <% if !child.blank? %>
         <% if max_depth-1 > 0 || max_depth < 0 %>
-          <%= render partial: "listing/comments", locals: { career: career, hash: child, max_depth: max_depth - 1, max_len: max_len } %>
+          <%= render partial: "listing/comments", locals: { career: career, posts: { count: child.length, hash: child, page_size: posts[:page_size], page_number: posts[:page_number] }, max_depth: max_depth - 1, show_paginate: false} %>
         <% else %>
           <%= link_to "load more replies (#{pluralize(child.length, 'reply', 'replies')})", comment_path(cmt.id), remote: true %>
         <% end %>
@@ -71,7 +73,6 @@
 
 <% end %>
 
-<% if !max_len.nil? && ranged_hash.length < hash.length %>
-  <%= link_to "load more comments (#{pluralize(hash.length - ranged_hash.length, "comment")})", comment_path(id: 0, career_id: career.id), remote: true %>
-
+<% if show_paginate %>
+  <%= render partial: "listing/paginate", locals: { count: posts[:count], page_size: posts[:page_size], page_number: posts[:page_number] } %>
 <% end %>
