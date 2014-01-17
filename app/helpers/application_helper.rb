@@ -59,4 +59,28 @@ module ApplicationHelper
 
     return false
   end
+
+  # Performs a HTTP GET to the specified URL. Returns a hash containing the following
+  # info:
+  # { images: all_imgs, title: subject, desc: og_desc, link: url }
+  def http_get_og_data (url)
+    http = Curl.get(url)
+    html = http.body_str
+
+    # Find all images and put them in list, put og:image meta first if it exists
+    og_image = html.scan(/<meta\s+property=['"]?og:image['"]?[^>]*content=['"]?([^'"]*)/).flatten.first
+
+    all_imgs = html.scan(/<img src=['"]([^'"]*)/).flatten.uniq
+    if !og_image.empty?
+      all_imgs.unshift(og_image)
+    end
+
+    # Find subject/title
+    subject = html.scan(/<title[^>]*>([^<]*)<\/title>/).flatten.first
+
+    # Description
+    og_desc = html.scan(/<meta\s+property=['"]?og:description['"]?.*content=['"]?([^'"]*)/).flatten.first
+
+    return { images: all_imgs, title: subject, desc: og_desc, link: url }
+  end
 end

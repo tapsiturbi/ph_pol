@@ -1,4 +1,6 @@
 class CommentController < ApplicationController
+  include ApplicationHelper
+
   # Show either all comments or all replies under a comment
   # - can pass either Comment.id (:id) or Career.id(:career_id)
   def show
@@ -28,8 +30,8 @@ class CommentController < ApplicationController
 
   # Create comment - called via AJAX from listing#show
   def create
-    puts "-- START ------------------"
-    puts params
+    #puts "-- START ------------------"
+    #puts params
     @career = Career.find(params[:career_id])
     @politician = @career.politician
 
@@ -54,6 +56,15 @@ class CommentController < ApplicationController
       @new_image.file = params[:pol_image][:file]
     end
 
+    # link_url
+    @external_link = nil
+    if params.has_key?(:link_url) && !params[:link_url].blank?
+      og_data = http_get_og_data(params[:link_url])
+
+      #{ images: all_imgs, title: subject, desc: og_desc, link: url }
+      @external_link = ExternalLink.new(link_url: params[:link_url], image_url: (og_data[:images].nil? || og_data[:images].empty? ? "" : og_data[:images].first), title: og_data[:title], description: og_data[:desc])
+    end
+
     Comment.transaction do
 
       if !@new_image.nil?
@@ -66,6 +77,11 @@ class CommentController < ApplicationController
 
       if !@parent_comment.nil?
         @parent_comment.add_child @comment
+      end
+
+      if !@external_link.nil?
+        @external_link.comment = @comment
+        @external_link.save
       end
 
       flash[:notice] = "Comment successfully created."

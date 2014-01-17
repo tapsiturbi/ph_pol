@@ -39,6 +39,17 @@
       <% if !cmt.pol_image.nil? %>
         <div class="photos"><%= cl_image_tag cmt.pol_image.file_url(:medium) %></div>
       <% end %>
+
+      <% if !cmt.external_link.nil? %>
+        <div class="link_preview">
+          <% if !cmt.external_link.image_url.blank? %> <img src="<%= cmt.external_link.image_url %>" /> <% end %>
+          <span class='headline'><%= cmt.external_link.title.try(:html_safe) %></span><br/>
+          <span class='desc'><%= cmt.external_link.description.try(:html_safe) %></span>
+          <br/><a class='link_url' href='<%= cmt.external_link.link_url %>'>read more</a>
+          <div style="clear: left;"></div>
+        </div>
+      <% end %>
+
       <div class="comment"> <%= cmt.comment.html_safe %> </div>
 
       <% if user_signed_in? %>

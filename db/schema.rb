@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131104060804) do
+ActiveRecord::Schema.define(version: 20140113175236) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -58,6 +58,18 @@ ActiveRecord::Schema.define(version: 20131104060804) do
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "external_links", force: true do |t|
+    t.integer  "comment_id"
+    t.string   "link_url"
+    t.string   "image_url"
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "external_links", ["comment_id"], name: "index_external_links_on_comment_id", using: :btree
 
   create_table "locations", force: true do |t|
     t.integer  "parent_id"

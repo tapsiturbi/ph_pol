@@ -85,3 +85,6 @@ gem 'sanitize'
 
 # CKEditor gem
 gem 'ckeditor', :git => "git://github.com/galetahub/ckeditor.git"
+
+# Curl
+gem 'curb'

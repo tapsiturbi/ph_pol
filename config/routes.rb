@@ -27,6 +27,7 @@ PhPol::Application.routes.draw do
 
   # utility pages
   post 'util/municipal/:id', to: 'util#municipal', as: :util_municipal
+  get 'util/http_get/', to: 'util#http_get', as: :util_httpget
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

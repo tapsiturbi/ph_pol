@@ -8,6 +8,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
   belongs_to :user
   has_one :pol_image
+  has_one :external_link
 
   # -- closure tree -----------
   acts_as_tree name_column: "comment", order: "cached_votes_score desc"

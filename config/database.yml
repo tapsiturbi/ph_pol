@@ -39,12 +39,12 @@ test:
   host: localhost
 
 production:
-  adapter: mysql2
+  adapter: postgresql
   encoding: utf8
-  database: heroku_a4862763b7bf694
+  database: ph_pol_development
   pool: 5
-  username: bc951ec90534ba
-  password: 204722f1
+  username: psql_levy
+  password: levy
   host: localhost
 
 # openshift

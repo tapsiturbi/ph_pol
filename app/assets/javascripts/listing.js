@@ -1,13 +1,8 @@
 
 var CKEDITOR_TOOLBAR = [
   { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Preview'] },
-  { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: ['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-  { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll'] },
+  { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: ['PasteText', 'PasteFromWord'] },
   { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
-  { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
-  { name: 'links', items: [ 'Link', 'Unlink'] },
-  '/',
-  { name: 'styles', items: [ 'Font', 'FontSize' ] },
   { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
 ];
 
@@ -35,3 +30,21 @@ function cmt_show_and_ckedify(comment_id, focus) {
 
 $(document).ready(auto_ckedify);
 $(document).on('page:load', auto_ckedify);
+
+// Adds onkeyup event to textbox that executes a function after a certain number 
+// of seconds
+function bind_on_keyup(elem, func_to_call) {
+  var typingTimer;                //timer identifier
+  var doneTypingInterval = 1000;  //time in ms, 1 second for example
+
+  //on keyup, start the countdown
+  $(elem).keyup(function(){
+      clearTimeout(typingTimer);
+      if ($(elem).val) {
+          typingTimer = setTimeout(function () {
+            func_to_call(elem);
+          }, doneTypingInterval);
+      }
+  });
+}
+
