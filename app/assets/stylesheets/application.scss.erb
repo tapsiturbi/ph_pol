@@ -8,6 +8,11 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *
+ *= require jquery.ui.core
+ *= require jquery.ui.theme
+ *= require jquery.ui.button
+ *= require jquery.ui.accordion
  *= require_self
  *= require_tree .
  */
@@ -169,3 +174,21 @@ h1.page_title {margin: 15px; }
 
 .link_preview > img { float: left; margin-right: 5px; max-width: 150px;}
 .link_preview .title { background-color: transparent; color: black; padding: 0;}
+
+
+.ui-state-default .ui-icon-check-sel { background-image: url(<%= asset_path('ui-icons_f08000_256x240.png') %>); background-position: -64px -144px; }
+
+.ui-widget-content .title { border-bottom: 1px solid #aaa; padding: 10px 5px; }
+
+.ui-widget-content .ui-button-orange {
+        border: 1px solid #cdc3b7;
+        background: #ede4d4/*{bgColorDefault}*/ url(<%= asset_path('ui-bg_glass_70_ede4d4_1x400.png') %>)/*{bgImgUrlDefault}*/ 50%/*{bgDefaultXPos}*/ 50%/*{bgDefaultYPos}*/ repeat-x/*{bgDefaultRepeat}*/;
+        font-weight: normal;
+        color: #3f3731;
+}
+
+.ui-widget-content .ui-button-orange.ui-state-hover {
+  border: 1px solid #f5ad66;
+  background: #f5f0e5 url(<%= asset_path('ui-bg_glass_100_f5f0e5_1x400.png') %>) 50% 50% repeat-x;
+  color: #a46313;
+}

@@ -11,6 +11,8 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.ui.button
+//= require jquery.ui.accordion
 //= require jquery_ujs
 //= require turbolinks
 //= require ckeditor/override
@@ -20,3 +22,9 @@
 function showFlash(msg) {
   $("#flash").html("<div class='flash_notice'>" + msg + "</div>").show(300).delay(5000).fadeOut('slow');
 }
+
+$.expr[":"].icontains = $.expr.createPseudo(function(arg) {
+    return function( elem ) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+    };
+});

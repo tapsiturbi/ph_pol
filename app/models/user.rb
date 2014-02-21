@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   #has_many :links, dependent: :destroy
   has_many :comments
 
+  has_many :location_users, dependent: :destroy
+  #has_and_belongs_to_many :locations
+  has_many :locations, through: :location_users, order: "locations.denorm_sort asc"
+
   # -- acts_as_votable ------------
   acts_as_voter
 

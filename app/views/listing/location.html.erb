@@ -1,0 +1,75 @@
+
+<%= title "Find Politicians In Your Area" %>
+
+<% unless @curr_locations.empty? %>
+  <div>
+    <h3>Selected locations</h3>
+    <ul>
+    <% @curr_locations.each do |loc|  %>
+      <%= loc.denorm_name %> <br/>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_tag listing_location_path, :method => 'post', :id => "location_search" do %>
+  <%# class="ui-widget-content ui-corner-all" %>
+  <div id="accordion">
+    <h3> Step 1: Select Your Province </h3>
+    <div>
+      <%= text_field_tag(:p_search,nil,{class: "u-widget ui-corner-all ui-widget-content", size: 50, style: "height: 25px; margin: 10px 5px;", placeholder: "Filter"}) %>
+      <div id="provinces" style="height: 300px; overflow-y: scroll;">
+        <% @provinces.each do |p| %>
+          <%= check_box_tag("p_#{p[1]}", p[1], false, { name: "prov[]" } ) %>
+          <%= label_tag("p_#{p[1]}", p[0]) %>
+        <% end %>
+      </div>
+      <%= button_tag "Next", id: "btn_next", class: "ui-button-orange" %>
+    </div>
+
+    <h3> Step 2: Select Municipalities </h3>
+    <div>
+      <%= text_field_tag(:m_search,nil,{class: "u-widget ui-corner-all ui-widget-content", size: 50, style: "height: 25px; margin: 10px 5px;", placeholder: "Filter"}) %>
+
+      <%= check_box_tag("mun", "", false, { style: "display: none;" } ) %>
+
+      <div id="municipals" style="height: 300px; overflow-y: scroll;"></div>
+      <%= button_tag "Next", id: "btn_next2", class: "ui-button-orange" %>
+    </div>
+
+    <h3> Step 3: Confirm </h3>
+    <div>
+      <p>These are the politicians on your selected Provinces and Municipalities</p>
+      <div id="politicians"></div>
+      <%= button_tag "Confirm", id: "btn_next3", class: "ui-button-orange" %>
+    </div>
+  </div>
+<% end %>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    buttonify_checkbox('#provinces input');
+
+    $('#btn_next').button({ icons: { primary: "ui-icon-play" } }).click(function(evt) {
+      $('#accordion').accordion('option', 'active', 1);
+      ajax_populate_municipals('<%= CGI.unescape util_municipal_url("{id}") %>');
+      evt.preventDefault();
+    });
+    $('#btn_next2').button({ icons: { primary: "ui-icon-play" } }).click(function(evt) {
+      $('#accordion').accordion('option', 'active', 2);
+      ajax_populate_politicians('<%= CGI.unescape util_politicians_url %>');
+      evt.preventDefault();
+    });
+    $('#btn_next3').button({ icons: { secondary: "ui-icon-circle-check" } });
+
+
+
+    $('#accordion').accordion();
+
+    filter_onkeyup("#p_search", "#provinces input");
+    filter_onkeyup("#m_search", "#municipals input");
+  });
+</script>
+

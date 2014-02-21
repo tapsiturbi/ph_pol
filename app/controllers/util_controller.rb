@@ -4,9 +4,20 @@ class UtilController < ApplicationController
   # Returns JSON object of all municipals under a given ID
   def municipal
     # params[:id] is the location.id of the dropdown
-    @municipals = Location.where("parent_id = ?", params[:id]).select("name, id").order("name asc")
+    parent_ids = params[:id].include?(",") ? params[:id].split(",") : params[:id]
+    @municipals = Location.where(parent_id: parent_ids).select("name, id, parent_id").order("name asc")
 
     render :json => @municipals
+  end
+
+  # Returns JSON object of all politicians under the given locations
+  def politicians
+    # params[:loc_ids] is the location.id of the dropdown
+    municipal_ids = params[:loc_ids].include?(",") ? params[:loc_ids].split(",") : [params[:loc_ids]]
+
+    @pol = Politician.joins(:careers).where("careers.location_id in (select id from locations where id in (:municipal_ids) UNION ALL select parent_id from locations where id in (:municipal_ids) )", { municipal_ids: municipal_ids }).select("politicians.id, politicians.first_name, politicians.last_name, careers.title, careers.location_id").select_title_heirarchy.order("careers.location_id, title_heirarchy")
+
+    render :json => @pol
   end
 
   # Performs a HTTP GET to a URL specified in the parameter 'u' and returns

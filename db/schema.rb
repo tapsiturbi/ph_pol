@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140113175236) do
+ActiveRecord::Schema.define(version: 20140221080730) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -71,12 +71,20 @@ ActiveRecord::Schema.define(version: 20140113175236) do
 
   add_index "external_links", ["comment_id"], name: "index_external_links_on_comment_id", using: :btree
 
+  create_table "location_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "location_id"
+  end
+
+  add_index "location_users", ["user_id", "location_id"], name: "index_location_users_on_user_id_and_location_id", using: :btree
+
   create_table "locations", force: true do |t|
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
     t.string   "denorm_name"
+    t.string   "denorm_sort"
   end
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree

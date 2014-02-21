@@ -49,6 +49,16 @@ class ListingController < ApplicationController
 
   end
 
+  # Allow users to select province/location
+  def location
+    # Retrieve info for dropdown
+    @nationwide = Location.get_nationwide
+    @provinces = Location.provinces.where('id != ?', @nationwide.id).collect {|p| [p.name.capitalize, p.id]}.insert(0, [@nationwide.name.capitalize, @nationwide.id])
+
+    # Retrieve previously selected locations
+    @curr_locations = current_user.present? ? current_user.locations : []
+  end
+
   # -- CUD Controllers -------------------------------------
 
   # Create vote for a comment
@@ -107,6 +117,26 @@ class ListingController < ApplicationController
     end
 
     redirect_to listing_path(params[:id])
+  end
+
+  # Set location
+  def create_location_pref
+    # if user signed up, save to db
+    # if not, save to cookies
+
+    if current_user.present?
+
+      locations = Location.find(params[:prov]+params[:mun])
+
+      if current_user.locations.length > 0
+        current_user.locations.delete_all
+      end
+      current_user.locations << locations
+
+      flash[:notice] = "Locations added successfully"
+    end
+
+    redirect_to root_path
   end
 
   private
