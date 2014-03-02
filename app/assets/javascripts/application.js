@@ -17,6 +17,10 @@
 //= require turbolinks
 //= require ckeditor/override
 //= require ckeditor/init
+
+// Loads all Bootstrap javascripts
+//= require bootstrap
+
 //= require_tree .
 
 function showFlash(msg) {

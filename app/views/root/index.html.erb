@@ -2,6 +2,9 @@
 
 <%= title "Home" %>
 
+<%
+=begin
+%>
 <% content_for :topbody do %>
 <div style="width: 960px; margin: 0 auto; height: 450px; background: #000 url('<%= image_path('luneta.jpg')%>') no-repeat 0px -250px;">
   <%# image_tag('luneta.jpg', {style: "width: 960px; position: absolute; z-index: -1; "}) %>
@@ -13,31 +16,81 @@
 </div>
 <% end %>
 
-<% if !@top_comments.blank? %>
-<div class="pretty_box top_comments">
-  <div class="title">Top Comments</div>
+<% unless @pol_in_location.empty? %>
+<div class="pretty_box controversial">
+  <div class="title">In Your Location</div>
   <div class="body">
-    <% @top_comments.each do |cmt| %>
-    <a class="one_line" href="<%= listing_path(cmt.commentable.politician.id) %>">
+    <% @pol_in_location.each do |c| %>
+    <a class="one_line" href="<%= listing_path(c.politician.id) %>">
       <div class="politician">
-        <%= cmt.commentable.politician_display.titleize %> (<%= cmt.commentable.title.titleize %> - <%= cmt.commentable.location.denorm_name.titleize %>)
+        <%= c.politician_display.titleize %> (<%= c.title.titleize %>)
       </div>
-
-      <div class="user">
-        <%= cmt.username_display %>
-        <span class="date"> <%= cmt.created_at_pretty %> </span>
+      <div class="num_comments">
+        <%= pluralize c.num_comments, "comment" %>
       </div>
-      <div class="comment">
-        <div class="votes"> <%= cmt.cached_votes_score %> </div>
-        <%= cmt.comment.html_safe %>
-      </div>
-      <div style="clear: left;"></div>
     </a>
     <% end %>
   </div>
 </div>
+<%end %>
+<%
+=end
+%>
+
+<% if !@top_comments.blank? %>
+
+  <h2 class="page-header">Recommended Posts</h2>
+  <% @top_comments.each do |cmt| %>
+    <div class="row" style="margin: 20px 0;">
+      <div class="col-md-2">
+        <% if !cmt.pol_image.nil? %> <%= cl_image_tag cmt.pol_image.file_url(:medium) %> <% end %>
+        <% if !cmt.external_link.blank? && !cmt.external_link.image_url.blank? %> <img src="<%= cmt.external_link.image_url %>" class="img-responsive" /> <% end %>
+      </div>
+      <div class="col-md-9">
+
+        <ol class="breadcrumb">
+          <li><a href="<%= listing_path(cmt.commentable.politician.id) %>"><%= cmt.commentable.politician_display.titleize %></a></li>
+          <li><%= cmt.commentable.title.titleize %></li>
+          <% unless cmt.commentable.location.name.upcase == 'NATIONWIDE' %>
+          <li><%= cmt.commentable.location.denorm_name.titleize %></li>
+          <% end %>
+        </ol>
+
+        <% if cmt.external_link.blank? %>
+          <h3><%= cmt.comment.try(:html_safe)%></h3>
+        <% else %>
+          <h3>
+            <%= cmt.external_link.title.try(:html_safe) %>
+            <br/><a class='small' href='<%= cmt.external_link.link_url %>'><%= cmt.external_link.link_url %></a>
+          </h3>
+
+          <p><%= cmt.external_link.description.try(:html_safe) %></p>
+        <% end %>
+
+
+        <h6 style="margin:2em 0 0 0;"> Posted by <%= cmt.user.nil? ? cmt.username_display : link_to(cmt.username_display, users_profile_path(cmt.user.id)) %>
+          <span class="badge"><%= cmt.user.cached_score if !cmt.user.nil? %></span>
+          <br/><small><%= cmt.created_at_pretty %></small>
+        </h6><br/>
+
+        <a href="<%= listing_path(cmt.commentable.politician.id) %>">
+          <span class="glyphicon glyphicon-comment"></span>
+          <%= pluralize cmt.children.count, "comment" %>
+        </a>
+
+      </div>
+
+      <div class="col-md-1">
+        <%= render partial: "listing/votes", locals: { cmt: cmt } %>
+      </div>
+    </div>
+  <% end %>
+
 <% end %>
 
+<%
+=begin
+%>
 <% if !@active_users.blank? %>
 <div class="pretty_box">
   <div class="title">Most Active Users</div>
@@ -75,3 +128,7 @@
 <% end %>
 
 <div style="clear: both;"></div>
+
+<%
+=end
+%>

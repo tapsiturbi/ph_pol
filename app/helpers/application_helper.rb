@@ -83,4 +83,12 @@ module ApplicationHelper
 
     return { images: all_imgs, title: subject, desc: og_desc, link: url }
   end
+
+  def trunc (str, maxlen)
+    if str.length <= maxlen
+      return str
+    end
+
+    return str[0..maxlen-3] + "..."
+  end
 end

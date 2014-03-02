@@ -20,6 +20,75 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 <%#-- Logo and Menu bar ----------------------------%>
+<div class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <div class="navbar-brand"> <%= Rails.application.config.site_name %> </div>
+    </div>
+
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"> <a href="<%= root_path %>"> Home </a> </li>
+        <li> <a class="blog-nav-item" href="<%= listing_index_path %>">Search</a> </li>
+
+      <%# user is logged in, show log out link %>
+      <% if current_user.present? %>
+
+        <li class="dropdown">
+          <a href='#' data-toggle='dropdown'>Profile <b class='caret'></b></a>
+
+          <div class="dropdown-menu" style="padding: 10px 5px;">
+            <div class="avatar"><%= current_user.avatar? ? cl_image_tag(current_user.avatar, title: "Profile Pic", alt: current_user.email, width: "64px") : image_tag("empty_avatar.png", title: "Profile Pic") %></div>
+            <%= current_user.first_name %> <br/>
+            <%= current_user.email %> <br/>
+            <%= link_to "edit profile", edit_users_profile_path(current_user) %>
+            <div class="divider"></div>
+            <%= link_to "Cancel my account", registration_path(:user), data: { confirm:  "Are you sure?" }, method: :delete %>
+          </div>
+        </li>
+
+        <li>
+          <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+        </li>
+
+      <% else %>
+
+        <li> <%= link_to "Sign Up", new_user_registration_path, "data-no-turbolink" => true %> </li>
+
+        <li class="dropdown">
+          <%= link_to new_user_session_path, class: "blog-nav-item", "data-toggle" => "dropdown" do %>
+            Sign In
+            <b class='caret'></b>
+          <% end %>
+
+          <div class="dropdown-menu" style="padding: 10px 5px;">
+            <%= form_for("user", :url => user_session_path) do |f| %>
+              <%= f.text_field :email, placeholder: "Email", style: "margin-bottom: 5px;" %>
+              <%= f.password_field :password, placeholder: "Password", style: "margin-bottom: 5px;" %>
+
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me, class: "string optional" %>
+
+              <br/>
+              <%= f.submit 'Sign in', class: "btn btn-primary" %>
+
+              <br/>
+            <% end %>
+
+            <div class="divider"></div>
+            <%= link_to "Forgot your password?", new_password_path('user'), "data-no-turbolink" => true %>
+            <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), "data-no-turbolink" => true %>
+          </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<%
+=begin
+%>
 <div id="topbar">
   <div id="inner_topbar">
     <div class="logo">
@@ -132,6 +201,10 @@
   });
 </script>
 
+<%
+=end
+%>
+
 <div id="flash">
   <% if notice %>
     <script type="text/javascript"> showFlash("<%= escape_javascript(notice)%>"); </script>
@@ -141,17 +214,20 @@
   <% end %>
 </div>
 
-<div id="page_title">
-  <h1><%= content_for(:title) %></h1>
-</div>
 
-<div id="topbody"><%= yield :topbody %></div>
+<div class="container-fluid">
+  <div id="page_title">
+    <h1><%= content_for(:title) %></h1>
+  </div>
 
-<div id="mainbody">
-  <%= yield %>
-</div>
+  <div id="topbody"><%= yield :topbody %></div>
 
-<div id="mainfooter">
+  <div id="mainbody">
+    <%= yield %>
+  </div>
+
+  <div id="mainfooter">
+  </div>
 </div>
 
 </body>

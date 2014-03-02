@@ -9,27 +9,26 @@
 %>
 
 <% if last_page > 1 %>
-<nav class="pagination">
+<ul class="pagination">
   <% if page_number > 1 %>
-    <span class="prev">
-      <a href="?page=<%= page_number - 1%>" rel="prev">Prev</a>
-    </span>
+    <li> <a href="?page=<%= page_number - 1%>" rel="prev">&laquo;</a> </li>
+  <% else %>
+    <li class="disabled"> <a rel="prev">&laquo;</a> </li>
   <% end %>
 
 <% (1..last_page).each do |i| %>
   <% if page_number == i %>
-    <span class="page current"> <%= i %> </span>
+    <li class='active'> <a href='#'><%= i %> </a></li>
   <% else %>
-    <span class="page"> <a href="?page=<%= i %>"><%= i %></a> </span>
+    <li> <a href="?page=<%= i %>"><%= i %></a> </li>
   <% end %>
 <% end %>
 
-  <% if page_number < last_page %>
-    <span class="next">
-      <a href="?page=<%= page_number + 1%>" rel="next">Next</a>
-    </span>
-  <% end %>
+<% if page_number >= last_page %>
+  <li class="disabled"> <a rel="prev">&raquo;</a> </li>
+<% else %>
+  <li> <a href="?page=<%= page_number + 1%>" rel="prev">&raquo;</a> </li>
+<% end %>
 
-
-</nav>
+</ul>
 <% end %>

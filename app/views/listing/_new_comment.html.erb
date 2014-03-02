@@ -1,9 +1,65 @@
 <div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="div_form cmt_form" style="<%= 'display: none;' if !visible %>">
-  <div class="title"> Post Comment </div>
+  <h3 class="page-header"> Post Comment </h3>
 
   <%= form_for [comment,PolImage.new], url: comment_index_path, html: { id: "new_comment_#{ cmt ? cmt.id : '' }", multipart: true } do |f| %>
     <div class="comment_errors"></div>
 
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#link<%= cmt ? cmt.id : 'new' %>" data-toggle="tab">Create post from link</a></li>
+      <li><a href="#photo<%= cmt ? cmt.id : 'new' %>" data-toggle="tab">Create post using photo</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active form-horizontal" id="link<%= cmt ? cmt.id : 'new' %>">
+        <div class="form-group">
+          <label for="link_url<%= cmt ? "_" + cmt.id.to_s : '' %>" class="control-label col-sm-2">Link</label>
+          <div class="col-sm-10">
+            <%= text_field_tag :link_url, '', id: "link_url#{ cmt ? "_" + cmt.id.to_s : '' }", class: "form-control", placeholder: "Paste the url here" %>
+          </div>
+        </div>
+        <div id="div_prev<%= cmt ? "_" + cmt.id.to_s : '' %>" class="form-group container hidden"></div>
+
+          <script type='text/javascript'>
+            function lp<%= cmt ? "_" + cmt.id.to_s : '' %>(elem) {
+              $(elem).addClass('loading');
+              var div = $("#div_prev<%= cmt ? "_" + cmt.id.to_s : '' %>");
+              div.removeClass('hidden');
+              div.html('<span>Loading...</span>');
+              // parse external url
+              var url = '<%= CGI.unescape util_httpget_path %>?u=' + $(elem).val();
+              $.get(url, function(data) {
+                <%# Create preview using json object %>
+                <%# [images, title, desc, link] %>
+
+                div.html('');
+                if ( data.images.length && data.images[0].length ) {
+                  div.append("<div class='col-sm-2'><img src='" + data.images[0] + "' class='img-responsive' /></div>");
+                }
+                div.append("<div class='col-sm-10'><h3>" + data.title + "</h3><p>" + data.desc + "<br/><a class='link_url' href='" + data.link + "'>read more</a></p>");
+
+                $(elem).removeClass('loading');
+
+              }).fail(function() {
+                div.html('<div>Failed to load, please check your URL</div>');
+                $(elem).removeClass('loading');
+              });
+            }
+
+            bind_on_keyup("#link_url<%= cmt ? "_" + cmt.id.to_s : '' %>", lp<%= cmt ? "_" + cmt.id.to_s : '' %>);
+
+          </script>
+      </div>
+      <div class="tab-pane" id="photo<%= cmt ? cmt.id : 'new' %>">
+        <%= f.hidden_field :file_cache %>
+        <%= f.file_field :file %>
+      </div>
+    </div>
+
+
+<%
+=begin
+%>
     <div class="mini_div_form link">
       <div class="title">Create post from link</div>
       <%= text_field_tag :link_url, '', id: "link_url#{ cmt ? "_" + cmt.id.to_s : '' }" %>
@@ -22,7 +78,7 @@
               <%# [images, title, desc, link] %>
 
               div.html('<div></div>');
-              if ( data.images.length && data.images[0].length )
+              if ( data.images.length && data.images[0].length ) {
                 div.append("<img src='" + data.images[0] + "' />");
               }
               div.append("<span class='headline'>" + data.title + "</span><br/>");
@@ -49,17 +105,20 @@
       <%= f.file_field :file %>
     </div>
 
+<%
+=end
+%>
 
     <%= hidden_field_tag :career_id, c.id %>
     <% if cmt %>
       <%= hidden_field_tag :parent_comment_id, cmt.id %>
     <% end %>
 
-    <div class="field_line">
+    <div class="form-group">
       <%= f.text_area :comment, cols: 80, rows: 8, id: "txt_comment#{ cmt ? "_" + cmt.id.to_s : '' }", class: "comment_body #{'ph_ckeditor' if visible}" %>
     </div>
 
-    <div class="field_line">
+    <div class="form-group">
       <%= f.submit "Post" %>
     </div>
   <% end %>

@@ -62,7 +62,7 @@ class CommentController < ApplicationController
       og_data = http_get_og_data(params[:link_url])
 
       #{ images: all_imgs, title: subject, desc: og_desc, link: url }
-      @external_link = ExternalLink.new(link_url: params[:link_url], image_url: (og_data[:images].nil? || og_data[:images].empty? ? "" : og_data[:images].first), title: og_data[:title], description: og_data[:desc])
+      @external_link = ExternalLink.new(link_url: params[:link_url], image_url: (og_data[:images].nil? || og_data[:images].empty? ? "" : og_data[:images].first), title: og_data[:title], description: trunc(og_data[:desc], 250))
     end
 
     Comment.transaction do

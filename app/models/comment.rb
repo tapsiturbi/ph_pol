@@ -19,8 +19,8 @@ class Comment < ActiveRecord::Base
 
   # -- Scopes ---------
   def self.top_voted
-    includes(:career, {career: :politician})
-      .where("cached_votes_score > 0")
+    roots.includes(:career, {career: :politician})
+      .where("cached_votes_score >= 0 or created_at > ?", 6.hours.ago)
       .order("cached_votes_score desc")
   end
 
@@ -34,9 +34,7 @@ class Comment < ActiveRecord::Base
   end
 
   def career
-    Rails.cache.fetch("cmt_career_#{self.commentable_id}") do
-      Career.find(self.commentable_id)
-    end
+    Career.find(self.commentable_id)
   end
 
   def created_at_pretty

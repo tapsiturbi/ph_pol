@@ -3,13 +3,14 @@
 <% target_comment = local_assigns.fetch(:target_comment, nil) %>
 <% hide_lowscores = local_assigns.fetch(:hide_lowscores, true) %>
 <% show_paginate = local_assigns.fetch(:show_paginate, true) %>
+<% is_child = local_assigns.fetch(:is_child, false) %>
 
 <% if show_paginate %>
   <%= render partial: "listing/paginate", locals: { count: posts[:count], page_size: posts[:page_size], page_number: posts[:page_number] } %>
 <% end %>
 
+<div class="<%= is_child ? 'row_striped_child' : 'row_striped' %>">
 <% posts[:hash].each_pair do |cmt, child| %>
-
   <% if hide_lowscores && is_score_too_low(cmt) %>
     <ul id="cmt_<%= cmt.id %>" class="lowscore">
       <li>
@@ -20,6 +21,61 @@
     </ul>
   <% else %>
 
+    <div id="cmt_<%= cmt.id %>" class="row" style="margin: 20px 0;">
+
+      <% if is_child %>
+        <div class="col-md-2"></div>
+      <% else %>
+        <div class="col-md-2">
+          <% if !cmt.pol_image.nil? %> <%= cl_image_tag cmt.pol_image.file_url(:medium), class: "img-responsive" %> <% end %>
+          <% if !cmt.external_link.blank? && !cmt.external_link.image_url.blank? %> <img src="<%= cmt.external_link.image_url %>" class="img-responsive" /> <% end %>
+        </div>
+      <% end %>
+
+      <div class="col-md-9">
+        <p>
+        <% if cmt.external_link.blank? %>
+          <%= cmt.comment.try(:html_safe)%>
+        <% else %>
+            <p>
+              <%= cmt.external_link.title.try(:html_safe) %>
+              <br/><a class='small' href='<%= cmt.external_link.link_url %>'><%= cmt.external_link.link_url %></a>
+            </p>
+
+            <p><%= cmt.external_link.description.try(:html_safe) %></p>
+        <% end %>
+        </p>
+
+        <h6 style="margin:2em 0 0 0;"> Posted by <%= cmt.user.nil? ? cmt.username_display : link_to(cmt.username_display, users_profile_path(cmt.user.id)) %>
+          <span class="badge"><%= cmt.user.cached_score if !cmt.user.nil? %></span>
+          <br/><small><%= cmt.created_at_pretty %></small>
+        </h6><br/>
+
+        <%= link_to "reply", "#", onclick: "cmt_show_and_ckedify(#{cmt.id}, 1); return false;", class: "reply" %>
+        <div class="fb-share-button" data-href="<%= listing_path(career.politician.id, cmt_id: cmt.id) %>" data-type="button"></div>
+        <% if user_signed_in? %>
+          <%= render partial: "listing/new_comment", locals: { comment: Comment.new, politician: career.politician, c: career, cmt: cmt, visible: false } %>
+        <% end %>
+
+      </div>
+
+      <div class="col-md-1">
+        <%= render partial: "listing/votes", locals: { cmt: cmt } %>
+      </div>
+
+    </div>
+
+    <% if !child.blank? %>
+      <% if max_depth-1 > 0 || max_depth < 0 %>
+        <%= render partial: "listing/comments", locals: { is_child: true, career: career, posts: { count: child.length, hash: child, page_size: posts[:page_size], page_number: posts[:page_number] }, max_depth: max_depth - 1, show_paginate: false} %>
+      <% else %>
+        <%= link_to "load more replies (#{pluralize(child.length, 'reply', 'replies')})", comment_path(cmt.id), remote: true %>
+      <% end %>
+    <% end %>
+
+<%
+=begin
+%>
   <ul id="cmt_<%= cmt.id %>">
     <li>
       <%= render partial: "listing/votes", locals: { cmt: cmt } %>
@@ -69,9 +125,14 @@
 
     </li>
   </ul>
-  <% end %>
+<%
+=end
+%>
 
+  <% end %>
 <% end %>
+
+</div>
 
 <% if show_paginate %>
   <%= render partial: "listing/paginate", locals: { count: posts[:count], page_size: posts[:page_size], page_number: posts[:page_number] } %>

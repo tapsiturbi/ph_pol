@@ -1,17 +1,18 @@
-<%= title (@careers.first.title + " - " + @politician.full_name.titleize) %>
+<% title (@careers.first.title + " - " + @politician.full_name.titleize) %>
+
 
 <div class="career_detail pretty_box">
 
-  <div class="body">
+  <div class="container-fluid">
 <% @careers.each do |c| %>
+    <ol class="breadcrumb">
+      <li><%= c.title.titleize %></li>
+      <li><%= c.location.denorm_name.titleize %></li>
+    </ol>
 
-    <div class="one_line">
-      <div class="subtitle"> <%= c.title.titleize %> </div>
-      <div class="location"> <%= c.location.denorm_name.titleize %> </div>
-    </div>
 
-    <div class="comments">
-      <div class="subtitle"> Posts </div>
+    <div class="container">
+      <h2 class="page-header">Posts</h2>
       <div id="all_cmt_<%= c.id %>">
 
         <% if !@target_cmt_id.blank? %>

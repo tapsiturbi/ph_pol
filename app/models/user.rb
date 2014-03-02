@@ -59,6 +59,10 @@ class User < ActiveRecord::Base
     return self.get_voted(Comment).where(comments: {id: Career.with_comments_no_group.where(politician_id: politician_id).select("comments.id")}).select("comments.id, votes.vote_flag").collect {|c| [c.id, c.vote_flag]}
   end
 
+  def get_votes
+    return self.votes.pluck(:votable_id, :vote_flag)
+  end
+
   def update_cache
     self.cached_score = Comment.where(user_id: self.id).sum(:cached_votes_score)
     self.save

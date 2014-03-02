@@ -1,20 +1,28 @@
-<div id="vote_<%= cmt.id %>" class="votes">
+<div id="vote_<%= cmt.id %>" class="btn-group-vertical">
+
   <% if user_signed_in? && cmt.user == current_user %>
-    <div class="upvote"><div></div></div>
+    <button type="button" class="btn btn-default" disabled="disabled" title="You cannot upvote your own comment">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </button>
   <% else %>
-    <%= link_to listing_vote_create_path(cmt, 1), remote: true, class: "upvote #{ "upchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 1 }", title: "Upvote" do %>
-      <div></div>
+    <%= button_to listing_vote_create_path(cmt, 1), remote: true, class: "btn #{ (@user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || !@user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] ) ? "btn-default" : "btn-success" }", title: "Upvote" do %>
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    <% end %>
+
+  <% end %>
+
+  <div class="panel" style="margin:0;"><div class="panel-body"><%= cmt.cached_votes_score %></div></div>
+
+
+  <% if user_signed_in? && cmt.user == current_user %>
+    <button type="button" class="btn btn-default" disabled="disabled" title="You cannot downvote your own comment">
+      <span class="glyphicon glyphicon-chevron-down"></span>
+    </button>
+  <% else %>
+    <%= button_to listing_vote_create_path(cmt, 0), remote: true, class: "btn #{ (@user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1]) ? "btn-default" : "btn-warning" }", title: "Downvote" do %>
+      <span class="glyphicon glyphicon-chevron-down"></span>
     <% end %>
   <% end %>
 
-  <span> <%= cmt.cached_votes_score %> </span>
-
-  <% if user_signed_in? && cmt.user == current_user %>
-    <div class="downvote"><div></div></div>
-  <% else %>
-    <%= link_to listing_vote_create_path(cmt, 0), remote: true, class: "downvote #{ "downchecked" unless @user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] != 0 }", title: "Downvote" do %>
-      <div></div>
-    <% end %>
-  <% end %>
 </div>
 
