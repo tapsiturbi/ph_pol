@@ -89,6 +89,6 @@ module ApplicationHelper
       return str
     end
 
-    return str[0..maxlen-3] + "..."
+    return str[0..maxlen-4] + "..."
   end
 end

@@ -40,7 +40,11 @@
 <% if !@top_comments.blank? %>
 
   <h2 class="page-header">Recommended Posts</h2>
+  <div class="row">
   <% @top_comments.each do |cmt| %>
+
+<%
+=begin %>
     <div class="row" style="margin: 20px 0;">
       <div class="col-md-2">
         <% if !cmt.pol_image.nil? %> <%= cl_image_tag cmt.pol_image.file_url(:medium) %> <% end %>
@@ -84,8 +88,37 @@
         <%= render partial: "listing/votes", locals: { cmt: cmt } %>
       </div>
     </div>
-  <% end %>
+<%
+=end %>
 
+    <div id="cmt_<%= cmt.id %>" class="col-md-3 col-sm-6 post-box">
+      <div class="post-box-img" href="<%= listing_post_url(cmt.commentable.politician.id, cmt.id) %>" style="background-image: url('<%= !cmt.pol_image.nil? ? cmt.pol_image.file_url(:medium) : ((!cmt.external_link.blank? && !cmt.external_link.image_url.blank?) ? cmt.external_link.image_url : ""  ) %>');">
+        <%= render partial: "listing/votes", locals: { cmt: cmt } %>
+      </div>
+      <ol class="breadcrumb">
+        <li><a href="<%= listing_path(cmt.commentable.politician.id) %>"><%= cmt.commentable.politician_display.titleize %></a></li>
+        <li><%= cmt.commentable.title.titleize %></li>
+        <% unless cmt.commentable.location.name.upcase == 'NATIONWIDE' %>
+        <li><%= cmt.commentable.location.denorm_name.titleize %></li>
+        <% end %>
+      </ol>
+
+      <div class="subbox">
+          <%= link_to trunc(cmt.pretty_title, 40).try(:html_safe), listing_post_url(cmt.commentable.politician.id, cmt.id) %>
+          <br/>
+          <small>
+            by <%= cmt.user.nil? ? cmt.username_display : link_to(cmt.username_display, users_profile_path(cmt.user.id)) %>
+            <br/>
+            <a href="<%= listing_post_url(cmt.commentable.politician.id, cmt.id) %>" title="<%= pluralize cmt.children.count, "comment" %>">
+              <span class="glyphicon glyphicon-comment"></span> <%= cmt.children.count %>
+            </a>
+            <div class="fb-share-button" data-href="<%= listing_post_url(cmt.commentable.politician.id, cmt.id) %>" data-type="icon" title="Post on Facebook"></div>
+          </small>
+      </div>
+
+    </div>
+  <% end %>
+  </div>
 <% end %>
 
 <%

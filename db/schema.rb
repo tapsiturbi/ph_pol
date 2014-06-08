@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221080730) do
+ActiveRecord::Schema.define(version: 20140303072326) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -36,19 +36,19 @@ ActiveRecord::Schema.define(version: 20140221080730) do
   add_index "comment_hierarchies", ["descendant_id"], name: "comment_desc_idx", using: :btree
 
   create_table "comments", force: true do |t|
-    t.string   "title",              limit: 50, default: ""
+    t.string   "title",              default: ""
     t.text     "comment"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "user_id"
-    t.string   "role",                          default: "comments"
+    t.string   "role",               default: "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
-    t.integer  "cached_votes_total",            default: 0
-    t.integer  "cached_votes_score",            default: 0
-    t.integer  "cached_votes_up",               default: 0
-    t.integer  "cached_votes_down",             default: 0
+    t.integer  "cached_votes_total", default: 0
+    t.integer  "cached_votes_score", default: 0
+    t.integer  "cached_votes_up",    default: 0
+    t.integer  "cached_votes_down",  default: 0
   end
 
   add_index "comments", ["cached_votes_down"], name: "index_comments_on_cached_votes_down", using: :btree
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 20140221080730) do
 
   create_table "external_links", force: true do |t|
     t.integer  "comment_id"
-    t.string   "link_url"
-    t.string   "image_url"
+    t.string   "link_url",    limit: 32767
+    t.string   "image_url",   limit: 32767
     t.string   "title"
     t.string   "description"
     t.datetime "created_at"

@@ -1,28 +1,29 @@
-<div id="vote_<%= cmt.id %>" class="btn-group-vertical">
+<div id="vote_<%= cmt.id %>" class="text-center text-muted votebox">
+  <div>
+      <% if !user_signed_in? %>
+        <a class='disabled text-muted' title='You need to sign in to vote'><span class="glyphicon glyphicon-chevron-up"></span></a>
+      <% elsif user_signed_in? && cmt.user == current_user %>
+        <a class='disabled text-muted' title='You cannot vote for your own posts'><span class="glyphicon glyphicon-chevron-up"></span></a>
+      <% else %>
+        <%= link_to listing_vote_create_path(cmt, 1), remote: true, method: "post", class: "#{ (@user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || !@user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] ) ? "" : "text-primary" }", title: "Upvote" do %>
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        <% end %>
+      <% end %>
+  </div>
 
-  <% if user_signed_in? && cmt.user == current_user %>
-    <button type="button" class="btn btn-default" disabled="disabled" title="You cannot upvote your own comment">
-      <span class="glyphicon glyphicon-chevron-up"></span>
-    </button>
-  <% else %>
-    <%= button_to listing_vote_create_path(cmt, 1), remote: true, class: "btn #{ (@user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || !@user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1] ) ? "btn-default" : "btn-success" }", title: "Upvote" do %>
-      <span class="glyphicon glyphicon-chevron-up"></span>
-    <% end %>
+  <div>
+  <%= cmt.cached_votes_score %>
+  </div>
 
-  <% end %>
-
-  <div class="panel" style="margin:0;"><div class="panel-body"><%= cmt.cached_votes_score %></div></div>
-
-
-  <% if user_signed_in? && cmt.user == current_user %>
-    <button type="button" class="btn btn-default" disabled="disabled" title="You cannot downvote your own comment">
-      <span class="glyphicon glyphicon-chevron-down"></span>
-    </button>
-  <% else %>
-    <%= button_to listing_vote_create_path(cmt, 0), remote: true, class: "btn #{ (@user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1]) ? "btn-default" : "btn-warning" }", title: "Downvote" do %>
-      <span class="glyphicon glyphicon-chevron-down"></span>
-    <% end %>
-  <% end %>
-
+  <div>
+      <% if !user_signed_in? %>
+        <a class='disabled text-muted' title='You need to sign in to vote'><span class="glyphicon glyphicon-chevron-down"></span></a>
+      <% elsif user_signed_in? && cmt.user == current_user %>
+        <a class='disabled text-muted' title='You cannot vote for your own posts'><span class="glyphicon glyphicon-chevron-down"></span></a>
+      <% else %>
+        <%= link_to listing_vote_create_path(cmt, 0), remote: true, method: "post", class: "#{ (@user_votes.nil? || @user_votes.select { |cid, vote_flag| cid == cmt.id }.empty? || @user_votes.select { |cid, vote_flag| cid == cmt.id }[0][1]) ? "" : "text-warning" }", title: "Downvote" do %>
+          <span class="glyphicon glyphicon-chevron-down"></span>
+        <% end %>
+      <% end %>
+  </div>
 </div>
-

@@ -36,7 +36,7 @@ class ListingController < ApplicationController
     @politician = Politician.find(params[:id])
     @target_cmt_id = params[:cmt_id]
 
-    @careers = Career.with_loc_and_pol.where(politician_id: @politician.id)
+    @career = Career.with_loc_and_pol.where(politician_id: @politician.id).first
 
     @comment = Comment.new
     @new_image = PolImage.new
@@ -57,6 +57,11 @@ class ListingController < ApplicationController
 
     # Retrieve previously selected locations
     @curr_locations = current_user.present? ? current_user.locations : []
+  end
+
+  # Display comments under one post
+  def show_post
+    @comment = Comment.find(params[:cmt_id])
   end
 
   # -- CUD Controllers -------------------------------------

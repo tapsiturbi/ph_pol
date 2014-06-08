@@ -1,0 +1,58 @@
+<% title (@comment.commentable.title.titleize + " - " + @comment.commentable.politician.full_name.titleize) %>
+
+  <ol class="breadcrumb">
+    <li> <%= link_to @comment.commentable.politician_display.titleize, listing_path(@comment.commentable.politician.id) %></li>
+    <li><%= @comment.commentable.title.titleize %></li>
+    <li><%= @comment.commentable.location.denorm_name.titleize %></li>
+  </ol>
+
+  <div class="container">
+    <div class="row container">
+      <div class="col-md-6">
+        <% if !@comment.pol_image.nil? %> <%= cl_image_tag @comment.pol_image.file_url(:medium), class: "img-responsive" %> <% end %>
+        <% if !@comment.external_link.blank? && !@comment.external_link.image_url.blank? %> <img src="<%= @comment.external_link.image_url %>" class="img-responsive" /> <% end %>
+      </div>
+      <div class="col-md-6">
+        <h2>
+          <%= @comment.pretty_title.try(:html_safe) %>
+        </h2>
+        <% unless @comment.external_link.blank? %>
+          <a href='<%= @comment.external_link.link_url %>'><%= @comment.external_link.link_url %></a>
+        <% end %>
+        <% unless @comment.external_link.blank? %>
+          <p><%= @comment.external_link.description.try(:html_safe) %></p>
+        <% end %>
+      </div>
+    </div>
+    <div class="row container" style="margin-top: 10px;">
+      <div class="col-md-12 panel panel-info">
+        <small>
+          Posted by <%= @comment.user.nil? ? @comment.username_display : link_to(@comment.username_display, users_profile_path(@comment.user.id)) %>
+          <span class="badge"><%= @comment.user.cached_score if !@comment.user.nil? %></span>
+          on <%= @comment.created_at_pretty %>
+          <div class="fb-share-button" data-href="<%= listing_post_url(@comment.commentable.politician_id, @comment.id) %>" data-type="icon"></div>
+        </small>
+
+        <div class="panel-body">
+          <%= @comment.comment.try(:html_safe)%>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="page-header">Comments</h3>
+
+    <div id="post_<%= @comment.id %>" class="posts row-striped">
+      <%= render partial: "comments", locals: { comment: @comment } %>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= render partial: "new_comment", locals: { comment: nil, politician: @comment.commentable.politician, c: @comment.commentable, cmt: @comment, visible: true } %>
+    <% end %>
+  </div>
+
+
+
+
+
+
+

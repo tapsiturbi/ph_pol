@@ -19,17 +19,34 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
+<%# JQuery code to make DIVs clicakble %>
+<script type="text/javascript">
+  $(document).ready(function () {
+        $("div[href]").each(function () {
+          $(this).css("cursor", "pointer").click(function(e) {
+            if ( $(e.target).is($(this)) ) {
+              window.location.href = $(this).attr('href');
+            }
+          });
+        });
+    });
+</script>
+
 <%#-- Logo and Menu bar ----------------------------%>
-<div class="navbar navbar-default">
+<div class="navbar navbar-default navbar-static-top">
   <div class="container">
     <div class="navbar-header">
-      <div class="navbar-brand"> <%= Rails.application.config.site_name %> </div>
+      <div class="navbar-brand">
+        <a href="/">
+          <%= image_tag("site_logo.png", title: Rails.application.config.site_name, height: "21px") %>
+          <%= Rails.application.config.site_name %>
+        </a>
+      </div>
     </div>
-
-    <div class="navbar-collapse collapse">
+    <div class="navbar-collapse collapse navbar-right">
       <ul class="nav navbar-nav">
-        <li class="active"> <a href="<%= root_path %>"> Home </a> </li>
-        <li> <a class="blog-nav-item" href="<%= listing_index_path %>">Search</a> </li>
+        <li <%= current_page?(root_path) ? "class=active" : ""%>> <a href="<%= root_path %>"> Home </a> </li>
+        <li <%= current_page?(listing_index_path) ? "class=active" : ""%>> <a class="blog-nav-item" href="<%= listing_index_path %>">Search</a> </li>
 
       <%# user is logged in, show log out link %>
       <% if current_user.present? %>
@@ -86,125 +103,6 @@
 </div>
 
 
-<%
-=begin
-%>
-<div id="topbar">
-  <div id="inner_topbar">
-    <div class="logo">
-      <%= link_to Rails.application.config.site_name, "/" %>
-    </div>
-    <ul id="nav_menu">
-
-    <%# user is logged in, show log out link %>
-      <% if current_user.present? %>
-        <li>
-
-          <a href="#">
-            <%= image_tag "icon_user.png" %>
-            <br/>
-            Profile
-          </a>
-
-          <ul class="sub cmd_list" style="width: 220px; top: 15px; left: -80px;">
-            <li>
-              <div class="profile">
-                <div class="avatar"><%= current_user.avatar? ? cl_image_tag(current_user.avatar, title: "Profile Pic", alt: current_user.email, width: "64px") : image_tag("empty_avatar.png", title: "Profile Pic") %></div>
-                <%= current_user.first_name %> <br/>
-                <%= current_user.email %> <br/>
-                <%= link_to "edit profile", edit_users_profile_path(current_user) %>
-                <div style="clear: left;"></div>
-              </div>
-            </li>
-            <li>
-              <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
-            </li>
-            <li>
-              <%= link_to "Cancel my account", registration_path(:user), data: { confirm:  "Are you sure?" }, method: :delete %>
-            </li>
-          </ul>
-
-        </li>
-
-      <%# user is not logged in, show signup and login links %>
-      <% else %>
-        <li>
-          <a href="<%= new_user_session_path %>">
-            <%= image_tag("icon_check.png", title: "Sign In") %> <br/>
-            Sign In
-          </a>
-
-            <ul class="sub" style="width: 220px; top: 15px; left: -80px;">
-              <li>
-                <div class="mini_div_form">
-                  <%= form_for("user", :url => user_session_path) do |f| %>
-                    <%= f.label :email, "Email" %>
-                    <%= f.text_field :email %>
-
-                    <%= f.label :password, "Password" %>
-                    <%= f.password_field :password %>
-
-                    <br/>
-                    <%= f.check_box :remember_me %>
-                    <%= f.label :remember_me, style: "display: inline;" %>
-
-                    <br/>
-                    <%= f.submit 'Sign in' %>
-                    <%= link_to "Forgot your password?", new_password_path('user'), "data-no-turbolink" => true %>
-                  <% end %>
-                </div>
-
-                <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), "data-no-turbolink" => true %>
-              </li>
-            </ul>
-        </li>
-        <li>
-          <%= link_to new_user_registration_path, "data-no-turbolink" => true do %>
-            <%= image_tag("icon_user.png", title: "Register") %> <br/>Register
-          <% end %>
-        </li>
-      <% end %>
-      <li>
-        <a href="<%= root_path %>">
-          <%= image_tag("icon_home.png", title: "Home") %> <br/>
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="<%= listing_index_path %>">
-          <%= image_tag("icon_search.png", title: "Browse") %> <br/>
-          Browse
-        </a>
-      </li>
-    </ul>
-
-    <div style="clear: both;"></div>
-  </div>
-</div>
-
-<script type="text/javascript">
-
-  $(document).ready(function () {
-    var tmr = false;
-    $("#nav_menu li").mouseenter(function(){
-      $(".sub", this).show();
-      $("a:first", this).addClass("highlight");
-      clearTimeout(tmr);
-    }).mouseleave(function() {
-      $("a:first", this).removeClass("highlight");
-
-      var that = this;
-      tmr = setTimeout(function(){
-        $(".sub", that).hide();
-      },500);
-    });
-  });
-</script>
-
-<%
-=end
-%>
-
 <div id="flash">
   <% if notice %>
     <script type="text/javascript"> showFlash("<%= escape_javascript(notice)%>"); </script>
@@ -215,7 +113,7 @@
 </div>
 
 
-<div class="container-fluid">
+<div class="container container-fluid">
   <div id="page_title">
     <h1><%= content_for(:title) %></h1>
   </div>

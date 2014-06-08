@@ -1,5 +1,7 @@
-<div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="div_form cmt_form" style="<%= 'display: none;' if !visible %>">
-  <h3 class="page-header"> Post Comment </h3>
+<div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="cmt-form" style="<%= 'display: none;' if !visible %>">
+  <h3 class="page-header">
+    <%= defined?(header_label) ? header_label : "Post Comment" %>
+  </h3>
 
   <%= form_for [comment,PolImage.new], url: comment_index_path, html: { id: "new_comment_#{ cmt ? cmt.id : '' }", multipart: true } do |f| %>
     <div class="comment_errors"></div>
@@ -38,6 +40,8 @@
                 }
                 div.append("<div class='col-sm-10'><h3>" + data.title + "</h3><p>" + data.desc + "<br/><a class='link_url' href='" + data.link + "'>read more</a></p>");
 
+                $("#cmt_title<%= cmt ? "_" + cmt.id.to_s : '' %>").val("Link - " + data.title);
+
                 $(elem).removeClass('loading');
 
               }).fail(function() {
@@ -57,69 +61,34 @@
     </div>
 
 
-<%
-=begin
-%>
-    <div class="mini_div_form link">
-      <div class="title">Create post from link</div>
-      <%= text_field_tag :link_url, '', id: "link_url#{ cmt ? "_" + cmt.id.to_s : '' }" %>
-      <div class="help">paste the url on the textbox</div>
-      <div id="div_prev<%= cmt ? "_" + cmt.id.to_s : '' %>" class="link_preview"></div>
-
-        <script type='text/javascript'>
-          function lp<%= cmt ? "_" + cmt.id.to_s : '' %>(elem) {
-            $(elem).addClass('loading');
-            var div = $("#div_prev<%= cmt ? "_" + cmt.id.to_s : '' %>");
-            div.html('<span>Loading...</span>');
-            // parse external url
-            var url = '<%= CGI.unescape util_httpget_path %>?u=' + $(elem).val();
-            $.get(url, function(data) {
-              <%# Create preview using json object %>
-              <%# [images, title, desc, link] %>
-
-              div.html('<div></div>');
-              if ( data.images.length && data.images[0].length ) {
-                div.append("<img src='" + data.images[0] + "' />");
-              }
-              div.append("<span class='headline'>" + data.title + "</span><br/>");
-              div.append("<span class='desc'>" + data.desc + "</span>");
-              div.append("<br/><a class='link_url' href='" + data.link + "'>read more</a>");
-
-              $(elem).removeClass('loading');
-
-            }).fail(function() {
-              div.html('<div>Failed to load, please check your URL</div>');
-              $(elem).removeClass('loading');
-            });
-          }
-
-          bind_on_keyup("#link_url<%= cmt ? "_" + cmt.id.to_s : '' %>", lp<%= cmt ? "_" + cmt.id.to_s : '' %>);
-          
-        </script>
-    </div>
-
-
-    <div class="mini_div_form photo">
-      <div class="title">Create post using photo </div>
-      <%= f.hidden_field :file_cache %>
-      <%= f.file_field :file %>
-    </div>
-
-<%
-=end
-%>
-
     <%= hidden_field_tag :career_id, c.id %>
     <% if cmt %>
       <%= hidden_field_tag :parent_comment_id, cmt.id %>
     <% end %>
 
-    <div class="form-group">
-      <%= f.text_area :comment, cols: 80, rows: 8, id: "txt_comment#{ cmt ? "_" + cmt.id.to_s : '' }", class: "comment_body #{'ph_ckeditor' if visible}" %>
+    <div class="clearfix"> </div>
+
+    <div class="form-horizontal cmt-form-body">
+      <div class="form-group">
+        <label for="cmt_title" class="control-label col-sm-2">Title</label>
+        <div class="col-sm-10"><%= text_field_tag :cmt_title, '', id: "cmt_title#{ cmt ? "_" + cmt.id.to_s : '' }", class: "form-control", placeholder: "Title" %></div>
+      </div>
+
+      <div class="form-group">
+        <label for="cmt_title" class="control-label col-sm-2">Comment</label>
+        <div class="col-sm-10">
+          <%= f.text_area :comment, cols: 80, rows: 8, id: "txt_comment#{ cmt ? "_" + cmt.id.to_s : '' }", class: "comment_body #{'ph_ckeditor' if visible}" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+          <%= f.submit "Post" %>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= f.submit "Post" %>
-    </div>
+
   <% end %>
 </div>

@@ -1,0 +1,81 @@
+/*
+ * Color scheme:
+ * http://colorschemedesigner.com/#1i31Tw0w0w0w0
+ *
+ * #FFC900 #600CAC #0E51A7 #A68200
+ *
+Primary Color (yellow/brown):
+FFC900  BFA130  A68200  FFD640  FFE173
+
+Secondary Color A (blue/purple):
+600CAC  562781  3C0470  8E41D5  A168D5
+
+Secondary Color B (light blue):
+0E51A7  274D7E  05326D  4282D3  6997D3
+ */
+
+$brand-primary: #0E51A7;
+$brand-info:    #600CAC;
+$brand-warning: #A68200;
+
+$navbar-default-bg: #FFC900;
+$navbar-default-link-active-bg: #FFC900;
+$navbar-default-brand-color: #FFF;
+$navbar-default-brand-hover-color: #3C0470;
+$navbar-default-link-color: #FFF;
+$navbar-default-link-active-color: #FFF;
+$headings-color: #600CAC;
+
+$font-family-base: ciclesemi;
+$font-size-base: 16px;
+
+// Core variables and mixins
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+// Reset and dependencies
+@import "bootstrap/normalize";
+@import "bootstrap/print";
+@import "bootstrap/glyphicons";
+
+// Core CSS
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/code";
+@import "bootstrap/grid";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
+
+// Components
+@import "bootstrap/component-animations";
+@import "bootstrap/dropdowns";
+@import "bootstrap/button-groups";
+@import "bootstrap/input-groups";
+@import "bootstrap/navs";
+@import "bootstrap/navbar";
+@import "bootstrap/breadcrumbs";
+@import "bootstrap/pagination";
+@import "bootstrap/pager";
+@import "bootstrap/labels";
+@import "bootstrap/badges";
+@import "bootstrap/jumbotron";
+@import "bootstrap/thumbnails";
+@import "bootstrap/alerts";
+@import "bootstrap/progress-bars";
+@import "bootstrap/media";
+@import "bootstrap/list-group";
+@import "bootstrap/panels";
+@import "bootstrap/responsive-embed";
+@import "bootstrap/wells";
+@import "bootstrap/close";
+
+// Components w/ JavaScript
+@import "bootstrap/modals";
+@import "bootstrap/tooltip";
+@import "bootstrap/popovers";
+@import "bootstrap/carousel";
+
+// Utility classes
+@import "bootstrap/utilities";
+@import "bootstrap/responsive-utilities";

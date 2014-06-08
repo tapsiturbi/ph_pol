@@ -101,7 +101,7 @@ class Career < ActiveRecord::Base
   #     :page_number = page_number from parameter
   #     :page_size = page_size from parameter
   def posts(target_cmt_id = nil, page_number = 1, page_size = 3, limit_depth = 3)
-    puts "limit_depth = #{limit_depth}, page_number=#{page_number}, page_size=#{page_size}"
+    #puts "limit_depth = #{limit_depth}, page_number=#{page_number}, page_size=#{page_size}"
     query = Comment
               .includes(:user, :external_link, :pol_image)
               .where({commentable_id: self.id, commentable_type: "Career"})

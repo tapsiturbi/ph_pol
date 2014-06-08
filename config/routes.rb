@@ -15,6 +15,7 @@ PhPol::Application.routes.draw do
   get '/listing', to: 'listing#index', as: :listing_index
   get '/listing/location', to: 'listing#location', as: :listing_location
   get '/listing/:id', to: 'listing#show', as: :listing
+  get '/listing/:id/post/:cmt_id', to: 'listing#show_post', as: :listing_post
   post '/listing/:id/vote/:vote', to: 'listing#create_vote', as: :listing_vote_create
   post '/listing/:id/:career_id/image', to: 'listing#create_image', as: :listing_image_create
   post '/listing/location', to: 'listing#create_location_pref', as: :listing_locpref_create

@@ -38,7 +38,7 @@ class CommentController < ApplicationController
     # clean up dangerous html elements
     comment_html = Sanitize.clean(params[:pol_image][:comment], Sanitize::Config::RELAXED)
 
-    @comment = Comment.new(comment: comment_html, user_id: current_user.id)
+    @comment = Comment.new(comment: comment_html, title: trunc(params[:cmt_title], 50), user_id: current_user.id)
 
     @parent_comment = nil
     if params.has_key?(:parent_comment_id)
@@ -60,9 +60,7 @@ class CommentController < ApplicationController
     @external_link = nil
     if params.has_key?(:link_url) && !params[:link_url].blank?
       og_data = http_get_og_data(params[:link_url])
-
-      #{ images: all_imgs, title: subject, desc: og_desc, link: url }
-      @external_link = ExternalLink.new(link_url: params[:link_url], image_url: (og_data[:images].nil? || og_data[:images].empty? ? "" : og_data[:images].first), title: og_data[:title], description: trunc(og_data[:desc], 250))
+      @external_link = ExternalLink.new(link_url: params[:link_url], image_url: (og_data[:images].nil? || og_data[:images].empty? ? "" : og_data[:images].first), title: trunc(og_data[:title], 250), description: trunc(og_data[:desc], 250))
     end
 
     Comment.transaction do

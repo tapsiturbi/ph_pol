@@ -24,12 +24,30 @@ class Comment < ActiveRecord::Base
       .order("cached_votes_score desc")
   end
 
+  def self.posts
+    joins("LEFT JOIN external_links ON external_links.comment_id = comments.id")
+      .where(parent_id: nil)
+      .where("(comments.title IS NOT NULL OR external_links.title IS NOT NULL)")
+  end
+
   # -- Methods ----------
   def username_display
     if !self.user.nil? && (!self.user.username.blank? || !self.user.first_name.blank?)
       return self.user.username || self.user.first_name
     else
       return "Anonymous"
+    end
+  end
+
+  def pretty_title
+    return self.title.blank? ? (self.external_link.blank? || self.external_link.title.blank? ? "" : self.external_link.title ) : self.title
+  end
+
+  def has_image?
+    if self.pol_image.nil? || self.pol_image.file_url.blank? || self.external_link.nil? || self.external_link.image_url.blank?
+      return false
+    else
+      return true
     end
   end
 
