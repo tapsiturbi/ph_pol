@@ -76,10 +76,10 @@ module ApplicationHelper
     end
 
     # Find subject/title
-    subject = html.scan(/<title[^>]*>([^<]*)<\/title>/).flatten.first
+    subject = html.scan(/<title[^>]*>([^<]*)<\/title>/).flatten.first.encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => '')
 
     # Description
-    og_desc = html.scan(/<meta\s+property=['"]?og:description['"]?.*content=['"]?([^'"]*)/).flatten.first
+    og_desc = html.scan(/<meta\s+property=['"]?og:description['"]?.*content=(.*)\/>/).flatten.first.gsub(/^['"]|['"]$/,'').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => '')
 
     return { images: all_imgs, title: subject, desc: og_desc, link: url }
   end

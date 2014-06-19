@@ -34,11 +34,13 @@
                 <%# Create preview using json object %>
                 <%# [images, title, desc, link] %>
 
-                div.html('');
+                div.html("<div class='col-sm-2'></div>");
                 if ( data.images.length && data.images[0].length ) {
                   div.append("<div class='col-sm-2'><img src='" + data.images[0] + "' class='img-responsive' /></div>");
+                } else {
+                  div.append("<div class='col-sm-2'></div>");
                 }
-                div.append("<div class='col-sm-10'><h3>" + data.title + "</h3><p>" + data.desc + "<br/><a class='link_url' href='" + data.link + "'>read more</a></p>");
+                div.append("<div class='col-sm-8'><h3>" + data.title + "</h3><p>" + data.desc + "<br/><a class='link_url' href='" + data.link + "'>read more</a></p>");
 
                 $("#cmt_title<%= cmt ? "_" + cmt.id.to_s : '' %>").val("Link - " + data.title);
 
