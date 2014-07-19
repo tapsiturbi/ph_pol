@@ -12,7 +12,6 @@ class Users::ProfileController < ApplicationController
     @careers = Career.with_comments_from_user(params[:id])
   end
 
-
   def update
     @user = current_user
     #puts params[:user].permit(:avatar, :email, :first_name, :last_name)
@@ -22,5 +21,14 @@ class Users::ProfileController < ApplicationController
     else
       render "edit"
     end
+  end
+
+  # Page that displays regions to 'tag' for the current user
+  def regions
+    #@nationwide = Location.get_nationwide
+    #@provinces = Location.provinces.where('id != ?', @nationwide.id).collect {|p| [p.name.capitalize, p.id]}
+    @regions = Region.order('region_iso').all
+    #@user_regions = User.find(current_user.id).regions.pluck(:region_iso)
+    @user_regions = {}
   end
 end

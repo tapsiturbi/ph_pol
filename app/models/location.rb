@@ -6,6 +6,8 @@ class Location < ActiveRecord::Base
   has_many :location_users, dependent: :destroy
   has_many :users, through: :location_users
 
+  has_many :careers
+  
   default_scope { order('name asc') }
 
   def self.provinces

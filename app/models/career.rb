@@ -4,7 +4,7 @@ class Career < ActiveRecord::Base
   belongs_to :politician
   belongs_to :location
 
-  has_many :comment, :dependent => :destroy
+  has_many :comment, :dependent => :destroy, :foreign_key => :commentable_id
   has_many :pol_image, :dependent => :destroy
 
   #-- Scopes ----------------------------

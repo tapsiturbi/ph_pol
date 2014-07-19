@@ -1,15 +1,18 @@
 class RootController < ApplicationController
   def index
     @top_comments = Comment.top_voted.limit(10)
-    @controversial = Career.controversial.limit(10)
-    @active_users = User.with_most_comments.limit(10)
+    #@controversial = Career.controversial.limit(10)
+    #@active_users = User.with_most_comments.limit(10)
 
-    @pol_in_location = []
+    @tag_posts = []
     if current_user.present?
       user_locs = current_user.locations
 
-      @pol_in_location = []
-      #@pol_in_location = user_locs.empty? ? [] : Career.with_loc_and_pol.with_comments.where(locations: { id: current_user.locations.pluck(:id) } ).select_title_heirarchy.order("title_heirarchy")
+      unless user_locs.empty?
+        @tag_posts = user_locs.includes(:careers, {careers: [:politician, :comment]}, { careers: { comment: [:pol_image, :external_link] }}).where(comments: { commentable_type: "Career"}).order("comments.created_at")
+      end
+
+
 
 
       @user_votes = current_user.get_votes

@@ -8,7 +8,7 @@
 
 
   <div class="container">
-    <h2 class="page-header">Posts</h2>
+    <h3 class="tab-header">Posts</h3>
     <div id="all_cmt_<%= @career.id %>" class="career row">
 
       <% if !@target_cmt_id.blank? %>
@@ -60,7 +60,7 @@
     </div>
 
     <% if user_signed_in? %>
-      <%= render partial: "new_comment", locals: { comment: @comment, politician: @politician, c: @career, cmt: nil, visible: true, header_label: "Submit Post" } %>
+      <%= render partial: "new_comment", locals: { comment: @comment, politician: @politician, c: @career, cmt: nil, visible: true, header_label: "Submit Post", header_icon: "fa-share-square-o" } %>
     <% end %>
   </div>
 

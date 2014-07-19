@@ -1,14 +1,35 @@
-<div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="cmt-form" style="<%= 'display: none;' if !visible %>">
-  <h3 class="page-header">
-    <%= defined?(header_label) ? header_label : "Post Comment" %>
-  </h3>
 
-  <%= form_for [comment,PolImage.new], url: comment_index_path, html: { id: "new_comment_#{ cmt ? cmt.id : '' }", multipart: true } do |f| %>
+<% if false && defined?(header_label) %>
+  <h3 class="tab-header">
+    <% if defined?(header_icon) %>
+      <i class="fa <%= header_icon %>"></i>
+    <% end %>
+    <%= header_label %>
+<%
+=begin %>
+     <span class="glyphicon glyphicon-plus"></span> <%= defined?(header_label) ? header_label : "Post Comment" %>
+<%
+=end %>
+  </h3>
+<% end %>
+
+<div id="new_cmt_<%= cmt ? cmt.id : 'new' %>" class="cmt-form" style="<%= 'display: none;' if !visible %>">
+  <%= form_for [comment,PolImage.new], url: comment_index_path, html: { id: "new_comment_#{ cmt ? cmt.id : '' }", multipart: true, style: "margin-top: 30px;" } do |f| %>
     <div class="comment_errors"></div>
 
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#link<%= cmt ? cmt.id : 'new' %>" data-toggle="tab">Create post from link</a></li>
-      <li><a href="#photo<%= cmt ? cmt.id : 'new' %>" data-toggle="tab">Create post using photo</a></li>
+      <li class="active">
+        <a href="#link<%= cmt ? cmt.id : 'new' %>" data-toggle="tab">
+          <% if defined?(header_icon) %> <i class="fa <%= header_icon %>"></i> <% end %>
+          <%= (defined?(header_label) ? header_label : "Create post").titleize %> using link
+        </a>
+      </li>
+      <li>
+        <a href="#photo<%= cmt ? cmt.id : 'new' %>" data-toggle="tab">
+          <% if defined?(header_icon) %> <i class="fa <%= header_icon %>"></i> <% end %>
+          <%= (defined?(header_label) ? header_label : "Create post").titleize %> using photo
+        </a>
+      </li>
     </ul>
 
     <!-- Tab panes -->

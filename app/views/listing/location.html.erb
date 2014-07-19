@@ -1,75 +1,122 @@
 
-<%= title "Find Politicians In Your Area" %>
+<% content_for :head do %>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+     google.load('visualization', '1', {'packages': ['geochart']});
+     google.setOnLoadCallback(drawRegionsMap);
 
-<% unless @curr_locations.empty? %>
-  <div>
-    <h3>Selected locations</h3>
-    <ul>
-    <% @curr_locations.each do |loc|  %>
-      <%= loc.denorm_name %> <br/>
-    <% end %>
-    </ul>
-  </div>
+      function drawRegionsMap() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Provinces', 'Color', {type: 'string', role: 'tooltip'} ],
+          <% @regions.each_with_index do |r, idx| %>
+            ["<%= r.region_iso %>", 0, "<%= r.region_name %>"],
+          <% end %>
+        ]);
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1, {sourceColumn: 2, role:'tooltip'}]);
+
+        var options = {
+          region: 'PH',
+          resolution: 'provinces',
+          displayMode: 'region',
+          colorAxis: {minValue: 0,  colors: ['#AFAFFF', '#4bb5f3', '#FADC41']},
+          legend: 'none'
+        };
+
+
+        var geochart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+        geochart.draw(view, options);
+
+        google.visualization.events.addListener(geochart, 'select', function() {
+
+          var selectedItem = geochart.getSelection()[0];
+          if (selectedItem) {
+            $('#chart_popup .regions .provs').each(function(idx, elem) { $(elem).hide(); });
+
+            var region_iso = data.getValue(selectedItem.row, 0);
+            $('#chart_popup #r_' + region_iso + ' .provs').each(function(idx, elem) {
+              $(elem).show();
+            });
+
+            $('#lbl_region').html(data.getValue(selectedItem.row, 2));
+            $('#p_search').val('').trigger(jQuery.Event('keypress', { which: $.ui.keyCode.ENTER }));
+          }
+
+        });
+
+
+    };
+
+    $(document).ready(function() {
+      filter_onkeypress("#p_search", "#chart_popup > div > div input");
+
+      $('#p_search').val('').trigger(jQuery.Event('keypress', { which: $.ui.keyCode.ENTER }));
+      display_selected();
+    });
+
+    function display_selected() {
+      var html = '';
+      $('#chart_popup .regions .provs input:checked').each(function(idx, elem) {
+        html += "<li class='bg-info'>" + $(elem).prop('alt') + "</li>";
+      });
+      $('#sel_label').html(html);
+    }
+    </script>
+
 <% end %>
 
-<%= form_tag listing_location_path, :method => 'post', :id => "location_search" do %>
-  <%# class="ui-widget-content ui-corner-all" %>
-  <div id="accordion">
-    <h3> Step 1: Select Your Province </h3>
-    <div>
+
+<%= title "Tag Regions" %>
+
+<div class="container">
+
+  <%= form_tag listing_location_path, :method => 'post', :id => "location_search" do %>
+  <div class="row">
+    <div id="chart_div" class="col-sm-8"></div>
+    <div id="chart_popup" class="col-sm-4">
+      <%# Load all sub regions, but hide them all till a region is selected %>
+      <h3 id="lbl_region">All Regions</h3>
+
       <%= text_field_tag(:p_search,nil,{class: "u-widget ui-corner-all ui-widget-content", size: 50, style: "height: 25px; margin: 10px 5px;", placeholder: "Filter"}) %>
-      <div id="provinces" style="height: 300px; overflow-y: scroll;">
-        <% @provinces.each do |p| %>
-          <%= check_box_tag("p_#{p[1]}", p[1], false, { name: "prov[]" } ) %>
-          <%= label_tag("p_#{p[1]}", p[0]) %>
+      <div id="prov_container">
+        <% @provinces.group_by{ |p| p.region_iso }.each do |region_iso, provs| %>
+          <div id="r_<%= region_iso %>" class="regions">
+            <% provs.each do |p| %>
+              <div id="p_<%= p.id %>" class="provs">
+                <%= check_box_tag("cbx_#{p.id}", p.id, @curr_locations.include?(p.id) , { name: "prov[]", alt: p.denorm_name.downcase, region: region_iso, onclick: "checkall(this.checked, '#sub_#{ p.id } input'); display_selected();" } ) %>
+                <%= label_tag("cbx_#{p.id}", p.name, { title: p.name }) %>
+
+                <% unless p.children.empty? %>
+                  <div id="sub_<%= p.id %>" class="sub_provs">
+                  <% p.children.each do |c| %>
+                    <span>
+                      <%= check_box_tag("cbx_#{c.id}", c.id, @curr_locations.include?(c.id), { name: "prov[]", alt: c.denorm_name.downcase, region: region_iso, onclick: "display_selected();" } ) %>
+                      <%= label_tag("cbx_#{c.id}", c.name, { title: c.denorm_name }) %>
+                    </span>
+                  <% end %>
+                    <div style="clear: left;"></div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
         <% end %>
       </div>
-      <%= button_tag "Next", id: "btn_next", class: "ui-button-orange" %>
+
     </div>
+  </div>
 
-    <h3> Step 2: Select Municipalities </h3>
-    <div>
-      <%= text_field_tag(:m_search,nil,{class: "u-widget ui-corner-all ui-widget-content", size: 50, style: "height: 25px; margin: 10px 5px;", placeholder: "Filter"}) %>
+  <div class="row">
+    <div class="text-primary text-right col-sm-2">Selected</div>
+    <ul id="sel_label" class="text-capitalize list-inline col-sm-10"></ul>
+  </div>
 
-      <%= check_box_tag("mun", "", false, { style: "display: none;" } ) %>
-
-      <div id="municipals" style="height: 300px; overflow-y: scroll;"></div>
-      <%= button_tag "Next", id: "btn_next2", class: "ui-button-orange" %>
-    </div>
-
-    <h3> Step 3: Confirm </h3>
-    <div>
-      <p>These are the politicians on your selected Provinces and Municipalities</p>
-      <div id="politicians"></div>
+  <div class="row">
+    <div class="text-right col-sm-2">
       <%= button_tag "Confirm", id: "btn_next3", class: "ui-button-orange" %>
     </div>
   </div>
-<% end %>
 
-
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    buttonify_checkbox('#provinces input');
-
-    $('#btn_next').button({ icons: { primary: "ui-icon-play" } }).click(function(evt) {
-      $('#accordion').accordion('option', 'active', 1);
-      ajax_populate_municipals('<%= CGI.unescape util_municipal_url("{id}") %>');
-      evt.preventDefault();
-    });
-    $('#btn_next2').button({ icons: { primary: "ui-icon-play" } }).click(function(evt) {
-      $('#accordion').accordion('option', 'active', 2);
-      ajax_populate_politicians('<%= CGI.unescape util_politicians_url %>');
-      evt.preventDefault();
-    });
-    $('#btn_next3').button({ icons: { secondary: "ui-icon-circle-check" } });
-
-
-
-    $('#accordion').accordion();
-
-    filter_onkeyup("#p_search", "#provinces input");
-    filter_onkeyup("#m_search", "#municipals input");
-  });
-</script>
-
+  <% end %>
+</div>

@@ -39,14 +39,14 @@
       </div>
     </div>
 
-    <h3 class="page-header">Comments</h3>
+    <h3 class="tab-header"><i class="fa fa-comments"></i> Comments</h3>
 
     <div id="post_<%= @comment.id %>" class="posts row-striped">
       <%= render partial: "comments", locals: { comment: @comment } %>
     </div>
 
     <% if user_signed_in? %>
-      <%= render partial: "new_comment", locals: { comment: nil, politician: @comment.commentable.politician, c: @comment.commentable, cmt: @comment, visible: true } %>
+      <%= render partial: "new_comment", locals: { comment: nil, politician: @comment.commentable.politician, c: @comment.commentable, cmt: @comment, visible: true, header_label: "Reply", header_icon: "fa-reply" } %>
     <% end %>
   </div>
 

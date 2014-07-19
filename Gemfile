@@ -91,3 +91,5 @@ gem 'ckeditor', :git => "git://github.com/galetahub/ckeditor.git"
 # Curl
 gem 'curb'
 
+# Font awesome
+gem 'font-awesome-sass'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303072326) do
+ActiveRecord::Schema.define(version: 20140619093240) do
 
   create_table "careers", force: true do |t|
     t.datetime "start_date",    null: false
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20140303072326) do
     t.string   "name"
     t.string   "denorm_name"
     t.string   "denorm_sort"
+    t.string   "region_iso"
   end
 
   add_index "locations", ["name"], name: "index_locations_on_name", using: :btree
@@ -105,6 +106,11 @@ ActiveRecord::Schema.define(version: 20140303072326) do
     t.string   "nickname"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "regions", id: false, force: true do |t|
+    t.string "region_iso",  null: false
+    t.string "region_name"
   end
 
   create_table "users", force: true do |t|

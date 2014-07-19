@@ -62,17 +62,38 @@ function buttonify_checkbox(elem_str, onclick_func) {
   });
 }
 
-// Attaches onkeyup event which hides all checkboxes based on typed keywords
-function filter_onkeyup(txt_str, checkbox_str) {
-  $(txt_str).keyup(function(evt){
-    $(checkbox_str).each(function(i,el) { $('label[for=' + el.id + ']').show(); });
+// Attaches onkeyup event which hides all checkboxes based on typed keywords.
+// Note: expects the checkbox to have an 'alt' attribute, containing the text on the label
+function filter_onkeypress(txt_str, checkbox_str) {
+  $(txt_str).keypress(function(evt){
+    if ( evt.which == 0 && evt.which != $.ui.keyCode.ENTER )
+      return;
 
-    var value = $(evt.target).val();
-    if (value) {
-      //$(checkbox_str).not(":checked").not(":icontains('" + value + "')").hide();
-      $(checkbox_str).not(":checked").each(function(i,el) { $('label[for=' + el.id + ']').not(":icontains('" + value + "')").hide(); });
-    }
+    clearTimeout($.data(this, 'timer'));
+
+    var timer = setTimeout(function() {
+      $(checkbox_str).each(function(i,el) { $(el).show().next('label').show(); });
+
+      var value = $(evt.target).val();
+      if (value) {
+        $(checkbox_str).not(":checked").not("[alt*='" + value + "']").each(function(i,el) {
+          $(el).hide().next('label').hide();
+        });
+      }
+
+      $(evt.target).removeClass('loading');
+    }, 500);
+    $(this).data('timer', timer).addClass('loading');
   });
+}
+
+function _filter_onkeypress_helper(text_str, checkbox_str) {
+  
+}
+
+// Checks/unchecks all checkboxes under selector_str
+function checkall(checked, selector_str) {
+  $(selector_str).each(function(){ $(this).prop('checked', checked); });
 }
 
 // Used on listing#locations. Populates municipals based on checked provinces

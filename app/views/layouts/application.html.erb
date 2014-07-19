@@ -7,6 +7,9 @@
   <%= csrf_meta_tags %>
 
   <link rel="shortcut icon" href="<%= asset_path "favicon.ico" %>" >
+
+  <%= yield :head %>
+
 </head>
 <body>
 <%# Facebook JS SDK %>
@@ -33,7 +36,7 @@
 </script>
 
 <%#-- Logo and Menu bar ----------------------------%>
-<div class="navbar navbar-default navbar-static-top">
+<div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0px;">
   <div class="container">
     <div class="navbar-header">
       <div class="navbar-brand">
@@ -47,6 +50,7 @@
       <ul class="nav navbar-nav">
         <li <%= current_page?(root_path) ? "class=active" : ""%>> <a href="<%= root_path %>"> Home </a> </li>
         <li <%= current_page?(listing_index_path) ? "class=active" : ""%>> <a class="blog-nav-item" href="<%= listing_index_path %>">Search</a> </li>
+        <li <%= current_page?(listing_location_path) ? "class=active" : ""%>> <%= link_to "Tag Regions", listing_location_path, "data-no-turbolink" => "true", "class" => "blog-nav-item" %></li>
 
       <%# user is logged in, show log out link %>
       <% if current_user.present? %>
@@ -98,6 +102,7 @@
           </div>
 
       <% end %>
+      </ul>
     </div>
   </div>
 </div>
@@ -113,7 +118,7 @@
 </div>
 
 
-<div class="container container-fluid">
+<div class="container container-fluid" style="background-color: #FFF;">
   <div id="page_title">
     <h1><%= content_for(:title) %></h1>
   </div>

@@ -53,10 +53,14 @@ class ListingController < ApplicationController
   def location
     # Retrieve info for dropdown
     @nationwide = Location.get_nationwide
-    @provinces = Location.provinces.where('id != ?', @nationwide.id).collect {|p| [p.name.capitalize, p.id]}.insert(0, [@nationwide.name.capitalize, @nationwide.id])
+    #@provinces = Location.provinces.where('id != ?', @nationwide.id).order('denorm_sort').collect {|p| [p.name.capitalize, p.id]}.insert(0, [@nationwide.name.capitalize, @nationwide.id])
+    @provinces = Location.provinces.where('id != ?', @nationwide.id).order('denorm_sort')
 
     # Retrieve previously selected locations
-    @curr_locations = current_user.present? ? current_user.locations : []
+    @curr_locations = current_user.present? ? current_user.locations.pluck(:id) : []
+
+    # Get all regions for the map display 
+    @regions = Region.order('region_iso').all
   end
 
   # Display comments under one post
@@ -131,7 +135,7 @@ class ListingController < ApplicationController
 
     if current_user.present?
 
-      locations = Location.find(params[:prov]+params[:mun])
+      locations = Location.find(params[:prov])
 
       if current_user.locations.length > 0
         current_user.locations.delete_all

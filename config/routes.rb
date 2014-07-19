@@ -26,6 +26,7 @@ PhPol::Application.routes.draw do
   #get '/users/profile/edit', to: 'users/profile#edit'
   #patch '/users/profile/save', to: 'users/profile#save'
   namespace :users do
+    #get 'profile/regions', to: 'profile#regions', as: :profile_regions
     resources :profile, only: [:edit, :update, :show]
   end
 

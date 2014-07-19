@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
   #has_and_belongs_to_many :locations
   has_many :locations, through: :location_users, order: "locations.denorm_sort asc"
 
+  #has_and_belongs_to_many :regions, join_table: "users_regions", association_foreign_key: "region_iso"
+
   # -- acts_as_votable ------------
   acts_as_voter
 

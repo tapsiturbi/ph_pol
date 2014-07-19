@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
 
-  belongs_to :career
+  belongs_to :career, :foreign_key => :commentable_id
 
   # -- acts_as_commentable ---------
   include ActsAsCommentable::Comment
@@ -49,6 +49,24 @@ class Comment < ActiveRecord::Base
     else
       return true
     end
+  end
+
+  def style_defaults(css_class)
+    image_url = self.image_url
+    if image_url.blank?
+      return "class=\"#{css_class} no-image\""
+    end
+
+    return "class=\"#{css_class}\" style=\"background-image: url('#{image_url}');\""
+  end
+  
+  def image_url
+    if !self.pol_image.nil? && !self.pol_image.file_url.blank?
+      return self.pol_image.file_url(:medium)
+    elsif !self.external_link.blank? && !self.external_link.image_url.blank?
+      return self.external_link.image_url
+    end
+    return ""
   end
 
   def career
